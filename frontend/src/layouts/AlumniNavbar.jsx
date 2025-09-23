@@ -27,6 +27,7 @@ export default function AlumniNavbar() {
   const navItems = [
     { name: 'Dashboard', href: '/alumni/dashboard', icon: Home },
     { name: 'Directory', href: '/alumni/explore', icon: Users },
+    { name: 'Networking Hub', href: '/alumni/network', icon: Users },
     { name: 'Career', href: '/alumni/jobs', icon: Briefcase },
     { name: 'Events', href: '/alumni/events', icon: Calendar },
   ];
