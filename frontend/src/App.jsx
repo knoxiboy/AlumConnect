@@ -22,6 +22,7 @@ import StudentProfile from "./pages/student/StudentProfile";
 import StudentExplore from "./pages/student/StudentExplore";
 import StudentEvents from "./pages/student/StudentEvents";
 import StudentJobs from "./pages/student/StudentJobs";
+import StudentNetwork from "./pages/student/StudentNetwork";
 
 // Protected Route Component
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -55,6 +56,7 @@ export default function App() {
           <Route path="/student/explore" element={<StudentExplore />} />
           <Route path="/student/events" element={<StudentEvents />} />
           <Route path="/student/jobs" element={<StudentJobs />} />
+          <Route path="/student/network" element={<StudentNetwork />} />
         </Route>
 
         {/* Admin */}
