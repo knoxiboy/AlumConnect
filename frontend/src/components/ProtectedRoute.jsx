@@ -5,7 +5,7 @@ export default function ProtectedRoute({ role }) {
   const user = getCurrentUser();
   
   if (!user) {
-    return <Navigate to="/alumni-auth" />;
+    return <Navigate to="/alumni-auth" />; 
   }
   
   if (role && !hasRole(role)) {
