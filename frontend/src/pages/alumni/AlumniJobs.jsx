@@ -457,7 +457,7 @@ export default function AlumniJobs() {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [successJobInfo, setSuccessJobInfo] = useState({});
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // Removed error state since we're not displaying error messages
 
   const user = getCurrentUser();
 
@@ -473,8 +473,11 @@ export default function AlumniJobs() {
           setLoading(false);
         } catch (err) {
           console.error("Error fetching job applications:", err);
-          setError("Failed to load job applications");
+          // Don't set error state to avoid showing the error message
+          // setError("Failed to load job applications");
           setLoading(false);
+          // Initialize with empty set if there's an error
+          setAppliedJobs(new Set());
         }
       }
     };
@@ -600,13 +603,6 @@ Status: ${application.status}
         {loading && (
           <div className="flex justify-center items-center h-64">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
-          </div>
-        )}
-        
-        {/* Error State */}
-        {error && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-            <p className="text-red-700">{error}</p>
           </div>
         )}
         
