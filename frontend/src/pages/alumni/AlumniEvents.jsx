@@ -2,8 +2,10 @@ import { useState } from "react";
 import AlumniNavbar from "../../layouts/AlumniNavbar";
 import { recentEvents } from "../../data/adminMockData";
 import { getCurrentUser } from "../../utils/auth";
+import sponsorQR from "../../assets/sponsorqr.jpeg";
+
 import {
-  Calendar, MapPin, Users, Clock, Filter, Search, Star, ExternalLink, ChevronDown, X, CheckCircle
+  Calendar, MapPin, Users, Clock, Filter, Search, Star, ExternalLink, ChevronDown, X, CheckCircle, Upload
 } from "lucide-react";
 
 // Brand colors
@@ -13,7 +15,7 @@ const brand = {
   coral: '255 145 120',
 };
 
-const EventCard = ({ event, isRegistered, onRegister, onUnregister }) => (
+const EventCard = ({ event, isRegistered, onRegister, onUnregister, onSponsor }) => (
   <div className="group bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-xl hover:border-slate-300 transition-all transform hover:-translate-y-1">
     {/* Header with gradient accent */}
     <div className="relative mb-3 sm:mb-4">
@@ -115,13 +117,23 @@ const EventCard = ({ event, isRegistered, onRegister, onUnregister }) => (
               </button>
             </div>
           ) : (
-            <button 
-              onClick={() => onRegister(event.id)}
-              className="flex-1 py-2.5 sm:py-3 rounded-lg font-semibold text-white transition-all hover:shadow-lg transform hover:scale-105 text-sm sm:text-base"
-              style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
-            >
-              Register Now
-            </button>
+            <div className="flex flex-col sm:flex-row gap-2 w-full">
+              <button 
+                onClick={() => onRegister(event.id)}
+                className="flex-1 py-2.5 sm:py-3 rounded-lg font-semibold text-white transition-all hover:shadow-lg transform hover:scale-105 text-sm sm:text-base"
+                style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+              >
+                Register Now
+              </button>
+              <button 
+                onClick={() => onSponsor(event)}
+                className="flex-1 py-2.5 sm:py-3 rounded-lg font-semibold text-white transition-all hover:shadow-lg transform hover:scale-105 text-sm sm:text-base"
+                style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+              >
+                Sponsor this Event
+              </button>
+            </div>
+            
           )}
           <button className="px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 transition-all">
             <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4" />
@@ -240,6 +252,139 @@ const RegistrationModal = ({ isOpen, onClose, eventName, isSuccess }) => {
   );
 };
 
+// New Sponsor Modal Component
+const SponsorModal = ({ isOpen, onClose, eventName }) => {
+  if (!isOpen) return null;
+
+  const [companyName, setCompanyName] = useState("");
+  const [sponsorshipAmount, setSponsorshipAmount] = useState("");
+  const [reason, setReason] = useState("");
+  const [paymentProofFile, setPaymentProofFile] = useState(null);
+
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setPaymentProofFile(e.target.files[0]);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Sponsorship details submitted:", {
+      companyName,
+      sponsorshipAmount,
+      reason,
+      paymentProofFile
+    });
+    // In a real application, you would handle the form submission to a backend here.
+    alert(`Thank you for submitting the sponsorship request for "${eventName}".`);
+    onClose();
+    // Reset form fields
+    setCompanyName("");
+    setSponsorshipAmount("");
+    setReason("");
+    setPaymentProofFile(null);
+  };
+  
+  return (
+    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl p-6 sm:p-8 max-w-md w-full mx-4">
+        <div className="flex justify-between items-center mb-6">
+          <h3 className="text-xl font-bold text-slate-900">Sponsor Event</h3>
+          <button onClick={onClose} className="p-2 rounded-lg hover:bg-slate-100 transition-colors">
+            <X className="w-5 h-5 text-slate-600" />
+          </button>
+        </div>
+        
+        <p className="text-slate-600 mb-6">
+          Thank you for your interest in sponsoring **{eventName}**! Please fill out the form below and scan the QR code to make your payment.
+        </p>
+        
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label htmlFor="companyName" className="block text-sm font-medium text-slate-700 mb-1">Company Name</label>
+            <input
+              type="text"
+              id="companyName"
+              value={companyName}
+              onChange={(e) => setCompanyName(e.target.value)}
+              required
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring focus:ring-indigo-200 focus:outline-none transition-all"
+            />
+          </div>
+          
+          <div>
+            <label htmlFor="sponsorshipAmount" className="block text-sm font-medium text-slate-700 mb-1">Sponsorship Amount (e.g., $1000)</label>
+            <input
+              type="text"
+              id="sponsorshipAmount"
+              value={sponsorshipAmount}
+              onChange={(e) => setSponsorshipAmount(e.target.value)}
+              required
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring focus:ring-indigo-200 focus:outline-none transition-all"
+            />
+          </div>
+          
+          <div>
+            <label htmlFor="reason" className="block text-sm font-medium text-slate-700 mb-1">Reason for Sponsoring</label>
+            <textarea
+              id="reason"
+              rows="3"
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring focus:ring-indigo-200 focus:outline-none transition-all"
+            ></textarea>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1">Scan to Pay</label>
+            <div className="flex items-center justify-center px-4 py-3 border border-dashed border-slate-300 rounded-lg text-slate-600">
+              <img
+  src={sponsorQR}
+  alt="Payment QR Code"
+  className="w-full max-w-[200px]"
+/>
+
+
+
+
+            </div>
+            <p className="text-xs text-center text-slate-500 mt-2">
+              Please scan this QR code with your preferred payment app.
+            </p>
+          </div>
+          
+          <div>
+            <label htmlFor="paymentProof" className="block text-sm font-medium text-slate-700 mb-1">Upload Payment Proof</label>
+            <div className="relative">
+              <input
+                type="file"
+                id="paymentProof"
+                accept="image/*,.pdf"
+                onChange={handleFileChange}
+                required
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              />
+              <div className="flex items-center justify-center px-4 py-3 border border-dashed border-slate-300 rounded-lg text-slate-600 hover:border-slate-400 transition-all cursor-pointer">
+                <Upload className="w-4 h-4 mr-2" />
+                <span>{paymentProofFile ? paymentProofFile.name : "Click to upload a file"}</span>
+              </div>
+            </div>
+          </div>
+          
+          <button
+            type="submit"
+            className="w-full px-6 py-3 rounded-xl font-semibold text-white transition-all hover:shadow-lg transform hover:-translate-y-0.5"
+            style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+          >
+            Submit Sponsorship Request
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+
 export default function AlumniEvents() {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -248,6 +393,9 @@ export default function AlumniEvents() {
   const [showRegistrationModal, setShowRegistrationModal] = useState(false);
   const [modalEventName, setModalEventName] = useState("");
   const [modalIsSuccess, setModalIsSuccess] = useState(true);
+  const [showSponsorModal, setShowSponsorModal] = useState(false); // New state for sponsor modal
+  const [sponsoringEvent, setSponsoringEvent] = useState(null); // New state to hold event data
+
   
   const user = getCurrentUser();
 
@@ -289,6 +437,12 @@ export default function AlumniEvents() {
     setModalEventName(event.name);
     setModalIsSuccess(false);
     setShowRegistrationModal(true);
+  };
+  
+  // Handle sponsor button click
+  const handleSponsorClick = (event) => {
+    setSponsoringEvent(event);
+    setShowSponsorModal(true);
   };
 
   const filteredEvents = recentEvents.filter(event => {
@@ -481,6 +635,7 @@ export default function AlumniEvents() {
               isRegistered={registeredEvents.has(event.id)}
               onRegister={handleRegister}
               onUnregister={handleUnregister}
+              onSponsor={handleSponsorClick}
             />
           ))}
         </div>
@@ -528,6 +683,13 @@ export default function AlumniEvents() {
         onClose={() => setShowRegistrationModal(false)}
         eventName={modalEventName}
         isSuccess={modalIsSuccess}
+      />
+
+      {/* Sponsor Modal */}
+      <SponsorModal
+        isOpen={showSponsorModal}
+        onClose={() => setShowSponsorModal(false)}
+        eventName={sponsoringEvent?.name || ""}
       />
     </div>
   );
