@@ -18,8 +18,8 @@ export default function Navbar() {
         <Link to="/" className="flex items-center gap-2 text-xl font-extrabold transition-transform hover:scale-105">
           <GraduationCap className="w-8 h-8" style={{ color: `rgb(${brand.indigo})` }} />
           <span
-            className="text-transparent bg-clip-text bg-gradient-to-r from-brand-coral via-brand-lilac to-brand-indigo"
-            style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.coral}), rgb(${brand.lilac}), rgb(${brand.indigo}))` }}
+            className="text-saffron"
+            style={{ color: '#c25f3a' }}
           >
             AlumConnect
           </span>
@@ -45,7 +45,7 @@ export default function Navbar() {
           <Link
             to="/alumni-auth"
             className="px-4 py-2 rounded-lg font-semibold text-white shadow-md hover:shadow-lg transition-all text-sm sm:text-base"
-            style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+            style={{ backgroundColor: '#9966CC' }}
           >
             Sign In / Register
           </Link>
@@ -62,7 +62,7 @@ export default function Navbar() {
             <Link
               to="/alumni-auth"
               className="px-4 py-2 rounded-lg font-semibold text-white text-center shadow-md hover:shadow-lg transition-all text-sm"
-              style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+              style={{ backgroundColor: '#9966CC' }}
               onClick={() => setIsMenuOpen(false)}
             >
               Sign In / Register

@@ -119,7 +119,7 @@ export default function AdminLayout() {
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                   }`}
                   style={isActive 
-                    ? { backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }
+                    ? { backgroundColor: '#9966CC' }
                     : {}
                   }
                 >

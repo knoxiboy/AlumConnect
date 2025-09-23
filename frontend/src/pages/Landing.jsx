@@ -132,8 +132,8 @@ export default function Landing() {
 
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter leading-tight text-white drop-shadow-2xl">
                 <span
-                  className="block text-transparent bg-clip-text bg-gradient-to-r"
-                  style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.coral}), rgb(${brand.lilac}), rgb(${brand.indigo}))` }}
+                  className="block"
+                  style={{ color: '#c25f3a' }}
                 >
                   ऐक्यं बलं
                 </span>
@@ -147,7 +147,7 @@ export default function Landing() {
                 <Link
                   to="/college-registration"
                   className="px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl font-semibold text-white shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-center"
-                  style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                  style={{ backgroundColor: '#9966CC' }}
                 >
                   Get Started
                 </Link>
@@ -379,8 +379,8 @@ export default function Landing() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 text-sm">
               {/* Column 1: Brand and Social */}
               <div className="sm:col-span-2 lg:col-span-1">
-                <div className="text-lg font-extrabold text-transparent bg-clip-text"
-                     style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.coral}), rgb(${brand.lilac}), rgb(${brand.indigo}))` }}>
+                <div className="text-lg font-extrabold"
+                     style={{ color: '#c25f3a' }}>
                   AlumConnect
                 </div>
                 <p className="mt-2 text-sm">SIH 2025 Solution for Centralized Alumni Data Management and Engagement</p>

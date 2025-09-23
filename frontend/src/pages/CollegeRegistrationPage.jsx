@@ -121,7 +121,7 @@
           className="h-2 rounded-full transition-all duration-500"
           style={{ 
             width: `${(step / totalSteps) * 100}%`,
-            backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))`
+            backgroundColor: '#9966CC'
           }}
         />
       </div>
@@ -176,8 +176,8 @@
                   style={{ color: `rgb(${brand.indigo})` }}
                 />
                 <span
-                  className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r"
-                  style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.coral}), rgb(${brand.lilac}), rgb(${brand.indigo}))` }}
+                  className="text-lg font-bold"
+                  style={{ color: '#c25f3a' }}
                 >
                   AlumnNET
                 </span>

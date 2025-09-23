@@ -48,7 +48,7 @@ const JobCard = ({ job, isPostedByUser, onViewApplications, onEdit, onDelete }) 
                 : 'bg-blue-100 text-blue-800 border border-blue-200'
             }`}
             style={job.type === 'Full-time' 
-              ? { backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.lilac}))` }
+              ? { backgroundColor: '#9966CC' }
               : {}
             }>
               {job.type}
@@ -203,7 +203,7 @@ const MentorCard = ({ mentor }) => (
         
         <button 
           className="w-full mt-4 px-4 py-2 rounded-lg font-semibold text-white transition-all hover:shadow-lg text-xs sm:text-sm"
-          style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+          style={{ backgroundColor: '#9966CC' }}
         >
           Connect for Mentorship
         </button>
@@ -217,7 +217,7 @@ const ResourceCard = ({ resource }) => (
     <div className="flex items-start gap-3 sm:gap-4">
       <div 
         className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg flex items-center justify-center text-white font-semibold text-lg"
-        style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.lilac}), rgb(${brand.indigo}))` }}
+        style={{ backgroundColor: '#9966CC' }}
       >
         <BookOpen className="w-6 h-6" />
       </div>
@@ -847,7 +847,7 @@ export default function AlumniCareerCenter() {
                             : 'bg-slate-100 text-slate-700 border border-slate-200 hover:bg-slate-200'
                         }`}
                         style={skillsFilter.includes(skill) 
-                          ? { backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.lilac}))` }
+                          ? { backgroundColor: '#9966CC' }
                           : {}
                         }
                       >

@@ -372,8 +372,8 @@ export default function ExplorePage() {
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-3 sm:mb-4">
             Explore 
             <span 
-              className="text-transparent bg-clip-text bg-gradient-to-r ml-2 sm:ml-3"
-              style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.coral}), rgb(${brand.lilac}), rgb(${brand.indigo}))` }}
+              className="text-saffron ml-2 sm:ml-3"
+              style={{ color: '#c25f3a' }}
             >
               Institutions
             </span>

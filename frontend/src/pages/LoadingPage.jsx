@@ -124,8 +124,8 @@ export default function LoadingPage() {
       {/* Header */}
       <header className="py-6 px-4 sm:px-6 border-b border-slate-200">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="text-2xl font-extrabold text-transparent bg-clip-text"
-               style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.coral}), rgb(${brand.lilac}), rgb(${brand.indigo}))` }}>
+          <div className="text-2xl font-extrabold"
+               style={{ color: '#c25f3a' }}>
             AlumConnect
           </div>
           <div className="text-sm text-slate-600">
