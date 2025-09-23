@@ -16,16 +16,15 @@ import AlumniDashboard from "./pages/alumni/AlumniDashboard";
 import AlumniProfile from "./pages/alumni/AlumniProfile";
 import AlumniExplore from "./pages/alumni/AlumniExplore";
 import AlumniEvents from "./pages/alumni/AlumniEvents";
-import AlumniJobs from "./pages/alumni/AlumniJobs";
-import AlumniNetwork from "./pages/alumni/AlumniNetwork";
 import AlumniCareerCenter from "./pages/alumni/AlumniCareerCenter";
+import AlumniNetwork from "./pages/alumni/AlumniNetwork";
 
 // Student Portal
 import StudentDashboard from "./pages/student/StudentDashboard";
 import StudentProfile from "./pages/student/StudentProfile";
 import StudentExplore from "./pages/student/StudentExplore";
 import StudentEvents from "./pages/student/StudentEvents";
-import StudentJobs from "./pages/student/StudentJobs";
+import StudentCareerCenter from "./pages/student/StudentCareerCenter";
 import StudentNetwork from "./pages/student/StudentNetwork";
 
 // Protected Route Component
@@ -63,7 +62,6 @@ export default function App() {
           <Route path="/alumni/profile" element={<AlumniProfile />} />
           <Route path="/alumni/explore" element={<AlumniExplore />} />
           <Route path="/alumni/events" element={<AlumniEvents />} />
-          <Route path="/alumni/jobs" element={<AlumniJobs />} />
           <Route path="/alumni/career-center" element={<AlumniCareerCenter />} />
           <Route path="/alumni/network" element={<AlumniNetwork />} />
         </Route>
@@ -74,7 +72,7 @@ export default function App() {
           <Route path="/student/profile" element={<StudentProfile />} />
           <Route path="/student/explore" element={<StudentExplore />} />
           <Route path="/student/events" element={<StudentEvents />} />
-          <Route path="/student/jobs" element={<StudentJobs />} />
+          <Route path="/student/jobs" element={<StudentCareerCenter />} />
           <Route path="/student/network" element={<StudentNetwork />} />
         </Route>
 

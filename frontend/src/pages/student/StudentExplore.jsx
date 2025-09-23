@@ -1,6 +1,7 @@
 import { useState } from "react";
 import StudentNavbar from "../../layouts/StudentNavbar";
 import { alumniProfiles } from "../../data/alumni";
+import { studentProfiles } from "../../data/students";
 import {
   Search, Filter, MapPin, Briefcase, Calendar,
   MessageCircle, UserPlus, ExternalLink, Users, ChevronDown, X
@@ -202,26 +203,79 @@ const MobileFiltersModal = ({ isOpen, onClose, filterCompany, setFilterCompany, 
   );
 };
 
+// New Modal Component for displaying filtered lists from stat cards
+const AlumniListModal = ({ isOpen, onClose, title, alumniList, companies, onCompanyClick, onConnect, onRequestMentorship, connectionStatuses }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm">
+      <div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl p-6 max-h-[80vh] overflow-y-auto">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
+          <button
+            onClick={onClose}
+            className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+        
+        {alumniList && alumniList.length > 0 && (
+          <div className="space-y-4">
+            {alumniList.map(alumni => (
+              <AlumniCard 
+                key={alumni.id} 
+                alumni={alumni} 
+                onConnect={onConnect} 
+                onRequestMentorship={onRequestMentorship}
+                connectionStatus={connectionStatuses[alumni.id] || {}}
+              />
+            ))}
+          </div>
+        )}
+
+        {companies && companies.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[70vh] overflow-y-auto">
+            {companies.map(company => (
+              <button
+                key={company}
+                onClick={() => onCompanyClick(company)}
+                className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-lg p-4 text-left transition-colors"
+              >
+                {company}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {!alumniList && !companies && (
+          <div className="text-center text-slate-500 py-12">No data to display.</div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+
 export default function StudentExplore() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterCompany, setFilterCompany] = useState("all");
-  const [filterRole, setFilterRole] = useState("all");
   const [showMentorsOnly, setShowMentorsOnly] = useState(false);
+  const [directoryView, setDirectoryView] = useState("alumni"); // "alumni" or "student"
   const [showMobileFilters, setShowMobileFilters] = useState(false);
-
-  const filteredAlumni = alumniProfiles.filter(alumni => {
-    const matchesSearch = alumni.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         alumni.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         alumni.currentRole.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         alumni.skills.some(skill => skill.toLowerCase().includes(searchTerm.toLowerCase()));
-    
-    const matchesCompany = filterCompany === "all" || alumni.company === filterCompany;
-    const matchesMentoring = !showMentorsOnly || alumni.mentoring;
-    
-    return matchesSearch && matchesCompany && matchesMentoring;
-  });
-
-  const companies = [...new Set(alumniProfiles.map(a => a.company))];
+  
+  // State for the stat card modal
+  const [showListModal, setShowListModal] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalAlumniList, setModalAlumniList] = useState(null);
+  const [modalCompaniesList, setModalCompaniesList] = useState(null);
+  
+  // State for the action/form modal
+  const [showFormModal, setShowFormModal] = useState(false);
+  const [formModalContent, setFormModalContent] = useState(null);
+  
+  // State to track the connection status of each alumni by their ID
+  const [connectionStatuses, setConnectionStatuses] = useState({});
 
   const clearFilters = () => {
     setSearchTerm("");
@@ -236,13 +290,48 @@ export default function StudentExplore() {
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Header */}
         <div className="text-center mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">Connect with Alumni</h1>
-          <p className="text-slate-600 text-sm sm:text-base">Find mentors, explore career paths, and expand your network</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">
+            {directoryView === "alumni" ? "Connect with Alumni" : "Explore Student Directory"}
+          </h1>
+          <p className="text-slate-600 text-sm sm:text-base">
+            {directoryView === "alumni" 
+              ? "Find mentors, explore career paths, and expand your network" 
+              : "Connect with fellow students and build your peer network"}
+          </p>
+        </div>
+
+        {/* Directory Toggle */}
+        <div className="flex justify-center mb-6">
+          <div className="inline-flex rounded-lg border border-slate-200 p-1 bg-white">
+            <button
+              onClick={() => setDirectoryView("alumni")}
+              className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
+                directoryView === "alumni"
+                  ? "bg-indigo-500 text-white shadow-sm"
+                  : "text-slate-600 hover:text-slate-900"
+              }`}
+            >
+              Alumni Directory
+            </button>
+            <button
+              onClick={() => setDirectoryView("student")}
+              className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
+                directoryView === "student"
+                  ? "bg-indigo-500 text-white shadow-sm"
+                  : "text-slate-600 hover:text-slate-900"
+              }`}
+            >
+              Student Directory
+            </button>
+          </div>
         </div>
 
         {/* Stats */}
         <div className="grid grid-cols-3 gap-3 sm:gap-6 mb-6 sm:mb-8">
-          <div className="bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-xl p-3 sm:p-4 text-center">
+          <button 
+            className="bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-xl p-3 sm:p-4 text-center transition-transform hover:scale-105"
+            onClick={() => handleStatCardClick("total")}
+          >
             <div 
               className="w-8 h-8 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mx-auto mb-2"
               style={{ backgroundColor: `rgba(${brand.indigo}, 0.1)` }}
@@ -251,7 +340,7 @@ export default function StudentExplore() {
             </div>
             <div className="text-lg sm:text-2xl font-bold text-slate-900">{alumniProfiles.length}</div>
             <div className="text-xs sm:text-sm text-slate-600">Total Alumni</div>
-          </div>
+          </button>
           <div className="bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-xl p-3 sm:p-4 text-center">
             <div 
               className="w-8 h-8 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mx-auto mb-2"
@@ -374,10 +463,10 @@ export default function StudentExplore() {
 
         {/* Results */}
         <div className="space-y-4 sm:space-y-6">
-          {filteredAlumni.length > 0 ? (
+          {currentData.length > 0 ? (
             <>
               <div className="text-xs sm:text-sm text-slate-600 mb-3 sm:mb-4">
-                Showing {filteredAlumni.length} alumni
+                Showing {currentData.length} {directoryView === "alumni" ? "alumni" : "students"}
                 {showMentorsOnly && " available for mentoring"}
               </div>
               {filteredAlumni.map(alumni => (
@@ -389,7 +478,9 @@ export default function StudentExplore() {
               <div className="text-slate-400 mb-4">
                 <Search className="w-12 h-12 sm:w-16 sm:h-16 mx-auto" />
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-slate-900 mb-2">No alumni found</h3>
+              <h3 className="text-lg sm:text-xl font-semibold text-slate-900 mb-2">
+                No {directoryView === "alumni" ? "alumni" : "students"} found
+              </h3>
               <p className="text-slate-600 text-sm sm:text-base mb-4">
                 Try adjusting your search or filters
               </p>
@@ -415,6 +506,30 @@ export default function StudentExplore() {
         setShowMentorsOnly={setShowMentorsOnly}
         companies={companies}
       />
+      
+      {/* Alumni List Modal */}
+      <AlumniListModal
+        isOpen={showListModal}
+        onClose={() => setShowListModal(false)}
+        title={modalTitle}
+        alumniList={modalAlumniList}
+        companies={modalCompaniesList}
+        onCompanyClick={handleCompanyClickFromModal}
+        onConnect={handleConnect}
+        onRequestMentorship={handleRequestMentorship}
+        connectionStatuses={connectionStatuses}
+      />
+
+      {/* Form Modal */}
+      {showFormModal && formModalContent && (
+        <FormModal
+          isOpen={showFormModal}
+          onClose={() => setShowFormModal(false)}
+          title={formModalContent.title}
+          item={formModalContent.alumni}
+          onSubmit={() => handleFormSubmit(formModalContent.alumni.id, formModalContent.type)}
+        />
+      )}
     </div>
   );
 }

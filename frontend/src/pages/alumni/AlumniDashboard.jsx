@@ -366,7 +366,7 @@ export default function AlumniDashboard() {
               <div className="text-center">
                 <div 
                   className="w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-lg mx-auto mb-2 sm:mb-3"
-                  style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                  style={{ backgroundColor: '#9966CC' }}
                 >
                   {(userProfile?.name || user?.name)?.split(' ').map(n => n[0]).join('')}
                 </div>

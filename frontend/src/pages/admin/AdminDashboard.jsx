@@ -324,7 +324,7 @@ function Avatar({ name }) {
   return (
     <div 
       className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full text-white font-semibold text-xs sm:text-sm flex-shrink-0"
-      style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+      style={{ backgroundColor: '#9966CC' }}
     >
       {initials}
     </div>

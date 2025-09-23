@@ -261,7 +261,7 @@ const MobileFiltersModal = ({ isOpen, onClose, typeFilter, locationFilter, sortB
         <button
           onClick={onClose}
           className="w-full mt-6 px-6 py-3 rounded-xl font-semibold text-white transition-all"
-          style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+          style={{ backgroundColor: '#9966CC' }}
         >
           Apply Filters
         </button>
@@ -362,7 +362,7 @@ export default function ExplorePage() {
           <div className="mb-4 sm:mb-6">
             <span 
               className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-semibold text-white"
-              style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+              style={{ backgroundColor: '#9966CC' }}
             >
               <Sparkles className="w-3 h-3 sm:w-4 sm:h-4" />
               Discover Your Network
@@ -372,8 +372,8 @@ export default function ExplorePage() {
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-3 sm:mb-4">
             Explore 
             <span 
-              className="text-transparent bg-clip-text bg-gradient-to-r ml-2 sm:ml-3"
-              style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.coral}), rgb(${brand.lilac}), rgb(${brand.indigo}))` }}
+              className="text-saffron ml-2 sm:ml-3"
+              style={{ color: '#c25f3a' }}
             >
               Institutions
             </span>
@@ -537,7 +537,7 @@ export default function ExplorePage() {
                   setLocationFilter("all");
                 }}
                 className="mt-4 sm:mt-6 px-4 sm:px-6 py-2 sm:py-3 rounded-xl font-semibold text-white shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-sm sm:text-base"
-                style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                style={{ backgroundColor: '#9966CC' }}
               >
                 Clear All Filters
               </button>

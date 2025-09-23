@@ -82,8 +82,8 @@ export default function AlumniNavbar() {
                 style={{ color: `rgb(${brand.indigo})` }}
               />
               <span
-                className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r"
-                style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.coral}), rgb(${brand.lilac}), rgb(${brand.indigo}))` }}
+                className="text-xl font-bold"
+                style={{ color: '#c25f3a' }}
               >
                 AlumConnect
               </span>
@@ -105,7 +105,7 @@ export default function AlumniNavbar() {
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                   }`}
                   style={isActive 
-                    ? { backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }
+                    ? { backgroundColor: '#9966CC' }
                     : {}
                   }
                 >
@@ -164,7 +164,7 @@ export default function AlumniNavbar() {
               <Link 
                 to="/alumni/profile"
                 className="w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-sm"
-                style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                style={{ backgroundColor: '#9966CC' }}
               >
                 {user?.name?.split(' ').map(n => n[0]).join('')}
               </Link>
@@ -225,7 +225,7 @@ export default function AlumniNavbar() {
                           : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                       }`}
                       style={isActive 
-                        ? { backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }
+                        ? { backgroundColor: '#9966CC' }
                         : {}
                       }
                     >

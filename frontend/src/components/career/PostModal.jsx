@@ -518,7 +518,7 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
               <button
                 type="submit"
                 className="flex-1 px-4 py-2 rounded-lg font-semibold text-white transition-all"
-                style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                style={{ backgroundColor: '#9966CC' }}
               >
                 {initialData ? 'Update' : 'Post'}
               </button>

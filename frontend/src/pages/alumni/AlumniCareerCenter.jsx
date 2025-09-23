@@ -23,7 +23,7 @@ const JobCard = ({ job, isPostedByUser, onViewApplications, onEdit, onDelete }) 
     <div className="relative mb-3 sm:mb-4">
       <div 
         className="absolute top-0 left-0 w-full h-1 rounded-t-xl"
-        style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+        style={{ backgroundColor: '#9966CC' }}
       />
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between pt-3 gap-2">
         <div className="min-w-0 flex-1">
@@ -48,7 +48,7 @@ const JobCard = ({ job, isPostedByUser, onViewApplications, onEdit, onDelete }) 
                 : 'bg-blue-100 text-blue-800 border border-blue-200'
             }`}
             style={job.type === 'Full-time' 
-              ? { backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.lilac}))` }
+              ? { backgroundColor: '#9966CC' }
               : {}
             }>
               {job.type}
@@ -203,7 +203,7 @@ const MentorCard = ({ mentor }) => (
         
         <button 
           className="w-full mt-4 px-4 py-2 rounded-lg font-semibold text-white transition-all hover:shadow-lg text-xs sm:text-sm"
-          style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+          style={{ backgroundColor: '#9966CC' }}
         >
           Connect for Mentorship
         </button>
@@ -217,7 +217,7 @@ const ResourceCard = ({ resource }) => (
     <div className="flex items-start gap-3 sm:gap-4">
       <div 
         className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg flex items-center justify-center text-white font-semibold text-lg"
-        style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.lilac}), rgb(${brand.indigo}))` }}
+        style={{ backgroundColor: '#9966CC' }}
       >
         <BookOpen className="w-6 h-6" />
       </div>
@@ -254,7 +254,7 @@ const ResourceCard = ({ resource }) => (
         
         <button 
           className="w-full mt-4 px-4 py-2 rounded-lg font-semibold text-white transition-all hover:shadow-lg text-xs sm:text-sm"
-          style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+          style={{ backgroundColor: '#9966CC' }}
         >
           Access Resource
         </button>
@@ -298,7 +298,7 @@ const StartupCard = ({ startup }) => (
         
         <button 
           className="w-full mt-4 px-4 py-2 rounded-lg font-semibold text-white transition-all hover:shadow-lg text-xs sm:text-sm"
-          style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+          style={{ backgroundColor: '#9966CC' }}
         >
           Connect with Startup
         </button>
@@ -353,7 +353,7 @@ const ProjectCard = ({ project }) => (
         
         <button 
           className="w-full mt-4 px-4 py-2 rounded-lg font-semibold text-white transition-all hover:shadow-lg text-xs sm:text-sm"
-          style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+          style={{ backgroundColor: '#9966CC' }}
         >
           Lead this Project
         </button>
@@ -577,7 +577,7 @@ const PostJobModal = ({ isOpen, onClose, jobData, onSubmit }) => {
               <button
                 type="submit"
                 className="flex-1 px-4 py-2 rounded-lg font-semibold text-white transition-all"
-                style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                style={{ backgroundColor: '#9966CC' }}
               >
                 {jobData ? 'Update Job' : 'Post Job'}
               </button>
@@ -620,6 +620,10 @@ export default function AlumniCareerCenter() {
     setSearchTerm("");
     setTypeFilter("all");
     setSkillsFilter([]);
+    setDomainFilter([]);
+    setCategoryFilter([]);
+    setIndustryFilter([]);
+    setTechFilter([]);
   };
 
   const handlePostJob = (jobData) => {
@@ -683,6 +687,57 @@ export default function AlumniCareerCenter() {
       return matchesSearch && matchesType && matchesSkills && job.isActive;
     });
   }, [searchTerm, typeFilter, skillsFilter]);
+
+  const filteredMentors = useMemo(() => {
+    return mockMentors.filter(mentor => {
+      const matchesSearch = mentor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           mentor.role.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           mentor.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           mentor.skills.some(skill => skill.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                           mentor.domains.some(domain => domain.toLowerCase().includes(searchTerm.toLowerCase()));
+      const matchesDomain = domainFilter.length === 0 || 
+                           domainFilter.every(domain => mentor.domains.includes(domain));
+      
+      return matchesSearch && matchesDomain;
+    });
+  }, [searchTerm, domainFilter, mockMentors]);
+
+  const filteredResources = useMemo(() => {
+    return mockResources.filter(resource => {
+      const matchesSearch = resource.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           resource.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           resource.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           resource.categories.some(category => category.toLowerCase().includes(searchTerm.toLowerCase()));
+      const matchesCategory = categoryFilter.length === 0 || 
+                             categoryFilter.every(category => resource.categories.includes(category));
+      
+      return matchesSearch && matchesCategory;
+    });
+  }, [searchTerm, categoryFilter, mockResources]);
+
+  const filteredStartups = useMemo(() => {
+    return mockStartups.filter(startup => {
+      const matchesSearch = startup.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           startup.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           startup.industry.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesIndustry = industryFilter.length === 0 || 
+                             industryFilter.includes(startup.industry);
+      
+      return matchesSearch && matchesIndustry;
+    });
+  }, [searchTerm, industryFilter, mockStartups]);
+
+  const filteredProjects = useMemo(() => {
+    return mockProjects.filter(project => {
+      const matchesSearch = project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           project.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           project.technologies.some(tech => tech.toLowerCase().includes(searchTerm.toLowerCase()));
+      const matchesTech = techFilter.length === 0 || 
+                         techFilter.every(tech => project.technologies.includes(tech));
+      
+      return matchesSearch && matchesTech;
+    });
+  }, [searchTerm, techFilter, mockProjects]);
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#F9F8FE' }}>
@@ -776,7 +831,7 @@ export default function AlumniCareerCenter() {
                       setShowPostJobModal(true);
                     }}
                     className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold text-white transition-all hover:shadow-lg transform hover:scale-105 text-sm sm:text-base"
-                    style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                    style={{ backgroundColor: '#9966CC' }}
                   >
                     <Plus className="w-4 h-4" />
                     Post Job
@@ -847,7 +902,7 @@ export default function AlumniCareerCenter() {
                             : 'bg-slate-100 text-slate-700 border border-slate-200 hover:bg-slate-200'
                         }`}
                         style={skillsFilter.includes(skill) 
-                          ? { backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.lilac}))` }
+                          ? { backgroundColor: '#9966CC' }
                           : {}
                         }
                       >
@@ -922,7 +977,7 @@ export default function AlumniCareerCenter() {
                       <button
                         onClick={clearAllFilters}
                         className="px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium text-white shadow-sm hover:shadow-lg transition-all text-sm"
-                        style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                        style={{ backgroundColor: '#9966CC' }}
                       >
                         Show All Jobs
                       </button>
@@ -968,7 +1023,8 @@ export default function AlumniCareerCenter() {
                   searchTerm={searchTerm} 
                   setSearchTerm={setSearchTerm}
                 >
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-sm font-medium text-slate-700">Filter by:</span>
                     {['Software Engineering', 'Data Science', 'Product Management', 'UX Design', 'DevOps'].map(domain => (
                       <button
                         key={domain}
@@ -994,14 +1050,60 @@ export default function AlumniCareerCenter() {
                         )}
                       </button>
                     ))}
+                    
+                    {(domainFilter.length > 0) && (
+                      <button
+                        onClick={() => {
+                          setDomainFilter([]);
+                        }}
+                        className="text-sm text-slate-500 hover:text-slate-700 underline ml-auto"
+                      >
+                        Clear all filters
+                      </button>
+                    )}
                   </div>
                 </FilterSection>
                 
+                {/* Results Summary */}
+                {filteredMentors.length > 0 && (
+                  <div className="mb-4 sm:mb-6">
+                    <p className="text-xs sm:text-sm text-slate-600">
+                      Showing {filteredMentors.length} of {mockMentors.length} mentors
+                    </p>
+                  </div>
+                )}
+
+                {/* Mentors Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-                  {mockMentors.map(mentor => (
+                  {filteredMentors.map(mentor => (
                     <MentorCard key={mentor.id} mentor={mentor} />
                   ))}
                 </div>
+
+                {/* Enhanced Empty State */}
+                {filteredMentors.length === 0 && (
+                  <div className="text-center py-12 sm:py-16">
+                    <div 
+                      className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6"
+                      style={{ backgroundImage: `linear-gradient(135deg, rgba(${brand.indigo}, 0.1), rgba(${brand.coral}, 0.1))` }}
+                    >
+                      <Users className="w-8 h-8 sm:w-10 sm:h-10" style={{ color: `rgb(${brand.indigo})` }} />
+                    </div>
+                    <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-3">No mentors found</h3>
+                    <p className="text-slate-600 mb-4 sm:mb-6 max-w-md mx-auto text-sm sm:text-base px-4">
+                      We couldn't find any mentors matching your criteria. Try adjusting your filters or search terms.
+                    </p>
+                    <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
+                      <button
+                        onClick={clearAllFilters}
+                        className="px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium text-white shadow-sm hover:shadow-lg transition-all text-sm"
+                        style={{ backgroundColor: '#9966CC' }}
+                      >
+                        Show All Mentors
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
@@ -1028,11 +1130,28 @@ export default function AlumniCareerCenter() {
                   </button>
                 </div>
                 
-                <FilterSection 
-                  searchTerm={searchTerm} 
-                  setSearchTerm={setSearchTerm}
-                >
-                  <div className="flex flex-wrap gap-2">
+                <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 mb-6 sm:mb-8">
+                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4">
+                    <div className="relative flex-1">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <Search className="h-4 w-4 text-slate-400" />
+                      </div>
+                      <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        placeholder="Search resources..."
+                        className="block w-full pl-10 pr-3 py-2.5 sm:py-3 border border-slate-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:border-slate-300 text-sm sm:text-base"
+                      />
+                    </div>
+                    <button className="px-4 py-2.5 sm:py-3 rounded-lg font-medium border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 transition-all text-sm sm:text-base flex items-center gap-2">
+                      <Filter className="w-4 h-4" />
+                      <span className="hidden sm:inline">More Filters</span>
+                    </button>
+                  </div>
+                  
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-sm font-medium text-slate-700">Filter by:</span>
                     {['Web Development', 'Data Science', 'Career Guidance', 'Product Management', 'UX Design'].map(category => (
                       <button
                         key={category}
@@ -1058,14 +1177,77 @@ export default function AlumniCareerCenter() {
                         )}
                       </button>
                     ))}
+                    
+                    {(categoryFilter.length > 0) && (
+                      <button
+                        onClick={() => {
+                          setCategoryFilter([]);
+                        }}
+                        className="text-sm text-slate-500 hover:text-slate-700 underline ml-auto"
+                      >
+                        Clear all filters
+                      </button>
+                    )}
                   </div>
-                </FilterSection>
+                  
+                  {/* Active Filters Summary */}
+                  {(searchTerm || categoryFilter.length > 0) && (
+                    <div className="flex flex-wrap items-center gap-2 pt-3 sm:pt-4 border-t border-slate-200 mt-3">
+                      <span className="text-sm text-slate-600">Active filters:</span>
+                      {searchTerm && (
+                        <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">
+                          Search: "{searchTerm}"
+                        </span>
+                      )}
+                      {categoryFilter.length > 0 && (
+                        <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">
+                          Categories: {categoryFilter.length} selected
+                        </span>
+                      )}
+                    </div>
+                  )}
+                </div>
                 
+                {/* Results Summary */}
+                {filteredResources.length > 0 && (
+                  <div className="mb-4 sm:mb-6">
+                    <p className="text-xs sm:text-sm text-slate-600">
+                      Showing {filteredResources.length} of {mockResources.length} resources
+                    </p>
+                  </div>
+                )}
+
+                {/* Resources Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-                  {mockResources.map(resource => (
+                  {filteredResources.map(resource => (
                     <ResourceCard key={resource.id} resource={resource} />
                   ))}
                 </div>
+
+                {/* Enhanced Empty State */}
+                {filteredResources.length === 0 && (
+                  <div className="text-center py-12 sm:py-16">
+                    <div 
+                      className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6"
+                      style={{ backgroundImage: `linear-gradient(135deg, rgba(${brand.indigo}, 0.1), rgba(${brand.coral}, 0.1))` }}
+                    >
+                      <BookOpen className="w-8 h-8 sm:w-10 sm:h-10" style={{ color: `rgb(${brand.indigo})` }} />
+                    </div>
+                    <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-3">No resources found</h3>
+                    <p className="text-slate-600 mb-4 sm:mb-6 max-w-md mx-auto text-sm sm:text-base px-4">
+                      We couldn't find any resources matching your criteria. Try adjusting your filters or search terms.
+                    </p>
+                    <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
+                      <button
+                        onClick={clearAllFilters}
+                        className="px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium text-white shadow-sm hover:shadow-lg transition-all text-sm"
+                        style={{ backgroundColor: '#9966CC' }}
+                      >
+                        Show All Resources
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
@@ -1092,10 +1274,26 @@ export default function AlumniCareerCenter() {
                   </button>
                 </div>
                 
-                <FilterSection 
-                  searchTerm={searchTerm} 
-                  setSearchTerm={setSearchTerm}
-                >
+                <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 mb-6 sm:mb-8">
+                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4">
+                    <div className="relative flex-1">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <Search className="h-4 w-4 text-slate-400" />
+                      </div>
+                      <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        placeholder="Search startups..."
+                        className="block w-full pl-10 pr-3 py-2.5 sm:py-3 border border-slate-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:border-slate-300 text-sm sm:text-base"
+                      />
+                    </div>
+                    <button className="px-4 py-2.5 sm:py-3 rounded-lg font-medium border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 transition-all text-sm sm:text-base flex items-center gap-2">
+                      <Filter className="w-4 h-4" />
+                      <span className="hidden sm:inline">More Filters</span>
+                    </button>
+                  </div>
+                  
                   <div className="flex flex-wrap gap-2">
                     {['CleanTech', 'HealthTech', 'FinTech', 'EdTech', 'AgriTech', 'Logistics'].map(industry => (
                       <button
@@ -1106,8 +1304,7 @@ export default function AlumniCareerCenter() {
                             : [...industryFilter, industry];
                           setIndustryFilter(newFilter);
                         }}
-                        className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
-                          industryFilter.includes(industry)
+                        className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${                          industryFilter.includes(industry)
                             ? 'text-white shadow-sm'
                             : 'bg-slate-100 text-slate-700 border border-slate-200 hover:bg-slate-200'
                         }`}
@@ -1123,13 +1320,65 @@ export default function AlumniCareerCenter() {
                       </button>
                     ))}
                   </div>
-                </FilterSection>
+                  
+                  {/* Active Filters Summary */}
+                  {(searchTerm || industryFilter.length > 0) && (
+                    <div className="flex flex-wrap items-center gap-2 pt-3 sm:pt-4 border-t border-slate-200 mt-3">
+                      <span className="text-sm text-slate-600">Active filters:</span>
+                      {searchTerm && (
+                        <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">
+                          Search: "{searchTerm}"
+                        </span>
+                      )}
+                      {industryFilter.length > 0 && (
+                        <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">
+                          Industries: {industryFilter.length} selected
+                        </span>
+                      )}
+                    </div>
+                  )}
+                </div>
                 
+                {/* Results Summary */}
+                {filteredStartups.length > 0 && (
+                  <div className="mb-4 sm:mb-6">
+                    <p className="text-xs sm:text-sm text-slate-600">
+                      Showing {filteredStartups.length} of {mockStartups.length} startups
+                    </p>
+                  </div>
+                )}
+
+                {/* Startups Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-                  {mockStartups.map(startup => (
+                  {filteredStartups.map(startup => (
                     <StartupCard key={startup.id} startup={startup} />
                   ))}
                 </div>
+
+                {/* Enhanced Empty State */}
+                {filteredStartups.length === 0 && (
+                  <div className="text-center py-12 sm:py-16">
+                    <div 
+                      className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6"
+                      style={{ backgroundImage: `linear-gradient(135deg, rgba(${brand.indigo}, 0.1), rgba(${brand.coral}, 0.1))` }}
+                    >
+                      <Target className="w-8 h-8 sm:w-10 sm:h-10" style={{ color: `rgb(${brand.indigo})` }} />
+                    </div>
+                    <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-3">No startups found</h3>
+                    <p className="text-slate-600 mb-4 sm:mb-6 max-w-md mx-auto text-sm sm:text-base px-4">
+                      We couldn't find any startups matching your criteria. Try adjusting your filters or search terms.
+                    </p>
+                    <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
+                      <button
+                        onClick={clearAllFilters}
+                        className="px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium text-white shadow-sm hover:shadow-lg transition-all text-sm"
+                        style={{ backgroundColor: '#9966CC' }}
+                      >
+                        Show All Startups
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
@@ -1156,10 +1405,26 @@ export default function AlumniCareerCenter() {
                   </button>
                 </div>
                 
-                <FilterSection 
-                  searchTerm={searchTerm} 
-                  setSearchTerm={setSearchTerm}
-                >
+                <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 mb-6 sm:mb-8">
+                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4">
+                    <div className="relative flex-1">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <Search className="h-4 w-4 text-slate-400" />
+                      </div>
+                      <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        placeholder="Search projects..."
+                        className="block w-full pl-10 pr-3 py-2.5 sm:py-3 border border-slate-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:border-slate-300 text-sm sm:text-base"
+                      />
+                    </div>
+                    <button className="px-4 py-2.5 sm:py-3 rounded-lg font-medium border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 transition-all text-sm sm:text-base flex items-center gap-2">
+                      <Filter className="w-4 h-4" />
+                      <span className="hidden sm:inline">More Filters</span>
+                    </button>
+                  </div>
+                  
                   <div className="flex flex-wrap gap-2">
                     {['React', 'Python', 'TensorFlow', 'Node.js', 'Docker', 'Kubernetes', 'React Native', 'AWS'].map(tech => (
                       <button
@@ -1187,13 +1452,65 @@ export default function AlumniCareerCenter() {
                       </button>
                     ))}
                   </div>
-                </FilterSection>
+                  
+                  {/* Active Filters Summary */}
+                  {(searchTerm || techFilter.length > 0) && (
+                    <div className="flex flex-wrap items-center gap-2 pt-3 sm:pt-4 border-t border-slate-200 mt-3">
+                      <span className="text-sm text-slate-600">Active filters:</span>
+                      {searchTerm && (
+                        <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">
+                          Search: "{searchTerm}"
+                        </span>
+                      )}
+                      {techFilter.length > 0 && (
+                        <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">
+                          Technologies: {techFilter.length} selected
+                        </span>
+                      )}
+                    </div>
+                  )}
+                </div>
                 
+                {/* Results Summary */}
+                {filteredProjects.length > 0 && (
+                  <div className="mb-4 sm:mb-6">
+                    <p className="text-xs sm:text-sm text-slate-600">
+                      Showing {filteredProjects.length} of {mockProjects.length} projects
+                    </p>
+                  </div>
+                )}
+
+                {/* Projects Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-                  {mockProjects.map(project => (
+                  {filteredProjects.map(project => (
                     <ProjectCard key={project.id} project={project} />
                   ))}
                 </div>
+
+                {/* Enhanced Empty State */}
+                {filteredProjects.length === 0 && (
+                  <div className="text-center py-12 sm:py-16">
+                    <div 
+                      className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6"
+                      style={{ backgroundImage: `linear-gradient(135deg, rgba(${brand.indigo}, 0.1), rgba(${brand.coral}, 0.1))` }}
+                    >
+                      <Lightbulb className="w-8 h-8 sm:w-10 sm:h-10" style={{ color: `rgb(${brand.indigo})` }} />
+                    </div>
+                    <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-3">No projects found</h3>
+                    <p className="text-slate-600 mb-4 sm:mb-6 max-w-md mx-auto text-sm sm:text-base px-4">
+                      We couldn't find any projects matching your criteria. Try adjusting your filters or search terms.
+                    </p>
+                    <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
+                      <button
+                        onClick={clearAllFilters}
+                        className="px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium text-white shadow-sm hover:shadow-lg transition-all text-sm"
+                        style={{ backgroundColor: '#9966CC' }}
+                      >
+                        Show All Projects
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>

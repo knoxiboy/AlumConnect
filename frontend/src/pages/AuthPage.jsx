@@ -267,8 +267,8 @@ const AuthPage = () => {
               style={{ color: `rgb(${brand.indigo})` }}
             />
             <span
-              className="text-transparent bg-clip-text bg-gradient-to-r"
-              style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.coral}), rgb(${brand.lilac}), rgb(${brand.indigo}))` }}
+              className="text-saffron"
+              style={{ color: '#c25f3a' }}
             >
               AlumConnect
             </span>
@@ -277,8 +277,8 @@ const AuthPage = () => {
           <h1 className="text-3xl lg:text-5xl font-extrabold text-slate-900 mt-8 lg:mt-12 leading-tight">
             Connect with your past. 
             <span 
-              className="text-transparent bg-clip-text bg-gradient-to-r"
-              style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.coral}), rgb(${brand.lilac}), rgb(${brand.indigo}))` }}
+              className="text-saffron"
+              style={{ color: '#c25f3a' }}
             >
               Power your future.
             </span>
@@ -331,7 +331,7 @@ const AuthPage = () => {
                 <div 
                   className="w-8 h-8 lg:w-10 lg:h-10 rounded-full flex items-center justify-center text-white font-semibold text-xs lg:text-sm"
                   style={{ 
-                    backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.lilac}))` 
+                    backgroundColor: '#9966CC' 
                   }}
                 >
                   {testimonials[testimonialIndex].author.split(' ').map(n => n[0]).join('')}
@@ -401,8 +401,8 @@ const AuthPage = () => {
                   style={{ color: `rgb(${brand.indigo})` }}
                 />
                 <span
-                  className="text-transparent bg-clip-text bg-gradient-to-r"
-                  style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.coral}), rgb(${brand.lilac}), rgb(${brand.indigo}))` }}
+                  className="text-saffron"
+                  style={{ color: '#c25f3a' }}
                 >
                   AlumConnect
                 </span>
@@ -448,7 +448,7 @@ const AuthPage = () => {
                     : 'text-slate-700 hover:bg-slate-200/80'
                 }`}
                 style={role === 'alumni' 
-                  ? { backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }
+                  ? { backgroundColor: '#9966CC' }
                   : {}
                 }
               >
@@ -462,7 +462,7 @@ const AuthPage = () => {
                     : 'text-slate-700 hover:bg-slate-200/80'
                 }`}
                 style={role === 'student' 
-                  ? { backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }
+                  ? { backgroundColor: '#9966CC' }
                   : {}
                 }
               >
@@ -476,7 +476,7 @@ const AuthPage = () => {
                     : 'text-slate-700 hover:bg-slate-200/80'
                 }`}
                 style={role === 'admin' 
-                  ? { backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }
+                  ? { backgroundColor: '#9966CC' }
                   : {}
                 }
               >
@@ -579,7 +579,7 @@ const AuthPage = () => {
                   type="submit" 
                   disabled={loading}
                   className={`w-full text-white font-bold py-3 sm:py-3.5 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105 mt-3 sm:mt-4 text-sm sm:text-base ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
-                  style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                  style={{ backgroundColor: '#9966CC' }}
                 >
                   {loading ? "Please wait..." : (isLogin ? "Sign In" : "Create Account")}
                 </button>

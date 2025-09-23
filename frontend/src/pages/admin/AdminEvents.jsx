@@ -441,7 +441,7 @@ export default function AdminEvents() {
           <button 
             onClick={addEvent} 
             className="px-4 py-2 rounded-lg font-semibold text-white shadow-lg hover:shadow-xl transition-all"
-            style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+            style={{ backgroundColor: '#9966CC' }}
           >
             Create Event
           </button>
@@ -461,7 +461,7 @@ export default function AdminEvents() {
           <button 
             onClick={saveEdit} 
             className="px-4 py-2 rounded-lg font-semibold text-white shadow-lg hover:shadow-xl transition-all"
-            style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+            style={{ backgroundColor: '#9966CC' }}
           >
             Save Changes
           </button>
