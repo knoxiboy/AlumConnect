@@ -13,7 +13,7 @@ const brand = {
   coral: '255 145 120',
 };
 
-const AlumniCard = ({ alumni }) => (
+const AlumniCard = ({ alumni, onConnect, onMessage, isConnected, hasMessaged, isConnecting, isMessaging }) => (
   <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-lg transition-all">
     <div className="flex flex-col sm:flex-row sm:items-start gap-4">
       <div 
@@ -60,14 +60,36 @@ const AlumniCard = ({ alumni }) => (
         </div>
         
         <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-2 sm:gap-3 mt-3 sm:mt-4">
-          <button className="w-full sm:w-auto flex items-center justify-center gap-2 px-3 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-xs sm:text-sm font-medium transition-colors">
+          <button 
+            onClick={() => onMessage(alumni)}
+            disabled={isMessaging || hasMessaged}
+            className={`w-full sm:w-auto flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors
+              ${hasMessaged 
+                ? 'bg-green-100 text-green-800 cursor-not-allowed'
+                : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+              }
+              ${isMessaging && 'opacity-70 cursor-wait'}`
+            }
+          >
             <MessageCircle className="w-3 h-3 sm:w-4 sm:h-4" />
-            Message
+            {isMessaging ? 'Sending...' : (hasMessaged ? 'Message Sent' : 'Message')}
           </button>
-          <button className="w-full sm:w-auto flex items-center justify-center gap-2 px-3 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-xs sm:text-sm font-medium transition-colors">
+          
+          <button 
+            onClick={() => onConnect(alumni.id)}
+            disabled={isConnecting || isConnected}
+            className={`w-full sm:w-auto flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors
+              ${isConnected 
+                ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+              }
+              ${isConnecting && 'opacity-70 cursor-wait'}`
+            }
+          >
             <UserPlus className="w-3 h-3 sm:w-4 sm:h-4" />
-            Connect
+            {isConnecting ? 'Connecting...' : (isConnected ? 'Connected' : 'Connect')}
           </button>
+          
           {alumni.linkedin && (
             <a 
               href={alumni.linkedin}
@@ -193,11 +215,81 @@ const MobileFiltersModal = ({ isOpen, onClose, filterCompany, setFilterCompany, 
   );
 };
 
+// NEW: Message Modal Component
+const MessageModal = ({ isOpen, onClose, recipient, onSend }) => {
+  const [message, setMessage] = useState('');
+  const [isSending, setIsSending] = useState(false);
+  
+  if (!isOpen) return null;
+
+  const handleSend = async () => {
+    if (message.trim()) {
+      setIsSending(true);
+      await onSend(recipient.id, message);
+      setIsSending(false);
+      setMessage('');
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-white rounded-xl max-w-lg w-full p-6">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold text-slate-900">Message {recipient.name}</h3>
+          <button 
+            onClick={onClose}
+            className="text-slate-400 hover:text-slate-600"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+        
+        <p className="text-sm text-slate-600 mb-4">
+          You are messaging {recipient.name}, a fellow alumni from the class of {recipient.graduationYear}.
+        </p>
+        
+        <textarea
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="Type your message here..."
+          className="w-full border border-slate-300 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent mb-4"
+          rows="5"
+        />
+        
+        <div className="flex justify-end">
+          <button
+            onClick={handleSend}
+            disabled={!message.trim() || isSending}
+            className={`px-4 py-2 rounded-lg font-medium text-white text-sm transition-colors
+              ${!message.trim() || isSending
+                ? 'bg-indigo-300 cursor-not-allowed'
+                : 'bg-indigo-600 hover:bg-indigo-700'
+              }`
+            }
+          >
+            {isSending ? 'Sending...' : 'Send Message'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default function AlumniExplore() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterCompany, setFilterCompany] = useState("all");
   const [filterLocation, setFilterLocation] = useState("all");
   const [showMobileFilters, setShowMobileFilters] = useState(false);
+  
+  // Simulated backend state for connections and messages
+  const [connectedAlumniIds, setConnectedAlumniIds] = useState(new Set());
+  const [messagedAlumniIds, setMessagedAlumniIds] = useState(new Set());
+  const [isConnecting, setIsConnecting] = useState(null); // Tracks which alumni is connecting
+  const [isMessaging, setIsMessaging] = useState(null); // Tracks which alumni is messaging
+  
+  // NEW: State for Message Modal
+  const [showMessageModal, setShowMessageModal] = useState(false);
+  const [messageRecipient, setMessageRecipient] = useState(null);
 
   const filteredAlumni = alumniProfiles.filter(alumni => {
     const matchesSearch = alumni.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -217,6 +309,52 @@ export default function AlumniExplore() {
     setSearchTerm("");
     setFilterCompany("all");
     setFilterLocation("all");
+  };
+  
+  const handleConnect = async (alumniId) => {
+    setIsConnecting(alumniId);
+    try {
+      // In a real app, this would be an API call to your backend
+      console.log(`Simulating API call: POST /api/connect with alumniId: ${alumniId}`);
+      await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate network delay
+      
+      const newConnectedIds = new Set(connectedAlumniIds);
+      newConnectedIds.add(alumniId);
+      setConnectedAlumniIds(newConnectedIds);
+      console.log(`Connection successful for ${alumniId}!`);
+      
+    } catch (error) {
+      console.error(`Failed to connect with alumni ID ${alumniId}:`, error);
+    } finally {
+      setIsConnecting(null);
+    }
+  };
+  
+  // UPDATED: handleMessage now opens the modal
+  const handleMessage = (alumni) => {
+    setMessageRecipient(alumni);
+    setShowMessageModal(true);
+  };
+  
+  // NEW: handleSend logic from inside the modal
+  const onSendMessage = async (alumniId, message) => {
+    setIsMessaging(alumniId);
+    try {
+      // In a real app, this would be an API call to your backend
+      console.log(`Simulating API call: POST /api/message to ${alumniId} with message: "${message}"`);
+      await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate network delay
+      
+      const newMessagedIds = new Set(messagedAlumniIds);
+      newMessagedIds.add(alumniId);
+      setMessagedAlumniIds(newMessagedIds);
+      console.log(`Message sent successfully to ${alumniId}!`);
+      
+    } catch (error) {
+      console.error(`Failed to send message to alumni ID ${alumniId}:`, error);
+    } finally {
+      setIsMessaging(null);
+      setShowMessageModal(false);
+    }
   };
 
   return (
@@ -329,7 +467,16 @@ export default function AlumniExplore() {
                 Showing {filteredAlumni.length} alumni
               </div>
               {filteredAlumni.map(alumni => (
-                <AlumniCard key={alumni.id} alumni={alumni} />
+                <AlumniCard 
+                  key={alumni.id} 
+                  alumni={alumni}
+                  onConnect={handleConnect}
+                  onMessage={handleMessage}
+                  isConnected={connectedAlumniIds.has(alumni.id)}
+                  hasMessaged={messagedAlumniIds.has(alumni.id)}
+                  isConnecting={isConnecting === alumni.id}
+                  isMessaging={isMessaging === alumni.id}
+                />
               ))}
             </>
           ) : (
@@ -364,6 +511,16 @@ export default function AlumniExplore() {
         companies={companies}
         locations={locations}
       />
+      
+      {/* Message Modal */}
+      {messageRecipient && (
+        <MessageModal
+          isOpen={showMessageModal}
+          onClose={() => setShowMessageModal(false)}
+          recipient={messageRecipient}
+          onSend={onSendMessage}
+        />
+      )}
     </div>
   );
 }
