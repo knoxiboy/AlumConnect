@@ -104,7 +104,7 @@
                   : 'bg-slate-200 text-slate-500'
               }`}
               style={index + 1 <= step 
-                ? { backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }
+                ? { backgroundColor: '#9966CC' }
                 : {}
               }
             >
@@ -216,7 +216,7 @@
                   <div className="text-center mb-8">
                     <div 
                       className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
-                      style={{ backgroundImage: `linear-gradient(135deg, rgba(${brand.indigo}, 0.1), rgba(${brand.coral}, 0.1))` }}
+                      style={{ backgroundColor: 'rgba(153, 102, 204, 0.1)' }}
                     >
                       <Building2 className="w-8 h-8" style={{ color: `rgb(${brand.indigo})` }} />
                     </div>
@@ -239,7 +239,7 @@
                   <div className="text-center mb-8">
                     <div 
                       className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
-                      style={{ backgroundImage: `linear-gradient(135deg, rgba(${brand.coral}, 0.1), rgba(${brand.lilac}, 0.1))` }}
+                      style={{ backgroundColor: 'rgba(153, 102, 204, 0.1)' }}
                     >
                       <User className="w-8 h-8" style={{ color: `rgb(${brand.coral})` }} />
                     </div>
@@ -268,7 +268,7 @@
                   <div className="text-center mb-8">
                     <div 
                       className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
-                      style={{ backgroundImage: `linear-gradient(135deg, rgba(${brand.lilac}, 0.1), rgba(${brand.indigo}, 0.1))` }}
+                      style={{ backgroundColor: 'rgba(153, 102, 204, 0.1)' }}
                     >
                       <Server className="w-8 h-8" style={{ color: `rgb(${brand.lilac})` }} />
                     </div>
@@ -306,7 +306,7 @@
                   <div className="text-center mb-8">
                     <div 
                       className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
-                      style={{ backgroundImage: `linear-gradient(135deg, rgba(${brand.coral}, 0.1), rgba(${brand.indigo}, 0.1))` }}
+                      style={{ backgroundColor: 'rgba(153, 102, 204, 0.1)' }}
                     >
                       <Upload className="w-8 h-8" style={{ color: `rgb(${brand.coral})` }} />
                     </div>
@@ -359,7 +359,7 @@
                     type="button" 
                     onClick={nextStep} 
                     className="px-8 py-3 rounded-xl font-semibold text-white shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
-                    style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                    style={{ backgroundColor: '#9966CC' }}
                   >
                     Continue
                   </button>
@@ -369,7 +369,7 @@
                   <button 
                     type="submit" 
                     className="px-8 py-3 rounded-xl font-bold text-white shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
-                    style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                    style={{ backgroundColor: '#9966CC' }}
                   >
                     Submit for Verification
                   </button>

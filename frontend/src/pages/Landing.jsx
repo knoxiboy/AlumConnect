@@ -31,7 +31,7 @@ const FeatureCard = ({ icon, title, children }) => (
       <div
         className="p-3 sm:p-4 rounded-full"
         style={{
-          background: `linear-gradient(135deg, rgba(${brand.lilac}, 0.15), rgba(${brand.indigo}, 0.15))`,
+          background: `rgba(${brand.lilac}, 0.15)`,
           boxShadow: `inset 0 0 0 1px rgba(${brand.indigo}, 0.2)`
         }}
       >
@@ -64,7 +64,7 @@ const TimelineItem = ({ number, title, description }) => (
   <div className="flex items-start gap-4 sm:gap-5">
     <div
       className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-bold text-base sm:text-lg text-white shadow-lg"
-      style={{ background: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.lilac}))` }}
+      style={{ backgroundColor: '#9966CC' }}
     >
       {number}
     </div>

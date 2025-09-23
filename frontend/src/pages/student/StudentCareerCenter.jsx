@@ -111,7 +111,7 @@ const JobCard = ({ job, isApplied, isSaved, onApply, onSave, onViewApplication }
     <div className="relative mb-3 sm:mb-4">
       <div 
         className="absolute top-0 left-0 w-full h-1 rounded-t-xl"
-        style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+        style={{ backgroundColor: '#9966CC' }}
       />
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between pt-3 gap-2">
         <div className="min-w-0 flex-1">
@@ -224,7 +224,7 @@ const JobCard = ({ job, isApplied, isSaved, onApply, onSave, onViewApplication }
           <button 
             onClick={() => onApply(job.id)}
             className="flex-1 sm:flex-none px-4 py-2 rounded-lg font-semibold text-white transition-all hover:shadow-lg transform hover:scale-105 text-xs sm:text-sm"
-            style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+            style={{ backgroundColor: '#9966CC' }}
           >
             Apply Now
           </button>
@@ -301,7 +301,7 @@ const MentorCard = ({ mentor }) => (
         
         <button 
           className="w-full mt-4 px-4 py-2 rounded-lg font-semibold text-white transition-all hover:shadow-lg text-xs sm:text-sm"
-          style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+          style={{ backgroundColor: '#9966CC' }}
         >
           Request Mentorship
         </button>
@@ -833,7 +833,7 @@ export default function StudentJobs() {
                   <button
                     onClick={() => setShowMentorshipModal(true)}
                     className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold text-white transition-all hover:shadow-lg transform hover:scale-105 text-sm sm:text-base"
-                    style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                    style={{ backgroundColor: '#9966CC' }}
                   >
                     <Users className="w-4 h-4" />
                     Request Mentorship

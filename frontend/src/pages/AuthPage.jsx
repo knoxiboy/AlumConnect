@@ -331,7 +331,7 @@ const AuthPage = () => {
                 <div 
                   className="w-8 h-8 lg:w-10 lg:h-10 rounded-full flex items-center justify-center text-white font-semibold text-xs lg:text-sm"
                   style={{ 
-                    backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.lilac}))` 
+                    backgroundColor: '#9966CC' 
                   }}
                 >
                   {testimonials[testimonialIndex].author.split(' ').map(n => n[0]).join('')}

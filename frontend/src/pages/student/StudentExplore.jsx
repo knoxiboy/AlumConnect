@@ -277,23 +277,6 @@ export default function StudentExplore() {
   // State to track the connection status of each alumni by their ID
   const [connectionStatuses, setConnectionStatuses] = useState({});
 
-  const companies = [...new Set(alumniProfiles.map(a => a.company))];
-
-  // Filter alumni or students based on directory view
-  const filteredAlumni = alumniProfiles.filter(alumni => {
-    const matchesSearch = alumni.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         alumni.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         alumni.currentRole.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         alumni.skills.some(skill => skill.toLowerCase().includes(searchTerm.toLowerCase()));
-    
-    const matchesCompany = filterCompany === "all" || alumni.company === filterCompany;
-    const matchesMentoring = !showMentorsOnly || alumni.mentoring;
-    
-    return matchesSearch && matchesCompany && matchesMentoring;
-  });
-
-  const companies = [...new Set(alumniProfiles.map(a => a.company))];
-
   const clearFilters = () => {
     setSearchTerm("");
     setFilterCompany("all");
@@ -357,7 +340,7 @@ export default function StudentExplore() {
             </div>
             <div className="text-lg sm:text-2xl font-bold text-slate-900">{alumniProfiles.length}</div>
             <div className="text-xs sm:text-sm text-slate-600">Total Alumni</div>
-          </div>
+          </button>
           <div className="bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-xl p-3 sm:p-4 text-center">
             <div 
               className="w-8 h-8 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mx-auto mb-2"
