@@ -241,7 +241,7 @@ const JobCard = ({ job, isApplied, isSaved, onApply, onSave, onViewApplication }
   </div>
 );
 
-const MentorCard = ({ mentor }) => (
+const MentorCard = ({ mentor, isRequested, onRequestMentorship }) => (
   <div className="bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-xl hover:border-slate-300 transition-all">
     <div className="flex items-start gap-3 sm:gap-4">
       <div 
@@ -300,17 +300,18 @@ const MentorCard = ({ mentor }) => (
         </div>
         
         <button 
-          className="w-full mt-4 px-4 py-2 rounded-lg font-semibold text-white transition-all hover:shadow-lg text-xs sm:text-sm"
-          style={{ backgroundColor: '#9966CC' }}
+          onClick={() => !isRequested && onRequestMentorship(mentor.id)}
+          className={`w-full mt-4 px-4 py-2 rounded-lg font-semibold text-white transition-all hover:shadow-lg text-xs sm:text-sm ${isRequested ? 'bg-green-500 cursor-not-allowed' : 'hover:shadow-lg'}`}
+          style={{ backgroundColor: isRequested ? '#22C55E' : '#9966CC' }}
         >
-          Request Mentorship
+          {isRequested ? 'Requested' : 'Request Mentorship'}
         </button>
       </div>
     </div>
   </div>
 );
 
-const ResourceCard = ({ resource }) => (
+const ResourceCard = ({ resource, isViewed, onViewResource }) => (
   <div className="bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-xl hover:border-slate-300 transition-all">
     <div className="flex items-start gap-3 sm:gap-4">
       <div 
@@ -351,17 +352,18 @@ const ResourceCard = ({ resource }) => (
         </div>
         
         <button 
-          className="w-full mt-4 px-4 py-2 rounded-lg font-semibold text-white transition-all hover:shadow-lg text-xs sm:text-sm"
-          style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+          onClick={() => !isViewed && onViewResource(resource.id)}
+          className={`w-full mt-4 px-4 py-2 rounded-lg font-semibold text-white transition-all ${isViewed ? 'cursor-not-allowed' : 'hover:shadow-lg'}`}
+          style={{ backgroundImage: isViewed ? 'none' : `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))`, backgroundColor: isViewed ? '#9CA3AF' : 'transparent' }}
         >
-          View Resource
+          {isViewed ? 'Viewed' : 'View Resource'}
         </button>
       </div>
     </div>
   </div>
 );
 
-const StartupCard = ({ startup }) => (
+const StartupCard = ({ startup, isLearned, onLearnMore }) => (
   <div className="bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-xl hover:border-slate-300 transition-all">
     <div className="flex items-start gap-3 sm:gap-4">
       <div 
@@ -395,17 +397,18 @@ const StartupCard = ({ startup }) => (
         </div>
         
         <button 
-          className="w-full mt-4 px-4 py-2 rounded-lg font-semibold text-white transition-all hover:shadow-lg text-xs sm:text-sm"
-          style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+          onClick={() => !isLearned && onLearnMore(startup.id)}
+          className={`w-full mt-4 px-4 py-2 rounded-lg font-semibold text-white transition-all ${isLearned ? 'cursor-not-allowed' : 'hover:shadow-lg'}`}
+          style={{ backgroundImage: isLearned ? 'none' : `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))`, backgroundColor: isLearned ? '#9CA3AF' : 'transparent' }}
         >
-          Learn More
+          {isLearned ? 'Learned' : 'Learn More'}
         </button>
       </div>
     </div>
   </div>
 );
 
-const ProjectCard = ({ project }) => (
+const ProjectCard = ({ project, isJoined, onJoinProject }) => (
   <div className="bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-xl hover:border-slate-300 transition-all">
     <div className="flex items-start gap-3 sm:gap-4">
       <div 
@@ -450,10 +453,11 @@ const ProjectCard = ({ project }) => (
         </div>
         
         <button 
-          className="w-full mt-4 px-4 py-2 rounded-lg font-semibold text-white transition-all hover:shadow-lg text-xs sm:text-sm"
-          style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+          onClick={() => !isJoined && onJoinProject(project.id)}
+          className={`w-full mt-4 px-4 py-2 rounded-lg font-semibold text-white transition-all ${isJoined ? 'cursor-not-allowed' : 'hover:shadow-lg'}`}
+          style={{ backgroundImage: isJoined ? 'none' : `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))`, backgroundColor: isJoined ? '#22C55E' : 'transparent' }}
         >
-          Join Project
+          {isJoined ? 'Joined' : 'Join Project'}
         </button>
       </div>
     </div>
@@ -500,6 +504,12 @@ export default function StudentJobs() {
   const [appliedJobs, setAppliedJobs] = useState(new Set());
   const [savedJobs, setSavedJobs] = useState(new Set([1, 4])); // Mock some saved jobs
   const [applicationData, setApplicationDataState] = useState({});
+  
+  // State for tracking requested items across different tabs
+  const [requestedMentors, setRequestedMentors] = useState(new Set());
+  const [viewedResources, setViewedResources] = useState(new Set());
+  const [learnedStartups, setLearnedStartups] = useState(new Set());
+  const [joinedProjects, setJoinedProjects] = useState(new Set());
 
   const user = getCurrentUser();
 
@@ -524,12 +534,27 @@ export default function StudentJobs() {
     setSearchTerm("");
     setTypeFilter("all");
     setSkillsFilter([]);
+    setDomainFilter([]);
+    setCategoryFilter([]);
+    setIndustryFilter([]);
+    setTechFilter([]);
+    // Also reset the action states
+    setAppliedJobs(new Set());
+    setSavedJobs(new Set());
+    setRequestedMentors(new Set());
+    setViewedResources(new Set());
+    setLearnedStartups(new Set());
+    setJoinedProjects(new Set());
   };
 
   // 🎯 DEMO-FRIENDLY: Clear all applications for fresh demo
   const clearAllApplications = () => {
     setAppliedJobs(new Set());
     setApplicationDataState({});
+    setRequestedMentors(new Set());
+    setViewedResources(new Set());
+    setLearnedStartups(new Set());
+    setJoinedProjects(new Set());
   };
 
   const handleApply = (jobId) => {
@@ -560,8 +585,39 @@ export default function StudentJobs() {
   const handleViewApplication = (jobId) => {
     const application = applicationData[jobId];
     if (application) {
-      alert(`Application submitted on ${new Date(application.appliedDate).toLocaleDateString()}\nStatus: ${application.status}\n\n✨ Demo Tip: Refresh the page to reset all applications for demo purposes!`);
+      alert(`Application submitted on ${new Date(application.appliedDate).toLocaleDateString()}
+Status: ${application.status}
+
+✨ Demo Tip: Refresh the page to reset all applications for demo purposes!`);
     }
+  };
+
+  const handleRequestMentorship = (mentorId) => {
+    const newRequestedMentors = new Set(requestedMentors);
+    newRequestedMentors.add(mentorId);
+    setRequestedMentors(newRequestedMentors);
+    alert(`Mentorship request sent to ${mockMentors.find(m => m.id === mentorId)?.name || 'mentor'}!`);
+  };
+
+  const handleViewResource = (resourceId) => {
+    const newViewedResources = new Set(viewedResources);
+    newViewedResources.add(resourceId);
+    setViewedResources(newViewedResources);
+    alert(`Resource "${mockResources.find(r => r.id === resourceId)?.title || 'Resource'}" opened successfully!`);
+  };
+
+  const handleLearnStartup = (startupId) => {
+    const newLearnedStartups = new Set(learnedStartups);
+    newLearnedStartups.add(startupId);
+    setLearnedStartups(newLearnedStartups);
+    alert(`Learned more about "${mockStartups.find(s => s.id === startupId)?.name || 'Startup'}"!`);
+  };
+
+  const handleJoinProject = (projectId) => {
+    const newJoinedProjects = new Set(joinedProjects);
+    newJoinedProjects.add(projectId);
+    setJoinedProjects(newJoinedProjects);
+    alert(`Successfully joined project "${mockProjects.find(p => p.id === projectId)?.title || 'Project'}"!`);
   };
 
   const filteredJobs = useMemo(() => {
@@ -576,6 +632,57 @@ export default function StudentJobs() {
       return matchesSearch && matchesType && matchesSkills && job.isActive;
     });
   }, [searchTerm, typeFilter, skillsFilter]);
+
+  const filteredMentors = useMemo(() => {
+    return mockMentors.filter(mentor => {
+      const matchesSearch = mentor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           mentor.role.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           mentor.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           mentor.skills.some(skill => skill.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                           mentor.domains.some(domain => domain.toLowerCase().includes(searchTerm.toLowerCase()));
+      const matchesDomain = domainFilter.length === 0 || 
+                           domainFilter.every(domain => mentor.domains.includes(domain));
+      
+      return matchesSearch && matchesDomain;
+    });
+  }, [searchTerm, domainFilter, mockMentors]);
+
+  const filteredResources = useMemo(() => {
+    return mockResources.filter(resource => {
+      const matchesSearch = resource.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           resource.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           resource.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           resource.categories.some(category => category.toLowerCase().includes(searchTerm.toLowerCase()));
+      const matchesCategory = categoryFilter.length === 0 || 
+                             categoryFilter.every(category => resource.categories.includes(category));
+      
+      return matchesSearch && matchesCategory;
+    });
+  }, [searchTerm, categoryFilter, mockResources]);
+
+  const filteredStartups = useMemo(() => {
+    return mockStartups.filter(startup => {
+      const matchesSearch = startup.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           startup.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           startup.industry.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesIndustry = industryFilter.length === 0 || 
+                             industryFilter.includes(startup.industry);
+      
+      return matchesSearch && matchesIndustry;
+    });
+  }, [searchTerm, industryFilter, mockStartups]);
+
+  const filteredProjects = useMemo(() => {
+    return mockProjects.filter(project => {
+      const matchesSearch = project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           project.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           project.technologies.some(tech => tech.toLowerCase().includes(searchTerm.toLowerCase()));
+      const matchesTech = techFilter.length === 0 || 
+                         techFilter.every(tech => project.technologies.includes(tech));
+      
+      return matchesSearch && matchesTech;
+    });
+  }, [searchTerm, techFilter, mockProjects]);
 
   const internships = filteredJobs.filter(job => job.type === 'Internship');
   const fullTimeJobs = filteredJobs.filter(job => job.type === 'Full-time');
@@ -691,8 +798,7 @@ export default function StudentJobs() {
                   setSearchTerm={setSearchTerm}
                   onClearFilters={() => {
                     setSearchTerm("");
-                    setTypeFilter("all");
-                    setSkillsFilter([]);
+                    setCategoryFilter([]);
                   }}
                 >
                   <div className="flex flex-wrap items-center gap-2">
@@ -840,16 +946,28 @@ export default function StudentJobs() {
                   </button>
                 </div>
                 
-                <FilterSection 
-                  searchTerm={searchTerm} 
-                  setSearchTerm={setSearchTerm}
-                  onClearFilters={() => {
-                    setSearchTerm("");
-                    setDomainFilter([]);
-                    setSkillsFilter([]);
-                  }}
-                >
-                  <div className="flex flex-wrap gap-2">
+                <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 mb-6 sm:mb-8">
+                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4">
+                    <div className="relative flex-1">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <Search className="h-4 w-4 text-slate-400" />
+                      </div>
+                      <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        placeholder="Search mentors..."
+                        className="block w-full pl-10 pr-3 py-2.5 sm:py-3 border border-slate-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:border-slate-300 text-sm sm:text-base"
+                      />
+                    </div>
+                    <button className="px-4 py-2.5 sm:py-3 rounded-lg font-medium border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 transition-all text-sm sm:text-base flex items-center gap-2">
+                      <Filter className="w-4 h-4" />
+                      <span className="hidden sm:inline">More Filters</span>
+                    </button>
+                  </div>
+                  
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-sm font-medium text-slate-700">Filter by:</span>
                     {['Software Engineering', 'Data Science', 'Product Management', 'UX Design', 'DevOps'].map(domain => (
                       <button
                         key={domain}
@@ -875,14 +993,82 @@ export default function StudentJobs() {
                         )}
                       </button>
                     ))}
+                    
+                    {(domainFilter.length > 0) && (
+                      <button
+                        onClick={() => {
+                          setDomainFilter([]);
+                        }}
+                        className="text-sm text-slate-500 hover:text-slate-700 underline ml-auto"
+                      >
+                        Clear all filters
+                      </button>
+                    )}
                   </div>
-                </FilterSection>
+                  
+                  {/* Active Filters Summary */}
+                  {(searchTerm || domainFilter.length > 0) && (
+                    <div className="flex flex-wrap items-center gap-2 pt-3 sm:pt-4 border-t border-slate-200 mt-3">
+                      <span className="text-sm text-slate-600">Active filters:</span>
+                      {searchTerm && (
+                        <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">
+                          Search: "{searchTerm}"
+                        </span>
+                      )}
+                      {domainFilter.length > 0 && (
+                        <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">
+                          Domains: {domainFilter.length} selected
+                        </span>
+                      )}
+                    </div>
+                  )}
+                </div>
                 
+                {/* Results Summary */}
+                {filteredMentors.length > 0 && (
+                  <div className="mb-4 sm:mb-6">
+                    <p className="text-xs sm:text-sm text-slate-600">
+                      Showing {filteredMentors.length} of {mockMentors.length} mentors
+                    </p>
+                  </div>
+                )}
+
+                {/* Mentors Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-                  {mockMentors.map(mentor => (
-                    <MentorCard key={mentor.id} mentor={mentor} />
+                  {filteredMentors.map(mentor => (
+                    <MentorCard 
+                      key={mentor.id} 
+                      mentor={mentor} 
+                      isRequested={requestedMentors.has(mentor.id)}
+                      onRequestMentorship={handleRequestMentorship}
+                    />
                   ))}
                 </div>
+
+                {/* Enhanced Empty State */}
+                {filteredMentors.length === 0 && (
+                  <div className="text-center py-12 sm:py-16">
+                    <div 
+                      className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6"
+                      style={{ backgroundImage: `linear-gradient(135deg, rgba(${brand.indigo}, 0.1), rgba(${brand.coral}, 0.1))` }}
+                    >
+                      <Users className="w-8 h-8 sm:w-10 sm:h-10" style={{ color: `rgb(${brand.indigo})` }} />
+                    </div>
+                    <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-3">No mentors found</h3>
+                    <p className="text-slate-600 mb-4 sm:mb-6 max-w-md mx-auto text-sm sm:text-base px-4">
+                      We couldn't find any mentors matching your criteria. Try adjusting your filters or search terms.
+                    </p>
+                    <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
+                      <button
+                        onClick={clearAllFilters}
+                        className="px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium text-white shadow-sm hover:shadow-lg transition-all text-sm"
+                        style={{ backgroundColor: '#9966CC' }}
+                      >
+                        Show All Mentors
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
@@ -906,15 +1092,28 @@ export default function StudentJobs() {
                   </button>
                 </div>
                 
-                <FilterSection 
-                  searchTerm={searchTerm} 
-                  setSearchTerm={setSearchTerm}
-                  onClearFilters={() => {
-                    setSearchTerm("");
-                    setCategoryFilter([]);
-                  }}
-                >
-                  <div className="flex flex-wrap gap-2">
+                <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 mb-6 sm:mb-8">
+                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4">
+                    <div className="relative flex-1">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <Search className="h-4 w-4 text-slate-400" />
+                      </div>
+                      <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        placeholder="Search resources..."
+                        className="block w-full pl-10 pr-3 py-2.5 sm:py-3 border border-slate-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:border-slate-300 text-sm sm:text-base"
+                      />
+                    </div>
+                    <button className="px-4 py-2.5 sm:py-3 rounded-lg font-medium border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 transition-all text-sm sm:text-base flex items-center gap-2">
+                      <Filter className="w-4 h-4" />
+                      <span className="hidden sm:inline">More Filters</span>
+                    </button>
+                  </div>
+                  
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-sm font-medium text-slate-700">Filter by:</span>
                     {['Web Development', 'Data Science', 'Career Guidance', 'Product Management', 'UX Design'].map(category => (
                       <button
                         key={category}
@@ -940,30 +1139,127 @@ export default function StudentJobs() {
                         )}
                       </button>
                     ))}
+                    
+                    {(categoryFilter.length > 0) && (
+                      <button
+                        onClick={() => {
+                          setCategoryFilter([]);
+                        }}
+                        className="text-sm text-slate-500 hover:text-slate-700 underline ml-auto"
+                      >
+                        Clear all filters
+                      </button>
+                    )}
                   </div>
-                </FilterSection>
+                  
+                  {/* Active Filters Summary */}
+                  {(searchTerm || categoryFilter.length > 0) && (
+                    <div className="flex flex-wrap items-center gap-2 pt-3 sm:pt-4 border-t border-slate-200 mt-3">
+                      <span className="text-sm text-slate-600">Active filters:</span>
+                      {searchTerm && (
+                        <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">
+                          Search: "{searchTerm}"
+                        </span>
+                      )}
+                      {categoryFilter.length > 0 && (
+                        <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">
+                          Categories: {categoryFilter.length} selected
+                        </span>
+                      )}
+                    </div>
+                  )}
+                </div>
                 
+                {/* Results Summary */}
+                {filteredResources.length > 0 && (
+                  <div className="mb-4 sm:mb-6">
+                    <p className="text-xs sm:text-sm text-slate-600">
+                      Showing {filteredResources.length} of {mockResources.length} resources
+                    </p>
+                  </div>
+                )}
+
+                {/* Resources Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-                  {mockResources.map(resource => (
-                    <ResourceCard key={resource.id} resource={resource} />
+                  {filteredResources.map(resource => (
+                    <ResourceCard 
+                      key={resource.id} 
+                      resource={resource} 
+                      isViewed={viewedResources.has(resource.id)}
+                      onViewResource={handleViewResource}
+                    />
                   ))}
                 </div>
+
+                {/* Enhanced Empty State */}
+                {filteredResources.length === 0 && (
+                  <div className="text-center py-12 sm:py-16">
+                    <div 
+                      className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6"
+                      style={{ backgroundImage: `linear-gradient(135deg, rgba(${brand.indigo}, 0.1), rgba(${brand.coral}, 0.1))` }}
+                    >
+                      <BookOpen className="w-8 h-8 sm:w-10 sm:h-10" style={{ color: `rgb(${brand.indigo})` }} />
+                    </div>
+                    <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-3">No resources found</h3>
+                    <p className="text-slate-600 mb-4 sm:mb-6 max-w-md mx-auto text-sm sm:text-base px-4">
+                      We couldn't find any resources matching your criteria. Try adjusting your filters or search terms.
+                    </p>
+                    <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
+                      <button
+                        onClick={clearAllFilters}
+                        className="px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium text-white shadow-sm hover:shadow-lg transition-all text-sm"
+                        style={{ backgroundColor: '#9966CC' }}
+                      >
+                        Show All Resources
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
             {/* Startups Tab */}
             {activeTab === 'startups' && (
               <div>
-                <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4">Startups</h2>
-                <FilterSection 
-                  searchTerm={searchTerm} 
-                  setSearchTerm={setSearchTerm}
-                  onClearFilters={() => {
-                    setSearchTerm("");
-                    setIndustryFilter([]);
-                  }}
-                >
-                  <div className="flex flex-wrap gap-2">
+                {/* Header with Action Button */}
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+                  <div>
+                    <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2">Startups</h2>
+                    <p className="text-slate-600 text-sm sm:text-base">Explore innovative startups and entrepreneurial opportunities</p>
+                  </div>
+                  
+                  <button 
+                    onClick={() => alert('Connect with startups feature coming soon!')}
+                    className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold text-white transition-all hover:shadow-lg transform hover:scale-105 text-sm sm:text-base"
+                    style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                  >
+                    <Target className="w-4 h-4" />
+                    <span className="hidden sm:inline">Connect with Startups</span>
+                  </button>
+                </div>
+                
+                <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 mb-6 sm:mb-8">
+                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4">
+                    <div className="relative flex-1">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <Search className="h-4 w-4 text-slate-400" />
+                      </div>
+                      <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        placeholder="Search startups..."
+                        className="block w-full pl-10 pr-3 py-2.5 sm:py-3 border border-slate-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:border-slate-300 text-sm sm:text-base"
+                      />
+                    </div>
+                    <button className="px-4 py-2.5 sm:py-3 rounded-lg font-medium border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 transition-all text-sm sm:text-base flex items-center gap-2">
+                      <Filter className="w-4 h-4" />
+                      <span className="hidden sm:inline">More Filters</span>
+                    </button>
+                  </div>
+                  
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-sm font-medium text-slate-700">Filter by:</span>
                     {['CleanTech', 'HealthTech', 'FinTech', 'EdTech', 'AgriTech', 'Logistics'].map(industry => (
                       <button
                         key={industry}
@@ -989,30 +1285,127 @@ export default function StudentJobs() {
                         )}
                       </button>
                     ))}
+                    
+                    {(industryFilter.length > 0) && (
+                      <button
+                        onClick={() => {
+                          setIndustryFilter([]);
+                        }}
+                        className="text-sm text-slate-500 hover:text-slate-700 underline ml-auto"
+                      >
+                        Clear all filters
+                      </button>
+                    )}
                   </div>
-                </FilterSection>
+                  
+                  {/* Active Filters Summary */}
+                  {(searchTerm || industryFilter.length > 0) && (
+                    <div className="flex flex-wrap items-center gap-2 pt-3 sm:pt-4 border-t border-slate-200 mt-3">
+                      <span className="text-sm text-slate-600">Active filters:</span>
+                      {searchTerm && (
+                        <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">
+                          Search: "{searchTerm}"
+                        </span>
+                      )}
+                      {industryFilter.length > 0 && (
+                        <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">
+                          Industries: {industryFilter.length} selected
+                        </span>
+                      )}
+                    </div>
+                  )}
+                </div>
                 
+                {/* Results Summary */}
+                {filteredStartups.length > 0 && (
+                  <div className="mb-4 sm:mb-6">
+                    <p className="text-xs sm:text-sm text-slate-600">
+                      Showing {filteredStartups.length} of {mockStartups.length} startups
+                    </p>
+                  </div>
+                )}
+
+                {/* Startups Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-                  {mockStartups.map(startup => (
-                    <StartupCard key={startup.id} startup={startup} />
+                  {filteredStartups.map(startup => (
+                    <StartupCard 
+                      key={startup.id} 
+                      startup={startup} 
+                      isLearned={learnedStartups.has(startup.id)}
+                      onLearnMore={handleLearnStartup}
+                    />
                   ))}
                 </div>
+
+                {/* Enhanced Empty State */}
+                {filteredStartups.length === 0 && (
+                  <div className="text-center py-12 sm:py-16">
+                    <div 
+                      className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6"
+                      style={{ backgroundImage: `linear-gradient(135deg, rgba(${brand.indigo}, 0.1), rgba(${brand.coral}, 0.1))` }}
+                    >
+                      <Target className="w-8 h-8 sm:w-10 sm:h-10" style={{ color: `rgb(${brand.indigo})` }} />
+                    </div>
+                    <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-3">No startups found</h3>
+                    <p className="text-slate-600 mb-4 sm:mb-6 max-w-md mx-auto text-sm sm:text-base px-4">
+                      We couldn't find any startups matching your criteria. Try adjusting your filters or search terms.
+                    </p>
+                    <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
+                      <button
+                        onClick={clearAllFilters}
+                        className="px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium text-white shadow-sm hover:shadow-lg transition-all text-sm"
+                        style={{ backgroundColor: '#9966CC' }}
+                      >
+                        Show All Startups
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
             {/* Projects Tab */}
             {activeTab === 'projects' && (
               <div>
-                <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4">Projects</h2>
-                <FilterSection 
-                  searchTerm={searchTerm} 
-                  setSearchTerm={setSearchTerm}
-                  onClearFilters={() => {
-                    setSearchTerm("");
-                    setTechFilter([]);
-                  }}
-                >
-                  <div className="flex flex-wrap gap-2">
+                {/* Header with Action Button */}
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+                  <div>
+                    <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2">Projects</h2>
+                    <p className="text-slate-600 text-sm sm:text-base">Join collaborative projects and enhance your skills</p>
+                  </div>
+                  
+                  <button 
+                    onClick={() => alert('Project collaboration feature coming soon!')}
+                    className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold text-white transition-all hover:shadow-lg transform hover:scale-105 text-sm sm:text-base"
+                    style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                  >
+                    <Code className="w-4 h-4" />
+                    <span className="hidden sm:inline">Collaborate on Projects</span>
+                  </button>
+                </div>
+                
+                <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 mb-6 sm:mb-8">
+                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4">
+                    <div className="relative flex-1">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <Search className="h-4 w-4 text-slate-400" />
+                      </div>
+                      <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        placeholder="Search projects..."
+                        className="block w-full pl-10 pr-3 py-2.5 sm:py-3 border border-slate-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:border-slate-300 text-sm sm:text-base"
+                      />
+                    </div>
+                    <button className="px-4 py-2.5 sm:py-3 rounded-lg font-medium border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 transition-all text-sm sm:text-base flex items-center gap-2">
+                      <Filter className="w-4 h-4" />
+                      <span className="hidden sm:inline">More Filters</span>
+                    </button>
+                  </div>
+                  
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-sm font-medium text-slate-700">Filter by:</span>
                     {['React', 'Python', 'TensorFlow', 'Node.js', 'Docker', 'Kubernetes', 'React Native', 'AWS'].map(tech => (
                       <button
                         key={tech}
@@ -1038,14 +1431,82 @@ export default function StudentJobs() {
                         )}
                       </button>
                     ))}
+                    
+                    {(techFilter.length > 0) && (
+                      <button
+                        onClick={() => {
+                          setTechFilter([]);
+                        }}
+                        className="text-sm text-slate-500 hover:text-slate-700 underline ml-auto"
+                      >
+                        Clear all filters
+                      </button>
+                    )}
                   </div>
-                </FilterSection>
+                  
+                  {/* Active Filters Summary */}
+                  {(searchTerm || techFilter.length > 0) && (
+                    <div className="flex flex-wrap items-center gap-2 pt-3 sm:pt-4 border-t border-slate-200 mt-3">
+                      <span className="text-sm text-slate-600">Active filters:</span>
+                      {searchTerm && (
+                        <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">
+                          Search: "{searchTerm}"
+                        </span>
+                      )}
+                      {techFilter.length > 0 && (
+                        <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">
+                          Technologies: {techFilter.length} selected
+                        </span>
+                      )}
+                    </div>
+                  )}
+                </div>
                 
+                {/* Results Summary */}
+                {filteredProjects.length > 0 && (
+                  <div className="mb-4 sm:mb-6">
+                    <p className="text-xs sm:text-sm text-slate-600">
+                      Showing {filteredProjects.length} of {mockProjects.length} projects
+                    </p>
+                  </div>
+                )}
+
+                {/* Projects Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-                  {mockProjects.map(project => (
-                    <ProjectCard key={project.id} project={project} />
+                  {filteredProjects.map(project => (
+                    <ProjectCard 
+                      key={project.id} 
+                      project={project} 
+                      isJoined={joinedProjects.has(project.id)}
+                      onJoinProject={handleJoinProject}
+                    />
                   ))}
                 </div>
+
+                {/* Enhanced Empty State */}
+                {filteredProjects.length === 0 && (
+                  <div className="text-center py-12 sm:py-16">
+                    <div 
+                      className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6"
+                      style={{ backgroundImage: `linear-gradient(135deg, rgba(${brand.indigo}, 0.1), rgba(${brand.coral}, 0.1))` }}
+                    >
+                      <Code className="w-8 h-8 sm:w-10 sm:h-10" style={{ color: `rgb(${brand.indigo})` }} />
+                    </div>
+                    <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-3">No projects found</h3>
+                    <p className="text-slate-600 mb-4 sm:mb-6 max-w-md mx-auto text-sm sm:text-base px-4">
+                      We couldn't find any projects matching your criteria. Try adjusting your filters or search terms.
+                    </p>
+                    <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
+                      <button
+                        onClick={clearAllFilters}
+                        className="px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium text-white shadow-sm hover:shadow-lg transition-all text-sm"
+                        style={{ backgroundColor: '#9966CC' }}
+                      >
+                        Show All Projects
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
