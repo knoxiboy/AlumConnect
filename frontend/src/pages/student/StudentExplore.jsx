@@ -3,7 +3,7 @@ import StudentNavbar from "../../layouts/StudentNavbar";
 import { alumniProfiles } from "../../data/alumni";
 import {
   Search, Filter, MapPin, Briefcase, Calendar,
-  MessageCircle, UserPlus, ExternalLink, Users, ChevronDown, X
+  MessageCircle, UserPlus, ExternalLink, Users, ChevronDown, X, Check
 } from "lucide-react";
 
 // Brand colors
@@ -13,90 +13,238 @@ const brand = {
   coral: '255 145 120',
 };
 
-const AlumniCard = ({ alumni }) => (
-  <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-lg transition-all">
-    <div className="flex flex-col sm:flex-row sm:items-start gap-4">
-      <div 
-        className="w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-lg flex-shrink-0 mx-auto sm:mx-0"
-        style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
-      >
-        {alumni.name.split(' ').map(n => n[0]).join('')}
-      </div>
-      
-      <div className="flex-1 text-center sm:text-left">
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-2 gap-2">
-          <div className="min-w-0 flex-1">
-            <h3 className="text-base sm:text-lg font-bold text-slate-900 line-clamp-1">{alumni.name}</h3>
-            <p className="text-slate-600 font-medium text-sm sm:text-base line-clamp-1">{alumni.currentRole}</p>
-            <p className="text-slate-600 text-sm sm:text-base line-clamp-1">{alumni.company}</p>
-          </div>
-          {alumni.mentoring && (
-            <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 self-center sm:self-start flex-shrink-0">
-              Available for Mentoring
-            </span>
-          )}
-        </div>
-        
-        <div className="flex flex-col sm:flex-row sm:items-center justify-center sm:justify-start gap-2 sm:gap-4 mt-2 sm:mt-3 text-xs sm:text-sm text-slate-500">
-          <div className="flex items-center justify-center sm:justify-start gap-1">
-            <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
-            <span>Class of {alumni.graduationYear}</span>
-          </div>
-          <div className="flex items-center justify-center sm:justify-start gap-1">
-            <MapPin className="w-3 h-3 sm:w-4 sm:h-4" />
-            <span>{alumni.location}</span>
-          </div>
-        </div>
-        
-        <p className="text-slate-600 mt-2 sm:mt-3 text-xs sm:text-sm line-clamp-2 sm:line-clamp-3">
-          {alumni.bio}
-        </p>
-        
-        <div className="flex flex-wrap justify-center sm:justify-start gap-1 sm:gap-2 mt-2 sm:mt-3">
-          {alumni.skills.slice(0, 4).map((skill, index) => (
-            <span
-              key={index}
-              className="px-2 py-1 text-xs rounded-full bg-slate-100 text-slate-700"
-            >
-              {skill}
-            </span>
-          ))}
-          {alumni.skills.length > 4 && (
-            <span className="px-2 py-1 text-xs rounded-full bg-slate-100 text-slate-500">
-              +{alumni.skills.length - 4} more
-            </span>
-          )}
-        </div>
-        
-        <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-2 sm:gap-3 mt-3 sm:mt-4">
-          <button 
-            className="w-full sm:w-auto flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium text-white transition-all"
+// Reusable modal for confirmation messages
+const MessageModal = ({ isOpen, onClose, title, message }) => {
+  if (!isOpen) return null;
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+      <div className="bg-white rounded-xl p-6 shadow-xl max-w-sm w-full relative">
+        <button 
+          onClick={onClose}
+          className="absolute top-3 right-3 p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors"
+        >
+          <X className="w-5 h-5" />
+        </button>
+        <div className="text-center mt-4">
+          <h3 className="text-xl font-bold text-slate-900 mb-2">{title}</h3>
+          <p className="text-slate-600 text-sm mb-6">{message}</p>
+          <button
+            onClick={onClose}
+            className="w-full px-6 py-3 rounded-lg font-semibold text-white transition-all"
             style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
           >
-            <MessageCircle className="w-3 h-3 sm:w-4 sm:h-4" />
-            Request Mentorship
+            Got it
           </button>
-          <button className="w-full sm:w-auto flex items-center justify-center gap-2 px-3 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-xs sm:text-sm font-medium transition-colors">
-            <UserPlus className="w-3 h-3 sm:w-4 sm:h-4" />
-            Connect
-          </button>
-          {alumni.linkedin && (
-            <a 
-              href={alumni.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto flex items-center justify-center gap-2 px-3 py-2 text-xs sm:text-sm font-medium transition-colors rounded-lg hover:bg-slate-50"
-              style={{ color: `rgb(${brand.indigo})` }}
-            >
-              <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4" />
-              LinkedIn
-            </a>
-          )}
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
+
+
+// New reusable Form Modal component
+const FormModal = ({ isOpen, onClose, title, item, onSubmit }) => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Simulate sending data and then update the parent state
+    onSubmit(item.id);
+    onClose();
+  };
+
+  if (!isOpen) return null;
+  
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+      <div className="bg-white rounded-xl p-6 shadow-xl max-w-lg w-full relative">
+        <button 
+          onClick={onClose}
+          className="absolute top-3 right-3 p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors"
+        >
+          <X className="w-5 h-5" />
+        </button>
+        <h3 className="text-xl font-bold text-slate-900 mb-2">{title}</h3>
+        <p className="text-slate-600 text-sm mb-4">
+          Connect with {item.name} from {item.company}
+        </p>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label htmlFor="name" className="block text-sm font-medium text-slate-700">Full Name</label>
+            <input
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-sm"
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-slate-700">Email Address</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-sm"
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="message" className="block text-sm font-medium text-slate-700">
+              Personalized Message
+            </label>
+            <textarea
+              id="message"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              rows="3"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-sm"
+              placeholder="Hi [Alumni Name], I'm a student interested in [field] and would love to connect..."
+            ></textarea>
+          </div>
+          <button
+            type="submit"
+            className="w-full px-6 py-3 rounded-lg font-semibold text-white transition-all"
+            style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+          >
+            Submit
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+// Reusable AlumniCard component with button handlers
+const AlumniCard = ({ alumni, onConnect, onRequestMentorship, connectionStatus }) => {
+  const isMentorshipRequested = connectionStatus.mentorship;
+  const isConnected = connectionStatus.connected;
+  
+  return (
+    <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-lg transition-all">
+      <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+        <div 
+          className="w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-lg flex-shrink-0 mx-auto sm:mx-0"
+          style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+        >
+          {alumni.name.split(' ').map(n => n[0]).join('')}
+        </div>
+        
+        <div className="flex-1 text-center sm:text-left">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-2 gap-2">
+            <div className="min-w-0 flex-1">
+              <h3 className="text-base sm:text-lg font-bold text-slate-900 line-clamp-1">{alumni.name}</h3>
+              <p className="text-slate-600 font-medium text-sm sm:text-base line-clamp-1">{alumni.currentRole}</p>
+              <p className="text-slate-600 text-sm sm:text-base line-clamp-1">{alumni.company}</p>
+            </div>
+            {alumni.mentoring && (
+              <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 self-center sm:self-start flex-shrink-0">
+                Available for Mentoring
+              </span>
+            )}
+          </div>
+          
+          <div className="flex flex-col sm:flex-row sm:items-center justify-center sm:justify-start gap-2 sm:gap-4 mt-2 sm:mt-3 text-xs sm:text-sm text-slate-500">
+            <div className="flex items-center justify-center sm:justify-start gap-1">
+              <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
+              <span>Class of {alumni.graduationYear}</span>
+            </div>
+            <div className="flex items-center justify-center sm:justify-start gap-1">
+              <MapPin className="w-3 h-3 sm:w-4 sm:h-4" />
+              <span>{alumni.location}</span>
+            </div>
+          </div>
+          
+          <p className="text-slate-600 mt-2 sm:mt-3 text-xs sm:text-sm line-clamp-2 sm:line-clamp-3">
+            {alumni.bio}
+          </p>
+          
+          <div className="flex flex-wrap justify-center sm:justify-start gap-1 sm:gap-2 mt-2 sm:mt-3">
+            {alumni.skills.slice(0, 4).map((skill, index) => (
+              <span
+                key={index}
+                className="px-2 py-1 text-xs rounded-full bg-slate-100 text-slate-700"
+              >
+                {skill}
+              </span>
+            ))}
+            {alumni.skills.length > 4 && (
+              <span className="px-2 py-1 text-xs rounded-full bg-slate-100 text-slate-500">
+                +{alumni.skills.length - 4} more
+              </span>
+            )}
+          </div>
+          
+          <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-2 sm:gap-3 mt-3 sm:mt-4">
+            <button 
+              onClick={() => onRequestMentorship(alumni)}
+              disabled={isMentorshipRequested}
+              className={`w-full sm:w-auto flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all
+                ${isMentorshipRequested 
+                  ? 'bg-slate-300 text-slate-600 cursor-not-allowed'
+                  : 'text-white'
+                }`}
+              style={!isMentorshipRequested 
+                ? { backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }
+                : {}
+              }
+            >
+              {isMentorshipRequested ? (
+                <>
+                  <Check className="w-3 h-3 sm:w-4 sm:h-4" />
+                  Request Sent
+                </>
+              ) : (
+                <>
+                  <MessageCircle className="w-3 h-3 sm:w-4 sm:h-4" />
+                  Request Mentorship
+                </>
+              )}
+            </button>
+            <button 
+              onClick={() => onConnect(alumni)}
+              disabled={isConnected}
+              className={`w-full sm:w-auto flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors
+                ${isConnected
+                  ? 'bg-green-100 text-green-800 cursor-not-allowed'
+                  : 'bg-slate-100 hover:bg-slate-200'
+                }`}
+            >
+              {isConnected ? (
+                <>
+                  <Check className="w-3 h-3 sm:w-4 sm:h-4" />
+                  Connection Sent
+                </>
+              ) : (
+                <>
+                  <UserPlus className="w-3 h-3 sm:w-4 sm:h-4" />
+                  Connect
+                </>
+              )}
+            </button>
+            {alumni.linkedin && (
+              <a 
+                href={alumni.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 px-3 py-2 text-xs sm:text-sm font-medium transition-colors rounded-lg hover:bg-slate-50"
+                style={{ color: `rgb(${brand.indigo})` }}
+              >
+                <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4" />
+                LinkedIn
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 // Mobile Filter Modal Component
 const MobileFiltersModal = ({ isOpen, onClose, filterCompany, setFilterCompany, showMentorsOnly, setShowMentorsOnly, companies }) => {
@@ -202,12 +350,80 @@ const MobileFiltersModal = ({ isOpen, onClose, filterCompany, setFilterCompany, 
   );
 };
 
+// New Modal Component for displaying filtered lists from stat cards
+const AlumniListModal = ({ isOpen, onClose, title, alumniList, companies, onCompanyClick, onConnect, onRequestMentorship, connectionStatuses }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm">
+      <div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl p-6 max-h-[80vh] overflow-y-auto">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
+          <button
+            onClick={onClose}
+            className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+        
+        {alumniList && alumniList.length > 0 && (
+          <div className="space-y-4">
+            {alumniList.map(alumni => (
+              <AlumniCard 
+                key={alumni.id} 
+                alumni={alumni} 
+                onConnect={onConnect} 
+                onRequestMentorship={onRequestMentorship}
+                connectionStatus={connectionStatuses[alumni.id] || {}}
+              />
+            ))}
+          </div>
+        )}
+
+        {companies && companies.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[70vh] overflow-y-auto">
+            {companies.map(company => (
+              <button
+                key={company}
+                onClick={() => onCompanyClick(company)}
+                className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-lg p-4 text-left transition-colors"
+              >
+                {company}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {!alumniList && !companies && (
+          <div className="text-center text-slate-500 py-12">No data to display.</div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+
 export default function StudentExplore() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterCompany, setFilterCompany] = useState("all");
-  const [filterRole, setFilterRole] = useState("all");
   const [showMentorsOnly, setShowMentorsOnly] = useState(false);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
+  
+  // State for the stat card modal
+  const [showListModal, setShowListModal] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalAlumniList, setModalAlumniList] = useState(null);
+  const [modalCompaniesList, setModalCompaniesList] = useState(null);
+  
+  // State for the action/form modal
+  const [showFormModal, setShowFormModal] = useState(false);
+  const [formModalContent, setFormModalContent] = useState(null);
+  
+  // State to track the connection status of each alumni by their ID
+  const [connectionStatuses, setConnectionStatuses] = useState({});
+
+  const companies = [...new Set(alumniProfiles.map(a => a.company))];
 
   const filteredAlumni = alumniProfiles.filter(alumni => {
     const matchesSearch = alumni.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -221,12 +437,67 @@ export default function StudentExplore() {
     return matchesSearch && matchesCompany && matchesMentoring;
   });
 
-  const companies = [...new Set(alumniProfiles.map(a => a.company))];
-
   const clearFilters = () => {
     setSearchTerm("");
     setFilterCompany("all");
     setShowMentorsOnly(false);
+  };
+  
+  const handleStatCardClick = (type) => {
+    if (type === "total") {
+      setModalTitle("All Alumni");
+      setModalAlumniList(alumniProfiles);
+      setModalCompaniesList(null);
+    } else if (type === "mentors") {
+      setModalTitle("Available Mentors");
+      setModalAlumniList(alumniProfiles.filter(a => a.mentoring));
+      setModalCompaniesList(null);
+    } else if (type === "companies") {
+      setModalTitle("Companies with Alumni");
+      setModalAlumniList(null);
+      setModalCompaniesList(companies);
+    }
+    setShowListModal(true);
+  };
+
+  const handleCompanyClickFromModal = (company) => {
+    setFilterCompany(company);
+    setShowListModal(false);
+    setShowMobileFilters(false);
+  };
+  
+  // Handler for the "Connect" button
+  const handleConnect = (alumni) => {
+    setShowFormModal(true);
+    setFormModalContent({
+      title: "Connection Request",
+      alumni,
+      type: "connect"
+    });
+  };
+
+  // Handler for the "Request Mentorship" button
+  const handleRequestMentorship = (alumni) => {
+    setShowFormModal(true);
+    setFormModalContent({
+      title: "Mentorship Request",
+      alumni,
+      type: "mentorship"
+    });
+  };
+  
+  // Final form submission handler
+  const handleFormSubmit = (alumniId, type) => {
+    setConnectionStatuses(prev => ({
+      ...prev,
+      [alumniId]: {
+        ...prev[alumniId],
+        [type]: true,
+      },
+    }));
+    // Optionally, show a success message
+    // Note: The MessageModal from the previous response is not needed here,
+    // as the button status itself provides the feedback.
   };
 
   return (
@@ -242,7 +513,10 @@ export default function StudentExplore() {
 
         {/* Stats */}
         <div className="grid grid-cols-3 gap-3 sm:gap-6 mb-6 sm:mb-8">
-          <div className="bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-xl p-3 sm:p-4 text-center">
+          <button 
+            className="bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-xl p-3 sm:p-4 text-center transition-transform hover:scale-105"
+            onClick={() => handleStatCardClick("total")}
+          >
             <div 
               className="w-8 h-8 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mx-auto mb-2"
               style={{ backgroundColor: `rgba(${brand.indigo}, 0.1)` }}
@@ -251,8 +525,11 @@ export default function StudentExplore() {
             </div>
             <div className="text-lg sm:text-2xl font-bold text-slate-900">{alumniProfiles.length}</div>
             <div className="text-xs sm:text-sm text-slate-600">Total Alumni</div>
-          </div>
-          <div className="bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-xl p-3 sm:p-4 text-center">
+          </button>
+          <button 
+            className="bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-xl p-3 sm:p-4 text-center transition-transform hover:scale-105"
+            onClick={() => handleStatCardClick("mentors")}
+          >
             <div 
               className="w-8 h-8 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mx-auto mb-2"
               style={{ backgroundColor: `rgba(${brand.coral}, 0.1)` }}
@@ -263,8 +540,11 @@ export default function StudentExplore() {
               {alumniProfiles.filter(a => a.mentoring).length}
             </div>
             <div className="text-xs sm:text-sm text-slate-600">Available Mentors</div>
-          </div>
-          <div className="bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-xl p-3 sm:p-4 text-center">
+          </button>
+          <button 
+            className="bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-xl p-3 sm:p-4 text-center transition-transform hover:scale-105"
+            onClick={() => handleStatCardClick("companies")}
+          >
             <div 
               className="w-8 h-8 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mx-auto mb-2"
               style={{ backgroundColor: `rgba(${brand.lilac}, 0.1)` }}
@@ -273,7 +553,7 @@ export default function StudentExplore() {
             </div>
             <div className="text-lg sm:text-2xl font-bold text-slate-900">{companies.length}</div>
             <div className="text-xs sm:text-sm text-slate-600">Companies</div>
-          </div>
+          </button>
         </div>
 
         {/* Search and Filters */}
@@ -381,7 +661,13 @@ export default function StudentExplore() {
                 {showMentorsOnly && " available for mentoring"}
               </div>
               {filteredAlumni.map(alumni => (
-                <AlumniCard key={alumni.id} alumni={alumni} />
+                <AlumniCard 
+                  key={alumni.id} 
+                  alumni={alumni}
+                  onConnect={handleConnect}
+                  onRequestMentorship={handleRequestMentorship}
+                  connectionStatus={connectionStatuses[alumni.id] || {}}
+                />
               ))}
             </>
           ) : (
@@ -415,6 +701,30 @@ export default function StudentExplore() {
         setShowMentorsOnly={setShowMentorsOnly}
         companies={companies}
       />
+      
+      {/* Alumni List Modal */}
+      <AlumniListModal
+        isOpen={showListModal}
+        onClose={() => setShowListModal(false)}
+        title={modalTitle}
+        alumniList={modalAlumniList}
+        companies={modalCompaniesList}
+        onCompanyClick={handleCompanyClickFromModal}
+        onConnect={handleConnect}
+        onRequestMentorship={handleRequestMentorship}
+        connectionStatuses={connectionStatuses}
+      />
+
+      {/* Form Modal */}
+      {showFormModal && formModalContent && (
+        <FormModal
+          isOpen={showFormModal}
+          onClose={() => setShowFormModal(false)}
+          title={formModalContent.title}
+          item={formModalContent.alumni}
+          onSubmit={() => handleFormSubmit(formModalContent.alumni.id, formModalContent.type)}
+        />
+      )}
     </div>
   );
 }
