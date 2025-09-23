@@ -85,7 +85,7 @@ export default function AlumniDashboard() {
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#F9F8FE' }}>
+    <div className="min-h-screen mobile-scroll-container" style={{ backgroundColor: '#F9F8FE' }}>
       <AlumniNavbar />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">

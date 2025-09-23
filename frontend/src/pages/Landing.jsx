@@ -79,7 +79,7 @@ const TimelineItem = ({ number, title, description }) => (
 export default function Landing() {
   return (
     <div
-      className="text-slate-900"
+      className="text-slate-900 min-h-screen"
       style={{
         backgroundColor: '#F9F8FE', // A very light, almost white lavender
       }}

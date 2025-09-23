@@ -195,7 +195,7 @@ const AuthPage = () => {
       style={{ backgroundColor: '#F9F8FE' }}
     >
       {/* --- LEFT PANEL --- */}
-      <div className="hidden md:flex md:w-1/2 lg:w-2/5 p-6 lg:p-12 flex-col justify-between relative overflow-hidden">
+      <div className="hidden md:flex md:w-1/2 lg:w-2/5 p-4 sm:p-6 lg:p-12 flex-col justify-between relative overflow-hidden">
         {/* Enhanced background with SVG icon elements */}
         <div className="absolute inset-0 -z-10">
           <div 
@@ -337,7 +337,7 @@ const AuthPage = () => {
       </div>
 
       {/* --- RIGHT PANEL (Form) --- */}
-      <div className="flex-1 flex items-center justify-center p-4 sm:p-6 md:p-4 relative min-h-screen md:min-h-auto">
+      <div className="flex-1 flex items-center justify-center p-3 sm:p-4 md:p-4 relative min-h-screen md:min-h-auto">
         {/* Enhanced background with subtle gradients */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <div 

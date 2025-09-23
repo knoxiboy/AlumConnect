@@ -27,6 +27,7 @@ export default function StudentNavbar() {
   const navItems = [
     { name: 'Dashboard', href: '/student/dashboard', icon: Home },
     { name: 'Directory', href: '/student/explore', icon: Users },
+    { name: 'Networking Hub', href: '/student/network', icon: Users },
     { name: 'Career', href: '/student/jobs', icon: Briefcase },
     { name: 'Events', href: '/student/events', icon: Calendar },
   ];
@@ -119,8 +120,8 @@ export default function StudentNavbar() {
 
       {/* Mobile Navigation */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-white border-t border-slate-200">
-          <div className="px-4 py-2 space-y-1">
+        <div className="md:hidden bg-white border-t border-slate-200 absolute top-16 left-0 right-0 z-50 shadow-lg">
+          <div className="px-4 py-3 space-y-1 max-h-[calc(100vh-4rem)] overflow-y-auto">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.href;
@@ -129,7 +130,7 @@ export default function StudentNavbar() {
                   key={item.name}
                   to={item.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className={`flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium transition-all ${
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium transition-all ${
                     isActive
                       ? 'text-white shadow-lg'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
@@ -145,19 +146,22 @@ export default function StudentNavbar() {
               );
             })}
             
-            <div className="border-t border-slate-200 pt-4 mt-4">
+            <div className="border-t border-slate-200 pt-2 mt-2">
               <Link
                 to="/student/profile"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center gap-3 px-3 py-3 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-all"
+                className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-all text-base font-medium"
               >
                 <User className="w-5 h-5" />
                 Profile
               </Link>
               
               <button
-                onClick={handleLogout}
-                className="flex items-center gap-3 px-3 py-3 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-all w-full"
+                onClick={() => {
+                  handleLogout();
+                  setIsMobileMenuOpen(false);
+                }}
+                className="flex items-center gap-3 w-full px-4 py-3 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-all text-base font-medium"
               >
                 <LogOut className="w-5 h-5" />
                 Logout
