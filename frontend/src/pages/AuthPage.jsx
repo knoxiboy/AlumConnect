@@ -6,6 +6,7 @@ import {
   Building2
 } from "lucide-react";
 import { login } from "../utils/auth";
+import axios from 'axios';
 
 // Brand colors matching landing page
 const brand = {
@@ -177,14 +178,53 @@ const AuthPage = () => {
         }
       }
     } else {
-      // Sign up logic - collect minimal form data
+      // Sign up logic
       const name = formData.get('name');
       const college = formData.get('college');
-      const collegeId = formData.get('collegeId');
       
-      // For now, just show success message
-      alert(`Account creation request submitted for ${name} from ${colleges.find(c => c.id === college)?.name}! Please wait for admin approval.`);
-      setIsLogin(true);
+      const signupData = {
+        name,
+        email: formData.get('email'),
+        password: formData.get('password'),
+        college,
+      };
+
+      if (role === 'student') {
+        signupData.enrollmentYear = formData.get('enrollmentYear');
+        signupData.degree = formData.get('degree');
+        signupData.major = formData.get('major');
+        signupData.currentYear = formData.get('currentYear');
+      } else if (role === 'alumni') {
+        signupData.graduationYear = formData.get('graduationYear');
+        signupData.degree = formData.get('degree');
+        signupData.major = formData.get('major');
+        signupData.currentPosition = formData.get('currentPosition');
+        signupData.company = formData.get('company');
+        signupData.industry = formData.get('industry');
+        signupData.location = formData.get('location');
+      }
+
+      try {
+        const response = await axios.post(`http://localhost:3001/api/auth/${role}/signup`, signupData);
+        const { data } = response;
+        
+        const userData = {
+          id: data._id,
+          name: data.name,
+          email: data.email,
+          role: data.role,
+          token: data.token
+        };
+        localStorage.setItem('alumconnect_user', JSON.stringify(userData));
+
+        if (role === 'alumni') {
+          navigate('/alumni/dashboard');
+        } else {
+          navigate('/student/dashboard');
+        }
+      } catch (err) {
+        setError(err.response?.data?.message || 'An error occurred during sign up.');
+      }
     }
     
     setLoading(false);
