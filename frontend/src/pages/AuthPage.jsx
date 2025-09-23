@@ -150,7 +150,7 @@ const AuthPage = () => {
     if (isLogin) {
       if (role === 'admin') {
         // Admin login logic
-        if (email === 'admin@college.edu' && password === 'Tiwariji') {
+        if (email === 'karan@college.edu' && password === 'Tiwariji') {
           localStorage.setItem("alumnnet_admin_session", JSON.stringify({ 
             email: email, 
             collegeId: "iit-delhi", 
@@ -262,9 +262,9 @@ const AuthPage = () => {
           <div className="mt-6 lg:mt-8 p-3 lg:p-4 bg-white/60 backdrop-blur-lg border border-slate-200/60 rounded-xl">
             <h3 className="font-semibold text-slate-900 mb-2 text-sm lg:text-base">Demo Credentials:</h3>
             <div className="text-xs lg:text-sm text-slate-700 space-y-1">
-              <p><strong>Alumni:</strong> sukriti.srivastava@example.com</p>
-              <p><strong>Student:</strong> abya.rao@example.com</p>
-              <p><strong>Admin:</strong> admin@college.edu</p>
+              <p><strong>Alumni:</strong> divya@example.com</p>
+              <p><strong>Student:</strong> saurav@example.com</p>
+              <p><strong>Admin:</strong> karan@college.edu</p>
               <p><strong>Password:</strong> {role === 'admin' ? 'Tiwariji' : 'password123'}</p>
             </div>
           </div>
@@ -590,9 +590,9 @@ const AuthPage = () => {
             <div className="md:hidden mt-4 p-3 bg-slate-50/80 backdrop-blur-lg border border-slate-200/60 rounded-xl">
               <h3 className="font-semibold text-slate-900 mb-2 text-sm">Demo Credentials:</h3>
               <div className="text-xs text-slate-700 space-y-1">
-                <p><strong>Alumni:</strong> sukriti.srivastava@example.com</p>
-                <p><strong>Student:</strong> abya.rao@example.com</p>
-                <p><strong>Admin:</strong> admin@college.edu</p>
+                <p><strong>Alumni:</strong> divya@example.com</p>
+                <p><strong>Student:</strong> saurav@example.com</p>
+                <p><strong>Admin:</strong> karan@college.edu</p>
                 <p><strong>Password:</strong> {role === 'admin' ? 'Tiwariji' : 'password123'}</p>
               </div>
             </div>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   GraduationCap, Home, Users, Calendar, Briefcase, User, 
-  LogOut, Menu, X, Bell
+  LogOut, Menu, X, Bell, Settings
 } from "lucide-react";
 import { logout, getCurrentUser } from "../utils/auth";
 
@@ -26,10 +26,11 @@ export default function AlumniNavbar() {
 
   const navItems = [
     { name: 'Dashboard', href: '/alumni/dashboard', icon: Home },
-    { name: 'Explore Alumni', href: '/alumni/explore', icon: Users },
     { name: 'Events', href: '/alumni/events', icon: Calendar },
-    { name: 'Jobs', href: '/alumni/jobs', icon: Briefcase },
+    { name: 'Career', href: '/alumni/jobs', icon: Briefcase },
+    { name: 'Directory', href: '/alumni/explore', icon: Users },
     { name: 'Profile', href: '/alumni/profile', icon: User },
+    { name: 'Settings', href: '/alumni/settings', icon: Settings },
   ];
 
   return (

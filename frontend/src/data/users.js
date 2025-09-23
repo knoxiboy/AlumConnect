@@ -3,10 +3,10 @@ export const users = [
   // Alumni Users
   {
     id: "alumni_1",
-    email: "karankmt.tripathi@example.com",
+    email: "divya@example.com",
     password: "password123",
     role: "alumni",
-    name: "Karan Mani Tripathi",
+    name: "Divya",
     isApproved: true
   },
   {
@@ -29,10 +29,10 @@ export const users = [
   // Student Users
   {
     id: "student_1",
-    email: "abya.rao@example.com",
+    email: "saurav@example.com",
     password: "password123", 
     role: "student",
-    name: "Abya Rao",
+    name: "Saurav",
     isApproved: true
   },
   {

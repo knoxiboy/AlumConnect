@@ -1,8 +1,8 @@
 export const studentProfiles = [
   {
     id: "student_1",
-    name: "Abya Rao",
-    email: "abya.rao@example.com",
+    name: "Saurav",
+    email: "saurav@example.com",
     studentId: "19BCE1234",
     year: "Final Year",
     degree: "B.Tech Computer Science",

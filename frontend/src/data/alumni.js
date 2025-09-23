@@ -1,8 +1,8 @@
 export const alumniProfiles = [
   {
     id: "alumni_1",
-    name: "Sukriti Srivastava",
-    email: "sukriti.srivastava@example.com",
+    name: "Divya",
+    email: "divya@example.com",
     graduationYear: 2018,
     degree: "B.Tech Computer Science",
     currentRole: "Senior Software Engineer",
