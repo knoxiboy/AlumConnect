@@ -111,7 +111,7 @@ export default function Landing() {
             style={{ 
               backgroundImage: "url('/images/WhatsApp Image 2025-09-23 at 15.01.09_789f31d7.jpg')",
               backgroundBlendMode: 'overlay',
-              backgroundColor: 'rgba(255, 255, 255, 0.5)'
+              backgroundColor: 'rgba(0, 0, 0, 0.6)'
             }}
           />
           
@@ -130,16 +130,16 @@ export default function Landing() {
                 <Building2 className="w-6 h-6 sm:w-8 sm:h-8" style={{color: `rgb(${brand.lilac})`}} />
               </div>
 
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter leading-tight text-slate-900">
-                Centralized Alumni Data
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter leading-tight text-white drop-shadow-2xl">
                 <span
                   className="block text-transparent bg-clip-text bg-gradient-to-r"
                   style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.coral}), rgb(${brand.lilac}), rgb(${brand.indigo}))` }}
                 >
-                  Management Solution.
+                  ऐक्यं बलं
                 </span>
+                <span className="block mt-2 text-white drop-shadow-lg">समाजस्या</span>
               </h1>
-              <p className="mt-4 sm:mt-5 text-base sm:text-lg text-slate-600 max-w-xl mx-auto lg:mx-0">
+              <p className="mt-4 sm:mt-5 text-base sm:text-lg text-white/90 max-w-xl mx-auto lg:mx-0 drop-shadow-lg">
                 A comprehensive digital platform to centralize alumni data, strengthen institutional relationships, and unlock opportunities for mentorship, fundraising, and career growth.
               </p>
 
