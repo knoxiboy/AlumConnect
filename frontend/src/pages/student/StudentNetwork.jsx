@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import StudentNavbar from "../../layouts/StudentNavbar";
 import { getCurrentUser } from "../../utils/auth";
 import { 
@@ -36,6 +36,21 @@ const networkData = {
 export default function StudentNetwork() {
   const user = getCurrentUser();
   const [activeTab, setActiveTab] = useState('network');
+
+  useEffect(() => {
+    // Dynamically load the WidgetBot HTML embed script
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/@widgetbot/html-embed';
+    script.async = true;
+    script.defer = true;
+    
+    document.body.appendChild(script);
+    
+    // Cleanup function to remove script when component unmounts
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   const handleConnect = (id) => {
     // Handle connect logic
@@ -249,22 +264,16 @@ export default function StudentNetwork() {
           <p className="text-slate-600 mb-4">Connect with alumni, find mentors, and participate in discussions through our Discord community.</p>
           
           {/* Discord Widget */}
-          <div 
-            className="rounded-lg overflow-hidden"
-            dangerouslySetInnerHTML={{
-              __html: `
-                <widgetbot
-                  server="1420060670828744877"
-                  channel="1420060672045355010"
-                  width="100%"
-                  height="600"
-                ></widgetbot>
-                <script src="https://cdn.jsdelivr.net/npm/@widgetbot/html-embed"></script>
-              `
-            }}
-          >
+          <div className="rounded-lg overflow-hidden">
+            <widgetbot
+              server="1420060670828744877"
+              channel="1420060672045355010"
+              width="800"
+              height="600"
+            ></widgetbot>
           </div>
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/@widgetbot/html-embed"></script>
       </main>
     </div>
   );
