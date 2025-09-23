@@ -4,14 +4,14 @@ import { jobPostings } from "../../data/jobs";
 import { mockMentors, mockResources, mockStartups, mockProjects } from "../../data/careerData";
 import { getCurrentUser } from "../../utils/auth";
 import {
-  Briefcase, MapPin, DollarSign, Clock, Search, Filter, 
-  BookOpen, Send, Heart, ExternalLink, X, Code, Target, TrendingUp, CheckCircle, RotateCcw, GraduationCap, Star
+  Briefcase, MapPin, DollarSign, Clock, Search, Filter,
+  BookOpen, Send, Heart, ExternalLink, X, Code, Target, TrendingUp, CheckCircle, RotateCcw, GraduationCap, Star, Users
 } from "lucide-react";
 
 // Brand colors
 const brand = {
   indigo: '118 98 214',
-  lilac: '196 160 255', 
+  lilac: '196 160 255',
   coral: '255 145 120',
 };
 
@@ -19,7 +19,7 @@ const JobCard = ({ job, isApplied, isSaved, onApply, onSave, onViewApplication }
   <div className="group bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-xl hover:border-slate-300 transition-all transform hover:-translate-y-1">
     {/* Header with gradient accent */}
     <div className="relative mb-3 sm:mb-4">
-      <div 
+      <div
         className="absolute top-0 left-0 w-full h-1 rounded-t-xl"
         style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
       />
@@ -32,37 +32,37 @@ const JobCard = ({ job, isApplied, isSaved, onApply, onSave, onViewApplication }
               </h3>
               <p className="text-slate-600 font-medium text-sm sm:text-base line-clamp-1">{job.company}</p>
             </div>
-            <button 
+            <button
               onClick={() => onSave(job.id)}
               className={`p-2 rounded-lg transition-all ${
-                isSaved 
-                  ? 'text-red-500 bg-red-50 border border-red-200' 
+                isSaved
+                  ? 'text-red-500 bg-red-50 border border-red-200'
                   : 'text-slate-400 hover:text-red-500 hover:bg-red-50'
               }`}
             >
               <Heart className={`w-4 h-4 ${isSaved ? 'fill-current' : ''}`} />
             </button>
           </div>
-          
+
           <div className="flex flex-wrap items-center gap-2">
             <span className={`px-2 sm:px-3 py-1 text-xs sm:text-sm font-medium rounded-full flex-shrink-0 ${
-              job.type === 'Full-time' 
+              job.type === 'Full-time'
                 ? 'text-white shadow-sm'
                 : 'bg-blue-100 text-blue-800 border border-blue-200'
             }`}
-            style={job.type === 'Full-time' 
+            style={job.type === 'Full-time'
               ? { backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.lilac}))` }
               : {}
             }>
               {job.type}
             </span>
-            
+
             {isApplied && (
               <span className="px-2 sm:px-3 py-1 text-xs sm:text-sm font-medium rounded-full flex-shrink-0 bg-green-100 text-green-800 border border-green-200">
                 Applied
               </span>
             )}
-            
+
             <span className="text-xs sm:text-sm text-slate-500">
               Posted {new Date(job.postedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
             </span>
@@ -70,10 +70,10 @@ const JobCard = ({ job, isApplied, isSaved, onApply, onSave, onViewApplication }
         </div>
       </div>
     </div>
-    
+
     <div className="space-y-2 sm:space-y-3 mb-3 sm:mb-4">
       <div className="flex items-center gap-2 sm:gap-3 text-slate-600">
-        <div 
+        <div
           className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center flex-shrink-0"
           style={{ backgroundColor: `rgba(${brand.indigo}, 0.1)` }}
         >
@@ -81,9 +81,9 @@ const JobCard = ({ job, isApplied, isSaved, onApply, onSave, onViewApplication }
         </div>
         <span className="text-xs sm:text-sm line-clamp-1">{job.location}</span>
       </div>
-      
+
       <div className="flex items-center gap-2 sm:gap-3 text-slate-600">
-        <div 
+        <div
           className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center flex-shrink-0"
           style={{ backgroundColor: `rgba(${brand.lilac}, 0.1)` }}
         >
@@ -91,9 +91,9 @@ const JobCard = ({ job, isApplied, isSaved, onApply, onSave, onViewApplication }
         </div>
         <span className="text-xs sm:text-sm">{job.salary}</span>
       </div>
-      
+
       <div className="flex items-center gap-2 sm:gap-3 text-slate-600">
-        <div 
+        <div
           className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center flex-shrink-0"
           style={{ backgroundColor: `rgba(${brand.coral}, 0.1)` }}
         >
@@ -102,13 +102,13 @@ const JobCard = ({ job, isApplied, isSaved, onApply, onSave, onViewApplication }
         <span className="text-xs sm:text-sm">{job.applicants} applicants</span>
       </div>
     </div>
-    
+
     <p className="text-slate-600 text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-2">{job.description}</p>
-    
+
     <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4">
       {job.skills.slice(0, 4).map((skill, index) => (
-        <span 
-          key={index} 
+        <span
+          key={index}
           className="px-2 py-1 text-xs rounded-full bg-slate-100 text-slate-700 border border-slate-200"
         >
           {skill}
@@ -120,10 +120,10 @@ const JobCard = ({ job, isApplied, isSaved, onApply, onSave, onViewApplication }
         </span>
       )}
     </div>
-    
+
     <div className="flex flex-col sm:flex-row gap-2">
       {isApplied ? (
-        <button 
+        <button
           onClick={() => onViewApplication(job.id)}
           className="flex-1 sm:flex-none px-4 py-2 rounded-lg font-semibold bg-slate-100 text-slate-700 border border-slate-200 transition-all text-xs sm:text-sm"
         >
@@ -131,7 +131,7 @@ const JobCard = ({ job, isApplied, isSaved, onApply, onSave, onViewApplication }
         </button>
       ) : (
         <div className="flex gap-2">
-          <button 
+          <button
             onClick={() => onApply(job.id)}
             className="flex-1 sm:flex-none px-4 py-2 rounded-lg font-semibold text-white transition-all hover:shadow-lg transform hover:scale-105 text-xs sm:text-sm"
             style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
@@ -144,7 +144,7 @@ const JobCard = ({ job, isApplied, isSaved, onApply, onSave, onViewApplication }
         </div>
       )}
     </div>
-    
+
     <div className="pt-3 sm:pt-4 mt-3 sm:mt-4 border-t border-slate-200 text-xs text-slate-500">
       Posted by {job.postedBy} • Deadline: {new Date(job.deadline).toLocaleDateString()}
     </div>
@@ -154,7 +154,7 @@ const JobCard = ({ job, isApplied, isSaved, onApply, onSave, onViewApplication }
 const MentorCard = ({ mentor }) => (
   <div className="bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-xl hover:border-slate-300 transition-all">
     <div className="flex items-start gap-3 sm:gap-4">
-      <div 
+      <div
         className="w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center text-white font-semibold text-lg"
         style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
       >
@@ -168,16 +168,16 @@ const MentorCard = ({ mentor }) => (
             <p className="text-slate-500 text-xs sm:text-sm">{mentor.company}</p>
           </div>
           <span className={`px-2 py-1 text-xs rounded-full ${
-            mentor.status === 'available' 
-              ? 'bg-green-100 text-green-800' 
+            mentor.status === 'available'
+              ? 'bg-green-100 text-green-800'
               : 'bg-yellow-100 text-yellow-800'
           }`}>
             {mentor.status}
           </span>
         </div>
-        
+
         <p className="text-slate-600 mt-2 text-xs sm:text-sm line-clamp-2">{mentor.bio}</p>
-        
+
         <div className="flex items-center gap-3 mt-3">
           <div className="flex items-center gap-1">
             <Star className="w-4 h-4 text-yellow-400 fill-current" />
@@ -186,7 +186,7 @@ const MentorCard = ({ mentor }) => (
           <span className="text-xs sm:text-sm text-slate-500">{mentor.sessions} sessions</span>
           <span className="text-xs sm:text-sm text-slate-500">{mentor.experience}</span>
         </div>
-        
+
         <div className="mt-3">
           <p className="text-xs font-medium text-slate-700 mb-1">Domains:</p>
           <div className="flex flex-wrap gap-1">
@@ -197,7 +197,7 @@ const MentorCard = ({ mentor }) => (
             ))}
           </div>
         </div>
-        
+
         <div className="mt-3">
           <p className="text-xs font-medium text-slate-700 mb-1">Skills:</p>
           <div className="flex flex-wrap gap-1">
@@ -208,8 +208,8 @@ const MentorCard = ({ mentor }) => (
             ))}
           </div>
         </div>
-        
-        <button 
+
+        <button
           className="w-full mt-4 px-4 py-2 rounded-lg font-semibold text-white transition-all hover:shadow-lg text-xs sm:text-sm"
           style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
         >
@@ -223,7 +223,7 @@ const MentorCard = ({ mentor }) => (
 const ResourceCard = ({ resource }) => (
   <div className="bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-xl hover:border-slate-300 transition-all">
     <div className="flex items-start gap-3 sm:gap-4">
-      <div 
+      <div
         className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg flex items-center justify-center text-white font-semibold text-lg"
         style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.lilac}), rgb(${brand.indigo}))` }}
       >
@@ -239,9 +239,9 @@ const ResourceCard = ({ resource }) => (
             {resource.type}
           </span>
         </div>
-        
+
         <p className="text-slate-600 mt-2 text-xs sm:text-sm line-clamp-2">{resource.description}</p>
-        
+
         <div className="flex items-center gap-3 mt-3">
           <div className="flex items-center gap-1">
             <Star className="w-4 h-4 text-yellow-400 fill-current" />
@@ -249,7 +249,7 @@ const ResourceCard = ({ resource }) => (
           </div>
           <span className="text-xs sm:text-sm text-slate-500">{resource.date}</span>
         </div>
-        
+
         <div className="mt-3">
           <div className="flex flex-wrap gap-1">
             {resource.categories.slice(0, 3).map((category, index) => (
@@ -259,8 +259,8 @@ const ResourceCard = ({ resource }) => (
             ))}
           </div>
         </div>
-        
-        <button 
+
+        <button
           className="w-full mt-4 px-4 py-2 rounded-lg font-semibold text-white transition-all hover:shadow-lg text-xs sm:text-sm"
           style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
         >
@@ -274,7 +274,7 @@ const ResourceCard = ({ resource }) => (
 const StartupCard = ({ startup }) => (
   <div className="bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-xl hover:border-slate-300 transition-all">
     <div className="flex items-start gap-3 sm:gap-4">
-      <div 
+      <div
         className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg flex items-center justify-center text-white font-semibold text-lg"
         style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.coral}), rgb(${brand.lilac}))` }}
       >
@@ -286,25 +286,25 @@ const StartupCard = ({ startup }) => (
             <h3 className="font-bold text-slate-900 text-base sm:text-lg">{startup.name}</h3>
           </div>
           <span className={`px-2 py-1 text-xs rounded-full ${
-            startup.stage === 'growth' 
-              ? 'bg-green-100 text-green-800' 
-              : startup.stage === 'seed' 
-                ? 'bg-purple-100 text-purple-800' 
+            startup.stage === 'growth'
+              ? 'bg-green-100 text-green-800'
+              : startup.stage === 'seed'
+                ? 'bg-purple-100 text-purple-800'
                 : 'bg-blue-100 text-blue-800'
           }`}>
             {startup.stage}
           </span>
         </div>
-        
+
         <p className="text-slate-600 mt-2 text-xs sm:text-sm">{startup.description}</p>
-        
+
         <div className="mt-3">
           <span className="px-2 py-1 text-xs rounded-full bg-slate-100 text-slate-700">
             {startup.industry}
           </span>
         </div>
-        
-        <button 
+
+        <button
           className="w-full mt-4 px-4 py-2 rounded-lg font-semibold text-white transition-all hover:shadow-lg text-xs sm:text-sm"
           style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
         >
@@ -318,7 +318,7 @@ const StartupCard = ({ startup }) => (
 const ProjectCard = ({ project }) => (
   <div className="bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-xl hover:border-slate-300 transition-all">
     <div className="flex items-start gap-3 sm:gap-4">
-      <div 
+      <div
         className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg flex items-center justify-center text-white font-semibold text-lg"
         style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
       >
@@ -330,18 +330,18 @@ const ProjectCard = ({ project }) => (
             <h3 className="font-bold text-slate-900 text-base sm:text-lg line-clamp-2">{project.title}</h3>
           </div>
           <span className={`px-2 py-1 text-xs rounded-full ${
-            project.difficulty === 'Advanced' 
-              ? 'bg-red-100 text-red-800' 
-              : project.difficulty === 'Intermediate' 
-                ? 'bg-yellow-100 text-yellow-800' 
+            project.difficulty === 'Advanced'
+              ? 'bg-red-100 text-red-800'
+              : project.difficulty === 'Intermediate'
+                ? 'bg-yellow-100 text-yellow-800'
                 : 'bg-green-100 text-green-800'
           }`}>
             {project.difficulty}
           </span>
         </div>
-        
+
         <p className="text-slate-600 mt-2 text-xs sm:text-sm line-clamp-2">{project.description}</p>
-        
+
         <div className="mt-3">
           <div className="flex flex-wrap gap-1">
             {project.technologies.slice(0, 3).map((tech, index) => (
@@ -351,15 +351,15 @@ const ProjectCard = ({ project }) => (
             ))}
           </div>
         </div>
-        
+
         <div className="flex items-center gap-3 mt-3">
           <span className="text-xs sm:text-sm text-slate-500">
             {project.currentMembers}/{project.teamSize} members
           </span>
           <span className="text-xs sm:text-sm text-slate-500">{project.category}</span>
         </div>
-        
-        <button 
+
+        <button
           className="w-full mt-4 px-4 py-2 rounded-lg font-semibold text-white transition-all hover:shadow-lg text-xs sm:text-sm"
           style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
         >
@@ -390,7 +390,7 @@ const FilterSection = ({ searchTerm, setSearchTerm, onClearFilters, children }) 
         <span className="hidden sm:inline">More Filters</span>
       </button>
     </div>
-    
+
     {children}
   </div>
 );
@@ -404,11 +404,15 @@ export default function StudentJobs() {
   const [categoryFilter, setCategoryFilter] = useState([]);
   const [industryFilter, setIndustryFilter] = useState([]);
   const [techFilter, setTechFilter] = useState([]);
-  
+
   // 🎯 DEMO-FRIENDLY: Application states only persist during session (reset on refresh)
   const [appliedJobs, setAppliedJobs] = useState(new Set());
   const [savedJobs, setSavedJobs] = useState(new Set([1, 4])); // Mock some saved jobs
   const [applicationData, setApplicationDataState] = useState({});
+  const [showApplicationModal, setShowApplicationModal] = useState(false);
+  const [selectedJob, setSelectedJob] = useState(null);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [successJobInfo, setSuccessJobInfo] = useState({});
 
   const user = getCurrentUser();
 
@@ -422,8 +426,8 @@ export default function StudentJobs() {
   }, []);
 
   const toggleSkill = (skill) => {
-    setSkillsFilter(prev => 
-      prev.includes(skill) 
+    setSkillsFilter(prev =>
+      prev.includes(skill)
         ? prev.filter(s => s !== skill)
         : [...prev, skill]
     );
@@ -445,7 +449,7 @@ export default function StudentJobs() {
     const newAppliedJobs = new Set(appliedJobs);
     newAppliedJobs.add(jobId);
     setAppliedJobs(newAppliedJobs);
-    
+
     // Store application data in session state only
     setApplicationDataState(prev => ({
       ...prev,
@@ -479,9 +483,9 @@ export default function StudentJobs() {
                            job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            job.skills.some(skill => skill.toLowerCase().includes(searchTerm.toLowerCase()));
       const matchesType = typeFilter === "all" || job.type === typeFilter;
-      const matchesSkills = skillsFilter.length === 0 || 
+      const matchesSkills = skillsFilter.length === 0 ||
                            skillsFilter.every(skill => job.skills.includes(skill));
-      
+
       return matchesSearch && matchesType && matchesSkills && job.isActive;
     });
   }, [searchTerm, typeFilter, skillsFilter]);
@@ -492,7 +496,7 @@ export default function StudentJobs() {
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#F9F8FE' }}>
       <StudentNavbar />
-      
+
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Career Center Header */}
         <div className="mb-6 sm:mb-8">
@@ -569,11 +573,11 @@ export default function StudentJobs() {
                     <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2">Jobs & Internships</h2>
                     <p className="text-slate-600 text-sm sm:text-base">Discover exclusive opportunities shared by alumni mentors</p>
                   </div>
-                  
+
                   <div className="flex gap-2">
                     {/* Demo Reset Button - Shows only if there are applications */}
                     {appliedJobs.size > 0 && (
-                      <button 
+                      <button
                         onClick={clearAllApplications}
                         className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-xl font-medium border border-slate-300 text-slate-700 hover:bg-slate-50 transition-all text-sm"
                         title="Reset all applications for demo"
@@ -582,9 +586,9 @@ export default function StudentJobs() {
                         <span className="hidden sm:inline">Reset Demo</span>
                       </button>
                     )}
-                    
+
                     {/* Post Mentorship Request Button */}
-                    <button 
+                    <button
                       onClick={() => alert('Mentorship request feature coming soon!')}
                       className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-xl font-medium text-white transition-all hover:shadow-lg transform hover:scale-105 text-sm"
                       style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
@@ -594,7 +598,7 @@ export default function StudentJobs() {
                     </button>
                   </div>
                 </div>
-                
+
                 {/* Filter Section */}
                 <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 mb-6 sm:mb-8">
                   <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4">
@@ -615,7 +619,7 @@ export default function StudentJobs() {
                       <span className="hidden sm:inline">More Filters</span>
                     </button>
                   </div>
-                  
+
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="text-sm font-medium text-slate-700">Filter by:</span>
                     <select
@@ -628,7 +632,7 @@ export default function StudentJobs() {
                       <option value="Internship">Internship</option>
                       <option value="Part-time">Part-time</option>
                     </select>
-                    
+
                     {(typeFilter !== "all" || skillsFilter.length > 0) && (
                       <button
                         onClick={() => {
@@ -641,14 +645,14 @@ export default function StudentJobs() {
                       </button>
                     )}
                   </div>
-                  
+
                   {/* Skills Filter */}
                   <div className="flex flex-wrap gap-2 mt-3">
                     {['React', 'Node.js', 'Python', 'Java', 'JavaScript', 'AWS', 'Docker', 'Kubernetes', 'TensorFlow', 'SQL'].map(skill => (
                       <button
                         key={skill}
                         onClick={() => {
-                          const newFilter = skillsFilter.includes(skill) 
+                          const newFilter = skillsFilter.includes(skill)
                             ? skillsFilter.filter(s => s !== skill)
                             : [...skillsFilter, skill];
                           setSkillsFilter(newFilter);
@@ -658,7 +662,7 @@ export default function StudentJobs() {
                             ? 'text-white shadow-sm'
                             : 'bg-slate-100 text-slate-700 border border-slate-200 hover:bg-slate-200'
                         }`}
-                        style={skillsFilter.includes(skill) 
+                        style={skillsFilter.includes(skill)
                           ? { backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.lilac}))` }
                           : {}
                         }
@@ -670,7 +674,7 @@ export default function StudentJobs() {
                       </button>
                     ))}
                   </div>
-                  
+
                   {/* Active Filters Summary */}
                   {(searchTerm || typeFilter !== "all" || skillsFilter.length > 0) && (
                     <div className="flex flex-wrap items-center gap-2 pt-3 sm:pt-4 border-t border-slate-200 mt-3">
@@ -707,9 +711,9 @@ export default function StudentJobs() {
                 {/* Jobs Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                   {filteredJobs.map(job => (
-                    <JobCard 
-                      key={job.id} 
-                      job={job} 
+                    <JobCard
+                      key={job.id}
+                      job={job}
                       isApplied={appliedJobs.has(job.id)}
                       isSaved={savedJobs.has(job.id)}
                       onApply={handleApply}
@@ -722,7 +726,7 @@ export default function StudentJobs() {
                 {/* Enhanced Empty State */}
                 {filteredJobs.length === 0 && (
                   <div className="text-center py-12 sm:py-16">
-                    <div 
+                    <div
                       className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6"
                       style={{ backgroundImage: `linear-gradient(135deg, rgba(${brand.indigo}, 0.1), rgba(${brand.coral}, 0.1))` }}
                     >
@@ -758,8 +762,8 @@ export default function StudentJobs() {
                     <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2">Mentorship</h2>
                     <p className="text-slate-600 text-sm sm:text-base">Connect with experienced alumni mentors</p>
                   </div>
-                  
-                  <button 
+
+                  <button
                     onClick={() => alert('Mentorship request feature coming soon!')}
                     className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold text-white transition-all hover:shadow-lg transform hover:scale-105 text-sm sm:text-base"
                     style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
@@ -768,9 +772,9 @@ export default function StudentJobs() {
                     Request Mentorship
                   </button>
                 </div>
-                
-                <FilterSection 
-                  searchTerm={searchTerm} 
+
+                <FilterSection
+                  searchTerm={searchTerm}
                   setSearchTerm={setSearchTerm}
                   onClearFilters={() => {
                     setSearchTerm("");
@@ -783,7 +787,7 @@ export default function StudentJobs() {
                       <button
                         key={domain}
                         onClick={() => {
-                          const newFilter = domainFilter.includes(domain) 
+                          const newFilter = domainFilter.includes(domain)
                             ? domainFilter.filter(d => d !== domain)
                             : [...domainFilter, domain];
                           setDomainFilter(newFilter);
@@ -793,7 +797,7 @@ export default function StudentJobs() {
                             ? 'text-white shadow-sm'
                             : 'bg-slate-100 text-slate-700 border border-slate-200 hover:bg-slate-200'
                         }`}
-                        style={domainFilter.includes(domain) 
+                        style={domainFilter.includes(domain)
                           ? { backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.lilac}))` }
                           : {}
                         }
@@ -806,7 +810,7 @@ export default function StudentJobs() {
                     ))}
                   </div>
                 </FilterSection>
-                
+
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                   {mockMentors.map(mentor => (
                     <MentorCard key={mentor.id} mentor={mentor} />
@@ -824,8 +828,8 @@ export default function StudentJobs() {
                     <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2">Resources</h2>
                     <p className="text-slate-600 text-sm sm:text-base">Access learning materials shared by alumni</p>
                   </div>
-                  
-                  <button 
+
+                  <button
                     onClick={() => alert('Resource request feature coming soon!')}
                     className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold text-white transition-all hover:shadow-lg transform hover:scale-105 text-sm sm:text-base"
                     style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
@@ -834,9 +838,9 @@ export default function StudentJobs() {
                     Request Resource
                   </button>
                 </div>
-                
-                <FilterSection 
-                  searchTerm={searchTerm} 
+
+                <FilterSection
+                  searchTerm={searchTerm}
                   setSearchTerm={setSearchTerm}
                   onClearFilters={() => {
                     setSearchTerm("");
@@ -848,7 +852,7 @@ export default function StudentJobs() {
                       <button
                         key={category}
                         onClick={() => {
-                          const newFilter = categoryFilter.includes(category) 
+                          const newFilter = categoryFilter.includes(category)
                             ? categoryFilter.filter(c => c !== category)
                             : [...categoryFilter, category];
                           setCategoryFilter(newFilter);
@@ -858,7 +862,7 @@ export default function StudentJobs() {
                             ? 'text-white shadow-sm'
                             : 'bg-slate-100 text-slate-700 border border-slate-200 hover:bg-slate-200'
                         }`}
-                        style={categoryFilter.includes(category) 
+                        style={categoryFilter.includes(category)
                           ? { backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.lilac}))` }
                           : {}
                         }
@@ -871,7 +875,7 @@ export default function StudentJobs() {
                     ))}
                   </div>
                 </FilterSection>
-                
+
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                   {mockResources.map(resource => (
                     <ResourceCard key={resource.id} resource={resource} />
@@ -884,8 +888,8 @@ export default function StudentJobs() {
             {activeTab === 'startups' && (
               <div>
                 <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4">Startups</h2>
-                <FilterSection 
-                  searchTerm={searchTerm} 
+                <FilterSection
+                  searchTerm={searchTerm}
                   setSearchTerm={setSearchTerm}
                   onClearFilters={() => {
                     setSearchTerm("");
@@ -897,7 +901,7 @@ export default function StudentJobs() {
                       <button
                         key={industry}
                         onClick={() => {
-                          const newFilter = industryFilter.includes(industry) 
+                          const newFilter = industryFilter.includes(industry)
                             ? industryFilter.filter(i => i !== industry)
                             : [...industryFilter, industry];
                           setIndustryFilter(newFilter);
@@ -907,7 +911,7 @@ export default function StudentJobs() {
                             ? 'text-white shadow-sm'
                             : 'bg-slate-100 text-slate-700 border border-slate-200 hover:bg-slate-200'
                         }`}
-                        style={industryFilter.includes(industry) 
+                        style={industryFilter.includes(industry)
                           ? { backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.lilac}))` }
                           : {}
                         }
@@ -920,7 +924,7 @@ export default function StudentJobs() {
                     ))}
                   </div>
                 </FilterSection>
-                
+
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                   {mockStartups.map(startup => (
                     <StartupCard key={startup.id} startup={startup} />
@@ -933,8 +937,8 @@ export default function StudentJobs() {
             {activeTab === 'projects' && (
               <div>
                 <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4">Projects</h2>
-                <FilterSection 
-                  searchTerm={searchTerm} 
+                <FilterSection
+                  searchTerm={searchTerm}
                   setSearchTerm={setSearchTerm}
                   onClearFilters={() => {
                     setSearchTerm("");
@@ -946,7 +950,7 @@ export default function StudentJobs() {
                       <button
                         key={tech}
                         onClick={() => {
-                          const newFilter = techFilter.includes(tech) 
+                          const newFilter = techFilter.includes(tech)
                             ? techFilter.filter(t => t !== tech)
                             : [...techFilter, tech];
                           setTechFilter(newFilter);
@@ -956,7 +960,7 @@ export default function StudentJobs() {
                             ? 'text-white shadow-sm'
                             : 'bg-slate-100 text-slate-700 border border-slate-200 hover:bg-slate-200'
                         }`}
-                        style={techFilter.includes(tech) 
+                        style={techFilter.includes(tech)
                           ? { backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.lilac}))` }
                           : {}
                         }
@@ -969,7 +973,7 @@ export default function StudentJobs() {
                     ))}
                   </div>
                 </FilterSection>
-                
+
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                   {mockProjects.map(project => (
                     <ProjectCard key={project.id} project={project} />
