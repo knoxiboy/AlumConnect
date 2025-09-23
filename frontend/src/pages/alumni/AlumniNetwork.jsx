@@ -167,6 +167,67 @@ const pollsData = [
   }
 ];
 
+// NEW: Reusable Modal Component for Stat Cards
+const StatModal = ({ isOpen, onClose, title, data }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
+        {/* Modal Header */}
+        <div className="px-6 py-4 border-b border-slate-200">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-bold text-slate-900">{title}</h2>
+            <button
+              onClick={onClose}
+              className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+            >
+              <XIcon className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Modal Content */}
+        <div className="p-6 overflow-y-auto max-h-[calc(90vh-140px)]">
+          {data.length > 0 ? (
+            <div className="space-y-4">
+              {data.map((item, index) => (
+                <div key={index} className="bg-white border border-slate-200 rounded-lg p-4">
+                  <div className="flex items-start gap-3">
+                    <div 
+                      className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-white font-semibold text-sm"
+                      style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                    >
+                      {item.initials || item.name.split(' ').map(n => n[0]).join('')}
+                    </div>
+                    <div>
+                      <h3 className="font-medium text-slate-900">{item.name}</h3>
+                      <p className="text-xs sm:text-sm text-slate-600">{item.role || item.major}</p>
+                      {item.message && (
+                        <p className="text-sm text-slate-700 mt-2 italic">"{item.message}"</p>
+                      )}
+                      {item.type && (
+                        <span className="inline-block mt-1 px-2 py-0.5 text-xs rounded-full bg-blue-100 text-blue-800">
+                          {item.type}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 text-slate-500">
+              No data available for this category.
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
 export default function AlumniNetwork() {
   const user = getCurrentUser();
   const [activeTab, setActiveTab] = useState('network');
@@ -176,6 +237,9 @@ export default function AlumniNetwork() {
     content: '',
     type: 'achievement' // 'achievement', 'photo', 'poll'
   });
+  // NEW: State for the Stat Modal
+  const [showStatModal, setShowStatModal] = useState(false);
+  const [statModalData, setStatModalData] = useState({ title: '', data: [] });
 
   const handleAcceptMentorship = (id) => {
     // Handle accept mentorship request logic
@@ -208,6 +272,22 @@ export default function AlumniNetwork() {
     setShowShareModal(false);
     setNewPost({ content: '', type: 'achievement' });
   };
+  
+  // NEW: Handler for clicking on a stat card
+  const handleStatClick = (type, title) => {
+    let data = [];
+    if (type === 'connections') {
+      data = networkData.connections;
+    } else if (type === 'requests') {
+      data = networkData.mentoringRequests;
+    } else {
+      // For 'hiring' and 'messages', we can use filtered mock data
+      // For this example, we'll just show all connections to keep it simple
+      data = networkData.connections;
+    }
+    setStatModalData({ title, data });
+    setShowStatModal(true);
+  };
 
   return (
     <div className="min-h-screen mobile-scroll-container" style={{ backgroundColor: '#F9F8FE' }}>
@@ -222,9 +302,12 @@ export default function AlumniNetwork() {
           </p>
         </div>
 
-        {/* Stats Cards */}
+        {/* Stats Cards - NOW CLICKABLE */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
-          <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-lg transition-all">
+          <div 
+            className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-lg transition-all cursor-pointer"
+            onClick={() => handleStatClick('connections', 'My Connections')}
+          >
             <div className="flex items-center gap-3">
               <div 
                 className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center"
@@ -239,7 +322,10 @@ export default function AlumniNetwork() {
             </div>
           </div>
 
-          <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-lg transition-all">
+          <div 
+            className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-lg transition-all cursor-pointer"
+            onClick={() => handleStatClick('requests', 'Mentoring Requests')}
+          >
             <div className="flex items-center gap-3">
               <div 
                 className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center"
@@ -254,7 +340,10 @@ export default function AlumniNetwork() {
             </div>
           </div>
 
-          <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-lg transition-all">
+          <div 
+            className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-lg transition-all cursor-pointer"
+            onClick={() => handleStatClick('hiring', 'Hiring Alumni')}
+          >
             <div className="flex items-center gap-3">
               <div 
                 className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center"
@@ -269,7 +358,10 @@ export default function AlumniNetwork() {
             </div>
           </div>
 
-          <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-lg transition-all">
+          <div 
+            className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-lg transition-all cursor-pointer"
+            onClick={() => handleStatClick('messages', 'Messages')}
+          >
             <div className="flex items-center gap-3">
               <div 
                 className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center"
@@ -810,6 +902,14 @@ export default function AlumniNetwork() {
             </div>
           </div>
         )}
+
+        {/* NEW: Render the Stat Modal */}
+        <StatModal
+          isOpen={showStatModal}
+          onClose={() => setShowStatModal(false)}
+          title={statModalData.title}
+          data={statModalData.data}
+        />
       </main>
     </div>
   );
