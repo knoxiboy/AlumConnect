@@ -3,7 +3,7 @@ import AlumniNavbar from "../../layouts/AlumniNavbar";
 import { alumniProfiles } from "../../data/alumni";
 import { studentProfiles } from "../../data/students";
 import {
-  Search, Filter, MapPin, Briefcase, Calendar, Users,
+  Search, Filter, MapPin, Briefcase, Calendar, Users, GraduationCap,
   MessageCircle, UserPlus, ExternalLink, ChevronDown, X
 } from "lucide-react";
 
@@ -563,24 +563,95 @@ export default function AlumniExplore() {
           </div>
         </div>
 
+        {/* Stats */}
+        <div className="grid grid-cols-3 gap-3 sm:gap-6 mb-6 sm:mb-8">
+          <div className="bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-xl p-3 sm:p-4 text-center">
+            <div 
+              className="w-8 h-8 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mx-auto mb-2"
+              style={{ backgroundColor: `rgba(${brand.indigo}, 0.1)` }}
+            >
+              <Users className="w-4 h-4 sm:w-6 sm:h-6" style={{ color: `rgb(${brand.indigo})` }} />
+            </div>
+            <div className="text-lg sm:text-2xl font-bold text-slate-900">{currentCount}</div>
+            <div className="text-xs sm:text-sm text-slate-600">
+              {directoryView === "alumni" ? "Total Alumni" : "Total Students"}
+            </div>
+          </div>
+          {directoryView === "alumni" ? (
+            <>
+              <div className="bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-xl p-3 sm:p-4 text-center">
+                <div 
+                  className="w-8 h-8 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mx-auto mb-2"
+                  style={{ backgroundColor: `rgba(${brand.coral}, 0.1)` }}
+                >
+                  <MessageCircle className="w-4 h-4 sm:w-6 sm:h-6" style={{ color: `rgb(${brand.coral})` }} />
+                </div>
+                <div className="text-lg sm:text-2xl font-bold text-slate-900">
+                  {alumniProfiles.filter(a => a.mentoring).length}
+                </div>
+                <div className="text-xs sm:text-sm text-slate-600">Available Mentors</div>
+              </div>
+              <div className="bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-xl p-3 sm:p-4 text-center">
+                <div 
+                  className="w-8 h-8 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mx-auto mb-2"
+                  style={{ backgroundColor: `rgba(${brand.lilac}, 0.1)` }}
+                >
+                  <Briefcase className="w-4 h-4 sm:w-6 sm:h-6" style={{ color: `rgb(${brand.lilac})` }} />
+                </div>
+                <div className="text-lg sm:text-2xl font-bold text-slate-900">{companies.length}</div>
+                <div className="text-xs sm:text-sm text-slate-600">Companies</div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-xl p-3 sm:p-4 text-center">
+                <div 
+                  className="w-8 h-8 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mx-auto mb-2"
+                  style={{ backgroundColor: `rgba(${brand.coral}, 0.1)` }}
+                >
+                  <GraduationCap className="w-4 h-4 sm:w-6 sm:h-6" style={{ color: `rgb(${brand.coral})` }} />
+                </div>
+                <div className="text-lg sm:text-2xl font-bold text-slate-900">
+                  {studentProfiles.filter(s => s.lookingFor.includes("Mentorship")).length}
+                </div>
+                <div className="text-xs sm:text-sm text-slate-600">Seeking Mentorship</div>
+              </div>
+              <div className="bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-xl p-3 sm:p-4 text-center">
+                <div 
+                  className="w-8 h-8 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mx-auto mb-2"
+                  style={{ backgroundColor: `rgba(${brand.lilac}, 0.1)` }}
+                >
+                  <Briefcase className="w-4 h-4 sm:w-6 sm:h-6" style={{ color: `rgb(${brand.lilac})` }} />
+                </div>
+                <div className="text-lg sm:text-2xl font-bold text-slate-900">
+                  {new Set(studentProfiles.flatMap(s => s.lookingFor)).size}
+                </div>
+                <div className="text-xs sm:text-sm text-slate-600">Opportunities</div>
+              </div>
+            </>
+          )}
+        </div>
+
         {/* Results */}
         <div className="space-y-4 sm:space-y-6">
-          {filteredAlumni.length > 0 ? (
+          {currentData.length > 0 ? (
             <>
               <div className="text-xs sm:text-sm text-slate-600 mb-3 sm:mb-4">
-                Showing {filteredAlumni.length} alumni
+                Showing {currentData.length} {directoryView === "alumni" ? "alumni" : "students"}
               </div>
-              {filteredAlumni.map(alumni => (
-                <AlumniCard 
-                  key={alumni.id} 
-                  alumni={alumni}
-                  onConnect={handleConnect}
-                  onMessage={handleMessage}
-                  isConnected={connectedAlumniIds.has(alumni.id)}
-                  hasMessaged={messagedAlumniIds.has(alumni.id)}
-                  isConnecting={isConnecting === alumni.id}
-                  isMessaging={isMessaging === alumni.id}
-                />
+              {currentData.map(item => (
+                directoryView === "alumni" 
+                  ? <AlumniCard 
+                      key={item.id} 
+                      alumni={item}
+                      onConnect={handleConnect}
+                      onMessage={handleMessage}
+                      isConnected={connectedAlumniIds.has(item.id)}
+                      hasMessaged={messagedAlumniIds.has(item.id)}
+                      isConnecting={isConnecting === item.id}
+                      isMessaging={isMessaging === item.id}
+                    />
+                  : <StudentCard key={item.id} student={item} />
               ))}
             </>
           ) : (
@@ -588,7 +659,9 @@ export default function AlumniExplore() {
               <div className="text-slate-400 mb-4">
                 <Search className="w-12 h-12 sm:w-16 sm:h-16 mx-auto" />
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-slate-900 mb-2">No alumni found</h3>
+              <h3 className="text-lg sm:text-xl font-semibold text-slate-900 mb-2">
+                No {directoryView === "alumni" ? "alumni" : "students"} found
+              </h3>
               <p className="text-slate-600 text-sm sm:text-base mb-4">
                 Try adjusting your search or filters
               </p>
