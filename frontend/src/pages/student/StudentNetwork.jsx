@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import StudentNavbar from "../../layouts/StudentNavbar";
 import { getCurrentUser } from "../../utils/auth";
 import { 
@@ -36,21 +36,6 @@ const networkData = {
 export default function StudentNetwork() {
   const user = getCurrentUser();
   const [activeTab, setActiveTab] = useState('network');
-
-  useEffect(() => {
-    // Create script element for WidgetBot
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/@widgetbot/html-embed';
-    script.async = true;
-    
-    // Add script to document
-    document.body.appendChild(script);
-    
-    // Cleanup function to remove script when component unmounts
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
 
   const handleConnect = (id) => {
     // Handle connect logic
@@ -264,22 +249,28 @@ export default function StudentNetwork() {
           <p className="text-slate-600 mb-4">Connect with alumni, find mentors, and participate in discussions through our Discord community.</p>
           
           {/* Discord Widget with Fallback */}
-          <div className="rounded-lg overflow-hidden">
-            <widgetbot
-              server="1420060670828744877"
-              channel="1420124889200722032"
-              width="100%"
-              height="600"
-            ></widgetbot>
-          </div>
-          
-          <div className="mt-4 text-center">
-            <p className="text-sm text-slate-500">
-              If you're having trouble accessing the chat, make sure you're logged into Discord. 
-              <a href="https://discord.gg/eFGKpqMxvP" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:underline ml-1">
-                Join our Discord server directly
+          <div className="rounded-lg overflow-hidden bg-slate-50 border border-slate-200 min-h-[600px] flex items-center justify-center">
+            <div className="text-center p-4">
+              <div className="mx-auto w-16 h-16 rounded-full bg-indigo-100 flex items-center justify-center mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-indigo-600">
+                  <path d="M12 12c-1.6 0-3 1.4-3 3 0 .8.3 1.5.8 2l-.3.8c-.2.7-.5 1.5-.5 2.2 0 1.7 1.3 3 3 3s3-1.3 3-3c0-.7-.3-1.5-.5-2.2l-.3-.8c.5-.5.8-1.2.8-2 0-1.6-1.4-3-3-3z"/>
+                  <circle cx="12" cy="8" r="3"/>
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold text-slate-700 mb-2">Discord Community</h3>
+              <p className="text-slate-600 mb-4">Join our Discord server to connect with alumni and fellow students.</p>
+              <a 
+                href="https://discord.gg/eFGKpqMxvP" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-block px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium"
+              >
+                Join Discord Server
               </a>
-            </p>
+              <p className="text-xs text-slate-500 mt-3">
+                Click above to join our Discord community directly
+              </p>
+            </div>
           </div>
         </div>
       </main>
