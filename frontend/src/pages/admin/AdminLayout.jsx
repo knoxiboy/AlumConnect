@@ -24,7 +24,6 @@ export default function AdminLayout() {
 
   const navigation = [
     { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
-    { name: 'Approvals', href: '/admin/approvals', icon: Users },
     { name: 'Events', href: '/admin/events', icon: Calendar },
     { name: 'Settings', href: '/admin/settings', icon: Settings },
   ];

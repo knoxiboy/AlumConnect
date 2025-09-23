@@ -16,8 +16,9 @@ const brand = {
 
 // College options
 const colleges = [
-  { id: 'juet-guna', name: 'Jaypee University of Engineering and Technology, Guna' },
+  { id: 'srm-ap', name: 'SRM UNIVERSITY AP, Amravati' },
   { id: 'iit-delhi', name: 'Indian Institute of Technology, Delhi' },
+  { id: 'juet-guna', name: 'Jaypee University of Engineering and Technology, Guna' },
   { id: 'iit-bombay', name: 'Indian Institute of Technology, Bombay' },
   { id: 'iiit-hyderabad', name: 'International Institute of Information Technology, Hyderabad' },
   { id: 'vit-vellore', name: 'Vellore Institute of Technology' },
