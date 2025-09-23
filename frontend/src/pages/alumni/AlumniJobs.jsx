@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import AlumniNavbar from "../../layouts/AlumniNavbar";
-import { jobPostings } from "../../data/jobs";
+import { jobPostings as initialJobPostings } from "../../data/jobs";
 import { getCurrentUser } from "../../utils/auth";
 import {
   Briefcase, MapPin, DollarSign, Clock, Search, Filter, Plus, Code, X, ChevronDown, CheckCircle, Send, RotateCcw
@@ -424,7 +424,246 @@ const MobileSkillsModal = ({ isOpen, onClose, allSkills, skillsFilter, toggleSki
   );
 };
 
+// NEW: Stat Card Modal
+const StatModal = ({ isOpen, onClose, title, jobs, appliedJobs, onApply, onViewApplication }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
+        {/* Modal Header */}
+        <div className="px-6 py-4 border-b border-slate-200">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-bold text-slate-900">{title}</h2>
+            <button
+              onClick={onClose}
+              className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Modal Content */}
+        <div className="p-6 overflow-y-auto max-h-[calc(90vh-140px)]">
+          {jobs.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {jobs.map(job => (
+                <JobCard 
+                  key={job.id} 
+                  job={job} 
+                  hasApplied={appliedJobs.has(job.id)} 
+                  onApply={onApply} 
+                  onViewApplication={onViewApplication} 
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-slate-500">No jobs found in this category.</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// NEW: Post Job Modal
+const PostJobModal = ({ isOpen, onClose, onPostJob }) => {
+  const [jobData, setJobData] = useState({
+    title: '',
+    company: '',
+    location: '',
+    type: 'Full-time',
+    salary: '',
+    experience: '',
+    description: '',
+    skills: ''
+  });
+  const [isPosting, setIsPosting] = useState(false);
+  
+  if (!isOpen) return null;
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setJobData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsPosting(true);
+    
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    onPostJob(jobData);
+    setIsPosting(false);
+    onClose();
+    
+    // Reset form
+    setJobData({
+      title: '',
+      company: '',
+      location: '',
+      type: 'Full-time',
+      salary: '',
+      experience: '',
+      description: '',
+      skills: ''
+    });
+  };
+
+  const isFormValid = jobData.title && jobData.company && jobData.location && jobData.description;
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden">
+        {/* Modal Header */}
+        <div className="px-6 py-4 border-b border-slate-200">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-bold text-slate-900">Post a Job</h2>
+            <button
+              onClick={onClose}
+              disabled={isPosting}
+              className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Modal Content */}
+        <div className="p-6 overflow-y-auto max-h-[calc(90vh-140px)]">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-2">Job Title *</label>
+              <input
+                type="text"
+                name="title"
+                value={jobData.title}
+                onChange={handleChange}
+                required
+                className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
+              />
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">Company *</label>
+                <input
+                  type="text"
+                  name="company"
+                  value={jobData.company}
+                  onChange={handleChange}
+                  required
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">Location *</label>
+                <input
+                  type="text"
+                  name="location"
+                  value={jobData.location}
+                  onChange={handleChange}
+                  required
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">Job Type</label>
+                <select
+                  name="type"
+                  value={jobData.type}
+                  onChange={handleChange}
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
+                >
+                  <option value="Full-time">Full-time</option>
+                  <option value="Internship">Internship</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">Salary Range</label>
+                <input
+                  type="text"
+                  name="salary"
+                  value={jobData.salary}
+                  onChange={handleChange}
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
+                  placeholder="e.g., ₹5-7 LPA or Negotiable"
+                />
+              </div>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-2">Experience</label>
+              <input
+                type="text"
+                name="experience"
+                value={jobData.experience}
+                onChange={handleChange}
+                className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
+                placeholder="e.g., 2-4 years"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-2">Job Description *</label>
+              <textarea
+                name="description"
+                value={jobData.description}
+                onChange={handleChange}
+                required
+                rows={4}
+                className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400 resize-none"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-2">Skills (comma-separated)</label>
+              <input
+                type="text"
+                name="skills"
+                value={jobData.skills}
+                onChange={handleChange}
+                className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
+                placeholder="e.g., React, Node.js, AWS"
+              />
+            </div>
+            
+            <div className="flex justify-end pt-4">
+              <button
+                type="submit"
+                disabled={!isFormValid || isPosting}
+                className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+              >
+                {isPosting ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <span>Posting...</span>
+                  </>
+                ) : (
+                  <>
+                    <Plus className="w-4 h-4" />
+                    <span>Post Job</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default function AlumniJobs() {
+  const [allJobs, setAllJobs] = useState(initialJobPostings);
   const [searchTerm, setSearchTerm] = useState("");
   const [typeFilter, setTypeFilter] = useState("all");
   const [skillsFilter, setSkillsFilter] = useState([]);
@@ -438,16 +677,21 @@ export default function AlumniJobs() {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [successJobInfo, setSuccessJobInfo] = useState({});
 
+  // NEW: State for the Stat Modal and Post Job Modal
+  const [showStatModal, setShowStatModal] = useState(false);
+  const [statModalData, setStatModalData] = useState({ title: '', jobs: [] });
+  const [showPostJobModal, setShowPostJobModal] = useState(false);
+
   const user = getCurrentUser();
 
   // Extract all unique skills from job postings
   const allSkills = useMemo(() => {
     const skills = new Set();
-    jobPostings.forEach(job => {
+    allJobs.forEach(job => {
       job.skills.forEach(skill => skills.add(skill));
     });
     return Array.from(skills).sort();
-  }, []);
+  }, [allJobs]);
 
   const toggleSkill = (skill) => {
     setSkillsFilter(prev => 
@@ -507,8 +751,35 @@ export default function AlumniJobs() {
     }
   };
 
+  // NEW: Handle clicks on stat cards
+  const handleStatClick = (type, title) => {
+    let jobs = [];
+    if (type === 'all') {
+      jobs = allJobs.filter(j => j.isActive);
+    } else if (type === 'applied') {
+      jobs = allJobs.filter(j => appliedJobs.has(j.id));
+    } else {
+      jobs = allJobs.filter(j => j.isActive && j.type === type);
+    }
+  
+    setStatModalData({ title, jobs });
+    setShowStatModal(true);
+  };
+  
+  // NEW: Handle job posting from the modal
+  const handlePostJob = (newJobData) => {
+    const newJob = {
+      ...newJobData,
+      id: allJobs.length + 1, // Simple ID generation
+      applicants: 0,
+      isActive: true,
+      skills: newJobData.skills.split(',').map(s => s.trim()).filter(s => s)
+    };
+    setAllJobs(prevJobs => [newJob, ...prevJobs]);
+  };
+
   const filteredJobs = useMemo(() => {
-    return jobPostings.filter(job => {
+    return allJobs.filter(job => {
       const matchesSearch = job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            job.company.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesType = typeFilter === "all" || job.type === typeFilter;
@@ -517,7 +788,7 @@ export default function AlumniJobs() {
       
       return matchesSearch && matchesType && matchesSkills && job.isActive;
     });
-  }, [searchTerm, typeFilter, skillsFilter]);
+  }, [searchTerm, typeFilter, skillsFilter, allJobs]);
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#F9F8FE' }}>
@@ -544,6 +815,7 @@ export default function AlumniJobs() {
             )}
             
             <button 
+              onClick={() => setShowPostJobModal(true)}
               className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold text-white transition-all hover:shadow-lg transform hover:scale-105 text-sm sm:text-base"
               style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
             >
@@ -554,13 +826,16 @@ export default function AlumniJobs() {
         </div>
 
 
-        {/* Enhanced Statistics */}
+        {/* Enhanced Statistics - NOW CLICKABLE */}
         <div className="grid grid-cols-4 gap-2 sm:gap-6 mb-6 sm:mb-8">
-          <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-2 sm:p-6">
+          <div 
+            className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-2 sm:p-6 cursor-pointer hover:shadow-lg transition-all"
+            onClick={() => handleStatClick('all', 'All Active Jobs')}
+          >
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
               <div className="text-center sm:text-left">
                 <p className="text-xs sm:text-sm font-medium text-slate-600">Total Jobs</p>
-                <p className="text-lg sm:text-2xl font-bold text-slate-900">{jobPostings.filter(j => j.isActive).length}</p>
+                <p className="text-lg sm:text-2xl font-bold text-slate-900">{allJobs.filter(j => j.isActive).length}</p>
               </div>
               <div 
                 className="w-6 h-6 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center mx-auto sm:mx-0 mt-1 sm:mt-0"
@@ -571,11 +846,14 @@ export default function AlumniJobs() {
             </div>
           </div>
 
-          <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-2 sm:p-6">
+          <div 
+            className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-2 sm:p-6 cursor-pointer hover:shadow-lg transition-all"
+            onClick={() => handleStatClick('Full-time', 'Full-time Jobs')}
+          >
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
               <div className="text-center sm:text-left">
                 <p className="text-xs sm:text-sm font-medium text-slate-600">Full-time</p>
-                <p className="text-lg sm:text-2xl font-bold text-slate-900">{jobPostings.filter(j => j.isActive && j.type === 'Full-time').length}</p>
+                <p className="text-lg sm:text-2xl font-bold text-slate-900">{allJobs.filter(j => j.isActive && j.type === 'Full-time').length}</p>
               </div>
               <div 
                 className="w-6 h-6 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center mx-auto sm:mx-0 mt-1 sm:mt-0"
@@ -586,7 +864,10 @@ export default function AlumniJobs() {
             </div>
           </div>
 
-          <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-2 sm:p-6">
+          <div 
+            className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-2 sm:p-6 cursor-pointer hover:shadow-lg transition-all"
+            onClick={() => handleStatClick('applied', 'Applied Jobs')}
+          >
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
               <div className="text-center sm:text-left">
                 <p className="text-xs sm:text-sm font-medium text-slate-600">Applied</p>
@@ -601,11 +882,14 @@ export default function AlumniJobs() {
             </div>
           </div>
 
-          <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-2 sm:p-6">
+          <div 
+            className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-2 sm:p-6 cursor-pointer hover:shadow-lg transition-all"
+            onClick={() => handleStatClick('Internship', 'Internship Opportunities')}
+          >
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
               <div className="text-center sm:text-left">
                 <p className="text-xs sm:text-sm font-medium text-slate-600">Internships</p>
-                <p className="text-lg sm:text-2xl font-bold text-slate-900">{jobPostings.filter(j => j.isActive && j.type === 'Internship').length}</p>
+                <p className="text-lg sm:text-2xl font-bold text-slate-900">{allJobs.filter(j => j.isActive && j.type === 'Internship').length}</p>
               </div>
               <div 
                 className="w-6 h-6 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center mx-auto sm:mx-0 mt-1 sm:mt-0"
@@ -669,7 +953,7 @@ export default function AlumniJobs() {
         {filteredJobs.length > 0 && (
           <div className="mb-4 sm:mb-6">
             <p className="text-xs sm:text-sm text-slate-600">
-              Showing {filteredJobs.length} of {jobPostings.filter(j => j.isActive).length} job opportunities
+              Showing {filteredJobs.length} of {allJobs.filter(j => j.isActive).length} job opportunities
               {appliedJobs.size > 0 && ` • ${appliedJobs.size} applications submitted`}
             </p>
           </div>
@@ -739,6 +1023,24 @@ export default function AlumniJobs() {
         onClose={() => setShowSuccessModal(false)}
         jobTitle={successJobInfo.title}
         companyName={successJobInfo.company}
+      />
+      
+      {/* NEW: Render the Stat Modal */}
+      <StatModal
+        isOpen={showStatModal}
+        onClose={() => setShowStatModal(false)}
+        title={statModalData.title}
+        jobs={statModalData.jobs}
+        appliedJobs={appliedJobs}
+        onApply={handleApplyJob}
+        onViewApplication={handleViewApplication}
+      />
+      
+      {/* NEW: Render the Post Job Modal */}
+      <PostJobModal
+        isOpen={showPostJobModal}
+        onClose={() => setShowPostJobModal(false)}
+        onPostJob={handlePostJob}
       />
     </div>
   );

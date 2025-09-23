@@ -267,6 +267,34 @@ const SponsorModal = ({ isOpen, onClose, eventName }) => {
     }
   };
 
+  const handleRazorpayPayment = () => {
+    // This is a placeholder for the actual Razorpay integration.
+    // In a real application, you would make an API call to your backend
+    // to create a payment order first, then use the order_id from the response.
+    const options = {
+      key: "rzp_test_p0P8gIu8P0p0j0", // Replace with your actual Key ID
+      amount: sponsorshipAmount * 100, // Amount in paisa
+      currency: "INR",
+      name: "Alumni Connect",
+      description: `Sponsorship for ${eventName}`,
+      image: "https://www.mic.ac.in/assets/images/logo.png",
+      handler: function (response) {
+        alert("Payment successful! Razorpay Payment ID: " + response.razorpay_payment_id);
+        // You would typically send the response to your backend for verification here
+      },
+      prefill: {
+        name: companyName,
+        email: "your_email@example.com",
+        contact: "9999999999",
+      },
+      theme: {
+        color: `rgb(${brand.indigo})`
+      }
+    };
+    const rzp1 = new window.Razorpay(options);
+    rzp1.open();
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Sponsorship details submitted:", {
@@ -296,7 +324,7 @@ const SponsorModal = ({ isOpen, onClose, eventName }) => {
         </div>
         
         <p className="text-slate-600 mb-6">
-          Thank you for your interest in sponsoring **{eventName}**! Please fill out the form below and scan the QR code to make your payment.
+          Thank you for your interest in sponsoring **{eventName}**! Please fill out the form below.
         </p>
         
         <form onSubmit={handleSubmit} className="space-y-5">
@@ -335,21 +363,15 @@ const SponsorModal = ({ isOpen, onClose, eventName }) => {
             ></textarea>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Scan to Pay</label>
-            <div className="flex items-center justify-center px-4 py-3 border border-dashed border-slate-300 rounded-lg text-slate-600">
-              <img
-  src={sponsorQR}
-  alt="Payment QR Code"
-  className="w-full max-w-[200px]"
-/>
-
-
-
-
-            </div>
-            <p className="text-xs text-center text-slate-500 mt-2">
-              Please scan this QR code with your preferred payment app.
+          <div className="bg-slate-50 border border-dashed border-slate-200 rounded-lg p-4 text-center">
+            <label className="block text-sm font-medium text-slate-700 mb-3">Pay via UPI</label>
+            <img
+              src={sponsorQR}
+              alt="Payment QR Code"
+              className="w-full max-w-[200px] mx-auto"
+            />
+            <p className="text-xs text-slate-500 mt-2">
+              Please scan this QR code with your preferred UPI app.
             </p>
           </div>
           
@@ -361,7 +383,6 @@ const SponsorModal = ({ isOpen, onClose, eventName }) => {
                 id="paymentProof"
                 accept="image/*,.pdf"
                 onChange={handleFileChange}
-                required
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
               />
               <div className="flex items-center justify-center px-4 py-3 border border-dashed border-slate-300 rounded-lg text-slate-600 hover:border-slate-400 transition-all cursor-pointer">
@@ -370,6 +391,15 @@ const SponsorModal = ({ isOpen, onClose, eventName }) => {
               </div>
             </div>
           </div>
+          
+          <button
+            type="button"
+            onClick={handleRazorpayPayment}
+            className="w-full px-6 py-3 rounded-xl font-semibold text-white transition-all hover:shadow-lg transform hover:-translate-y-0.5"
+            style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+          >
+            Pay with Razorpay
+          </button>
           
           <button
             type="submit"

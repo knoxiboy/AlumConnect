@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   GraduationCap, Home, Users, Calendar, Briefcase, User, 
@@ -15,6 +15,11 @@ const brand = {
 
 export default function AlumniNavbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  // NEW: State for notification dropdown
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  // NEW: Ref to detect clicks outside the notification dropdown
+  const notificationsRef = useRef(null);
+
   const location = useLocation();
   const navigate = useNavigate();
   const user = getCurrentUser();
@@ -22,6 +27,32 @@ export default function AlumniNavbar() {
   const handleLogout = () => {
     logout();
     navigate('/landing');
+  };
+
+  // NEW: Mock data for notifications
+  const notifications = [
+    { id: 1, message: 'Jane Doe viewed your profile', time: '2h ago', unread: true },
+    { id: 2, message: 'New message from John Smith', time: '5h ago', unread: true },
+    { id: 3, message: 'New event: Annual Alumni Meet', time: '1d ago', unread: false },
+  ];
+  const unreadCount = notifications.filter(n => n.unread).length;
+
+  // NEW: useEffect hook to handle clicks outside the notifications dropdown
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (notificationsRef.current && !notificationsRef.current.contains(event.target)) {
+        setIsNotificationsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [notificationsRef]);
+
+  const handleMarkAllAsRead = () => {
+    // Logic to mark all notifications as read
+    console.log("Marking all notifications as read...");
   };
 
   const navItems = [
@@ -87,12 +118,43 @@ export default function AlumniNavbar() {
 
           {/* User Menu & Logout */}
           <div className="hidden md:flex items-center gap-4">
-            <button className="p-2 text-slate-600 hover:text-slate-900 relative">
-              <Bell className="w-5 h-5" />
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                3
-              </span>
-            </button>
+            {/* NEW: Notification Button with Dropdown */}
+            <div className="relative" ref={notificationsRef}>
+              <button 
+                onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
+                className="p-2 text-slate-600 hover:text-slate-900 relative"
+              >
+                <Bell className="w-5 h-5" />
+                {unreadCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {unreadCount}
+                  </span>
+                )}
+              </button>
+              
+              {isNotificationsOpen && (
+                <div className="absolute top-12 right-0 w-80 bg-white border border-slate-200 rounded-xl shadow-lg p-4 z-50">
+                  <div className="flex justify-between items-center mb-4">
+                    <h3 className="font-bold text-lg text-slate-900">Notifications</h3>
+                    <button onClick={handleMarkAllAsRead} className="text-sm text-indigo-600 hover:text-indigo-800 transition-colors">
+                      Mark all as read
+                    </button>
+                  </div>
+                  {notifications.length > 0 ? (
+                    <div className="space-y-3 max-h-60 overflow-y-auto">
+                      {notifications.map(notification => (
+                        <div key={notification.id} className={`p-3 rounded-lg transition-colors ${notification.unread ? 'bg-indigo-50' : 'hover:bg-slate-50'}`}>
+                          <p className={`text-sm ${notification.unread ? 'font-semibold text-slate-900' : 'text-slate-600'}`}>{notification.message}</p>
+                          <p className="text-xs text-slate-500 mt-1">{notification.time}</p>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-center text-sm text-slate-500 py-4">You're all caught up!</p>
+                  )}
+                </div>
+              )}
+            </div>
             
             <div className="flex items-center gap-3">
               <Link to="/alumni/profile" className="text-right">
@@ -121,6 +183,34 @@ export default function AlumniNavbar() {
           {isMobileMenuOpen && (
             <div className="md:hidden bg-white border-t border-slate-200 absolute top-16 left-0 right-0 z-50 shadow-lg">
               <div className="px-4 py-3 space-y-1 max-h-[calc(100vh-4rem)] overflow-y-auto">
+                {/* Mobile Notification button */}
+                <button
+                  onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
+                  className="flex items-center gap-3 w-full px-4 py-3 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-all text-base font-medium relative"
+                >
+                  <Bell className="w-5 h-5" />
+                  Notifications
+                  {unreadCount > 0 && (
+                    <span className="ml-auto bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                      {unreadCount}
+                    </span>
+                  )}
+                </button>
+                {isNotificationsOpen && (
+                  <div className="bg-slate-50 p-3 rounded-lg mt-2 space-y-2">
+                    {notifications.length > 0 ? (
+                      notifications.map(notification => (
+                        <div key={notification.id} className={`p-2 rounded-lg ${notification.unread ? 'bg-indigo-100' : ''}`}>
+                          <p className={`text-sm ${notification.unread ? 'font-semibold text-slate-900' : 'text-slate-600'}`}>{notification.message}</p>
+                          <p className="text-xs text-slate-500 mt-1">{notification.time}</p>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-center text-sm text-slate-500 py-2">You're all caught up!</p>
+                    )}
+                  </div>
+                )}
+                
                 {navItems.map((item) => {
                   const Icon = item.icon;
                   const isActive = location.pathname === item.href;
