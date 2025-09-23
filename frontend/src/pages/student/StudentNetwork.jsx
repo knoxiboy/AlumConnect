@@ -246,24 +246,32 @@ export default function StudentNetwork() {
         {/* Discord Widget Integration */}
         <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6">
           <h2 className="text-lg sm:text-xl font-semibold text-slate-900 mb-4">Community Chat</h2>
-          <p className="text-slate-600 mb-4">Join our Discord community to connect with alumni, find mentors, and participate in discussions.</p>
+          <p className="text-slate-600 mb-4">Connect with alumni, find mentors, and participate in discussions through our Discord community.</p>
           
-          {/* Discord Widget */}
-          <div className="rounded-lg overflow-hidden">
-            <iframe 
-              src="https://e.widgetbot.io/channels/123456789012345678/987654321098765432"
-              width="100%" 
-              height="600"
-              frameBorder="0"
-              className="rounded-lg"
-              title="Discord Community"
-            ></iframe>
-          </div>
-          
-          <div className="mt-4 text-center">
-            <p className="text-sm text-slate-500">
-              Having trouble accessing the chat? <a href="https://discord.gg/your-invite-link" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:underline">Join our Discord server directly</a>
-            </p>
+          {/* Discord Widget Placeholder */}
+          <div className="rounded-lg overflow-hidden bg-slate-50 border border-slate-200 p-8 text-center">
+            <div className="mx-auto w-16 h-16 rounded-full bg-indigo-100 flex items-center justify-center mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-indigo-600">
+                <path d="M12 12c-1.6 0-3 1.4-3 3 0 .8.3 1.5.8 2l-.3.8c-.2.7-.5 1.5-.5 2.2 0 1.7 1.3 3 3 3s3-1.3 3-3c0-.7-.3-1.5-.5-2.2l-.3-.8c.5-.5.8-1.2.8-2 0-1.6-1.4-3-3-3z"/>
+                <circle cx="12" cy="8" r="3"/>
+              </svg>
+            </div>
+            <h3 className="text-lg font-semibold text-slate-700 mb-2">Discord Community</h3>
+            <p className="text-slate-600 mb-4">Join our Discord server to connect with alumni and fellow students.</p>
+            <div className="bg-slate-100 rounded-lg p-4 max-w-md mx-auto text-left">
+              <p className="text-sm text-slate-700 font-medium mb-2">To enable this feature:</p>
+              <ol className="text-sm text-slate-600 list-decimal list-inside space-y-1">
+                <li>Create a Discord server for your institution</li>
+                <li>Set up WidgetBot at widgetbot.io</li>
+                <li>Replace the placeholder widget in the code</li>
+              </ol>
+            </div>
+            <button 
+              onClick={() => alert('Discord integration requires setup with WidgetBot.io')}
+              className="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-sm font-medium"
+            >
+              Setup Instructions
+            </button>
           </div>
         </div>
       </main>
