@@ -34,7 +34,7 @@ const JobSchema = mongoose.Schema({
   },
   employmentType: {
     type: String,
-    enum: ['full-time', 'part-time', 'contract', 'internship', 'freelance'],
+    enum: ['Full-time', 'Part-time', 'Contract', 'Internship', 'Freelance'],
     required: true
   },
   postedBy: {
@@ -54,7 +54,11 @@ const JobSchema = mongoose.Schema({
   }],
   experienceLevel: {
     type: String,
-    enum: ['entry', 'mid', 'senior', 'executive']
+    enum: ['Entry', 'Mid', 'Senior', 'Executive']
+  },
+  isActive: {
+    type: Boolean,
+    default: true
   }
 }, {
   timestamps: true

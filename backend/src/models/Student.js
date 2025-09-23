@@ -49,7 +49,7 @@ const StudentSchema = mongoose.Schema({
   linkedIn: {
     type: String
   },
-website: {
+  website: {
     type: String
   }
 }, {

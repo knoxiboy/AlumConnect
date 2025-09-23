@@ -1,9 +1,12 @@
 const Alumni = require('../models/Alumni');
 const User = require('../models/User');
 const Job = require('../models/Job');
+const JobApplication = require('../models/JobApplication');
 const Event = require('../models/Event');
 const Connection = require('../models/Connection');
 const Message = require('../models/Message');
+const multer = require('multer');
+const path = require('path');
 
 // @desc    Get alumni dashboard data
 // @route   GET /api/alumni/dashboard
@@ -310,6 +313,122 @@ const createEvent = async (req, res) => {
   }
 };
 
+// @desc    Apply for a job
+// @route   POST /api/alumni/job-applications
+// @access  Public (would be private in real app)
+const applyForJob = async (req, res) => {
+  try {
+    const {
+      jobId,
+      applicantId,
+      coverLetter,
+      resumeUrl,
+      portfolioUrl,
+      expectedSalary,
+      availableFrom,
+      whyInterested
+    } = req.body;
+
+    // Check if application already exists
+    const existingApplication = await JobApplication.findOne({
+      job: jobId,
+      applicant: applicantId
+    });
+
+    if (existingApplication) {
+      return res.status(400).json({ message: 'You have already applied for this job' });
+    }
+
+    const jobApplication = await JobApplication.create({
+      job: jobId,
+      applicant: applicantId,
+      coverLetter,
+      resumeUrl,
+      portfolioUrl,
+      expectedSalary,
+      availableFrom,
+      whyInterested
+    });
+
+    res.status(201).json({
+      success: true,
+      data: jobApplication
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+// @desc    Get job applications for a user
+// @route   GET /api/alumni/job-applications/:userId
+// @access  Public
+const getUserJobApplications = async (req, res) => {
+  try {
+    const applications = await JobApplication.find({ applicant: req.params.userId })
+      .populate('job')
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      data: applications
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+// @desc    Get job applications for a job
+// @route   GET /api/alumni/job-applications/job/:jobId
+// @access  Public
+const getJobApplications = async (req, res) => {
+  try {
+    const applications = await JobApplication.find({ job: req.params.jobId })
+      .populate('applicant', 'name email')
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      data: applications
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/resumes/');
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ 
+  storage: storage,
+  limits: {
+    fileSize: 5 * 1024 * 1024 // 5MB limit
+  },
+  fileFilter: (req, file, cb) => {
+    // Accept only PDF, DOC, DOCX files
+    if (file.mimetype === 'application/pdf' || 
+        file.mimetype === 'application/msword' || 
+        file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+      cb(null, true);
+    } else {
+      cb(new Error('Only PDF, DOC, and DOCX files are allowed'));
+    }
+  }
+});
+
+// @desc    Upload resume
+// @route   POST /api/alumni/upload-resume
+// @access  Public (would be private in real app)
+const uploadResume = upload.single('resume');
+
+// Export the upload middleware
 module.exports = {
   getAlumniDashboard,
   getAlumniProfile,
@@ -318,5 +437,9 @@ module.exports = {
   getAlumniJobs,
   postJob,
   getAlumniEvents,
-  createEvent
+  createEvent,
+  applyForJob,
+  getUserJobApplications,
+  getJobApplications,
+  uploadResume
 };

@@ -52,8 +52,8 @@ const AlumniSchema = mongoose.Schema({
   },
   availability: {
     type: String,
-    enum: ['available', 'busy', 'not_available'],
-    default: 'available'
+    enum: ['Available', 'Busy', 'Not Available'],
+    default: 'Available'
   }
 }, {
   timestamps: true
