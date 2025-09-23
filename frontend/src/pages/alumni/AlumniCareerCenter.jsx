@@ -1,11 +1,13 @@
 import { useState, useMemo } from "react";
-import StudentNavbar from "../../layouts/StudentNavbar";
+import AlumniNavbar from "../../layouts/AlumniNavbar";
 import { jobPostings } from "../../data/jobs";
 import { mockMentors, mockResources, mockStartups, mockProjects } from "../../data/careerData";
 import { getCurrentUser } from "../../utils/auth";
+import PostModal from "../../components/career/PostModal";
 import {
   Briefcase, MapPin, DollarSign, Clock, Search, Filter, 
-  BookOpen, Send, Heart, ExternalLink, X, Code, Target, TrendingUp, CheckCircle, RotateCcw, GraduationCap, Star
+  BookOpen, Send, Heart, ExternalLink, X, Code, Target, TrendingUp, CheckCircle, RotateCcw, GraduationCap, Star,
+  Plus, Users, Calendar, FileText, Lightbulb
 } from "lucide-react";
 
 // Brand colors
@@ -15,7 +17,7 @@ const brand = {
   coral: '255 145 120',
 };
 
-const JobCard = ({ job, isApplied, isSaved, onApply, onSave, onViewApplication }) => (
+const JobCard = ({ job, isPostedByUser, onViewApplications, onEdit, onDelete }) => (
   <div className="group bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-xl hover:border-slate-300 transition-all transform hover:-translate-y-1">
     {/* Header with gradient accent */}
     <div className="relative mb-3 sm:mb-4">
@@ -32,16 +34,11 @@ const JobCard = ({ job, isApplied, isSaved, onApply, onSave, onViewApplication }
               </h3>
               <p className="text-slate-600 font-medium text-sm sm:text-base line-clamp-1">{job.company}</p>
             </div>
-            <button 
-              onClick={() => onSave(job.id)}
-              className={`p-2 rounded-lg transition-all ${
-                isSaved 
-                  ? 'text-red-500 bg-red-50 border border-red-200' 
-                  : 'text-slate-400 hover:text-red-500 hover:bg-red-50'
-              }`}
-            >
-              <Heart className={`w-4 h-4 ${isSaved ? 'fill-current' : ''}`} />
-            </button>
+            {isPostedByUser && (
+              <span className="px-2 py-1 text-xs rounded-full bg-indigo-100 text-indigo-800 border border-indigo-200">
+                Your Post
+              </span>
+            )}
           </div>
           
           <div className="flex flex-wrap items-center gap-2">
@@ -56,12 +53,6 @@ const JobCard = ({ job, isApplied, isSaved, onApply, onSave, onViewApplication }
             }>
               {job.type}
             </span>
-            
-            {isApplied && (
-              <span className="px-2 sm:px-3 py-1 text-xs sm:text-sm font-medium rounded-full flex-shrink-0 bg-green-100 text-green-800 border border-green-200">
-                Applied
-              </span>
-            )}
             
             <span className="text-xs sm:text-sm text-slate-500">
               Posted {new Date(job.postedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
@@ -122,24 +113,25 @@ const JobCard = ({ job, isApplied, isSaved, onApply, onSave, onViewApplication }
     </div>
     
     <div className="flex flex-col sm:flex-row gap-2">
-      {isApplied ? (
-        <button 
-          onClick={() => onViewApplication(job.id)}
-          className="flex-1 sm:flex-none px-4 py-2 rounded-lg font-semibold bg-slate-100 text-slate-700 border border-slate-200 transition-all text-xs sm:text-sm"
-        >
-          View Application
-        </button>
-      ) : (
+      <button 
+        onClick={() => onViewApplications(job.id)}
+        className="flex-1 sm:flex-none px-4 py-2 rounded-lg font-semibold bg-slate-100 text-slate-700 border border-slate-200 transition-all text-xs sm:text-sm"
+      >
+        View Applications ({job.applicants})
+      </button>
+      {isPostedByUser && (
         <div className="flex gap-2">
           <button 
-            onClick={() => onApply(job.id)}
-            className="flex-1 sm:flex-none px-4 py-2 rounded-lg font-semibold text-white transition-all hover:shadow-lg transform hover:scale-105 text-xs sm:text-sm"
-            style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+            onClick={() => onEdit(job.id)}
+            className="px-3 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors border border-slate-200"
           >
-            Apply Now
+            <FileText className="w-3 h-3 sm:w-4 sm:h-4 text-slate-600" />
           </button>
-          <button className="px-3 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors border border-slate-200">
-            <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4 text-slate-600" />
+          <button 
+            onClick={() => onDelete(job.id)}
+            className="px-3 py-2 bg-red-100 hover:bg-red-200 rounded-lg transition-colors border border-red-200"
+          >
+            <X className="w-3 h-3 sm:w-4 sm:h-4 text-red-600" />
           </button>
         </div>
       )}
@@ -213,7 +205,7 @@ const MentorCard = ({ mentor }) => (
           className="w-full mt-4 px-4 py-2 rounded-lg font-semibold text-white transition-all hover:shadow-lg text-xs sm:text-sm"
           style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
         >
-          Request Mentorship
+          Connect for Mentorship
         </button>
       </div>
     </div>
@@ -264,7 +256,7 @@ const ResourceCard = ({ resource }) => (
           className="w-full mt-4 px-4 py-2 rounded-lg font-semibold text-white transition-all hover:shadow-lg text-xs sm:text-sm"
           style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
         >
-          View Resource
+          Access Resource
         </button>
       </div>
     </div>
@@ -308,7 +300,7 @@ const StartupCard = ({ startup }) => (
           className="w-full mt-4 px-4 py-2 rounded-lg font-semibold text-white transition-all hover:shadow-lg text-xs sm:text-sm"
           style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
         >
-          Learn More
+          Connect with Startup
         </button>
       </div>
     </div>
@@ -363,14 +355,14 @@ const ProjectCard = ({ project }) => (
           className="w-full mt-4 px-4 py-2 rounded-lg font-semibold text-white transition-all hover:shadow-lg text-xs sm:text-sm"
           style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
         >
-          Join Project
+          Lead this Project
         </button>
       </div>
     </div>
   </div>
 );
 
-const FilterSection = ({ searchTerm, setSearchTerm, onClearFilters, children }) => (
+const FilterSection = ({ searchTerm, setSearchTerm, children }) => (
   <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 mb-6 sm:mb-8">
     <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4">
       <div className="relative flex-1">
@@ -395,7 +387,209 @@ const FilterSection = ({ searchTerm, setSearchTerm, onClearFilters, children }) 
   </div>
 );
 
-export default function StudentJobs() {
+const PostJobModal = ({ isOpen, onClose, jobData, onSubmit }) => {
+  const [formData, setFormData] = useState({
+    title: jobData?.title || '',
+    company: jobData?.company || '',
+    location: jobData?.location || '',
+    type: jobData?.type || 'Full-time',
+    experience: jobData?.experience || '',
+    salary: jobData?.salary || '',
+    description: jobData?.description || '',
+    skills: jobData?.skills?.join(', ') || '',
+    deadline: jobData?.deadline || '',
+  });
+
+  if (!isOpen) return null;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const job = {
+      ...formData,
+      skills: formData.skills.split(',').map(skill => skill.trim()).filter(skill => skill),
+      postedDate: jobData?.postedDate || new Date().toISOString().split('T')[0],
+      applicants: jobData?.applicants || 0,
+      isActive: true,
+      postedBy: "You",
+      id: jobData?.id || `job_${Date.now()}`
+    };
+    onSubmit(job);
+    onClose();
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden">
+        <div className="px-6 py-4 border-b border-slate-200">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-bold text-slate-900">
+              {jobData ? 'Edit Job Post' : 'Post New Job'}
+            </h2>
+            <button
+              onClick={onClose}
+              className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+
+        <div className="p-6 overflow-y-auto max-h-[calc(90vh-140px)]">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">
+                  Job Title *
+                </label>
+                <input
+                  type="text"
+                  value={formData.title}
+                  onChange={(e) => setFormData({...formData, title: e.target.value})}
+                  required
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
+                  placeholder="e.g., Software Engineer"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">
+                  Company *
+                </label>
+                <input
+                  type="text"
+                  value={formData.company}
+                  onChange={(e) => setFormData({...formData, company: e.target.value})}
+                  required
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
+                  placeholder="Company name"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">
+                  Location *
+                </label>
+                <input
+                  type="text"
+                  value={formData.location}
+                  onChange={(e) => setFormData({...formData, location: e.target.value})}
+                  required
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
+                  placeholder="e.g., Bangalore, India"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">
+                  Job Type *
+                </label>
+                <select
+                  value={formData.type}
+                  onChange={(e) => setFormData({...formData, type: e.target.value})}
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
+                >
+                  <option value="Full-time">Full-time</option>
+                  <option value="Internship">Internship</option>
+                  <option value="Part-time">Part-time</option>
+                  <option value="Contract">Contract</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">
+                  Experience Required
+                </label>
+                <input
+                  type="text"
+                  value={formData.experience}
+                  onChange={(e) => setFormData({...formData, experience: e.target.value})}
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
+                  placeholder="e.g., 0-2 years"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">
+                  Salary Range
+                </label>
+                <input
+                  type="text"
+                  value={formData.salary}
+                  onChange={(e) => setFormData({...formData, salary: e.target.value})}
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
+                  placeholder="e.g., ₹15-25 LPA"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-1">
+                Application Deadline *
+              </label>
+              <input
+                type="date"
+                value={formData.deadline}
+                onChange={(e) => setFormData({...formData, deadline: e.target.value})}
+                required
+                className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-1">
+                Job Description *
+              </label>
+              <textarea
+                value={formData.description}
+                onChange={(e) => setFormData({...formData, description: e.target.value})}
+                required
+                rows={3}
+                className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
+                placeholder="Describe the role, responsibilities, and requirements..."
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-1">
+                Required Skills (comma separated)
+              </label>
+              <input
+                type="text"
+                value={formData.skills}
+                onChange={(e) => setFormData({...formData, skills: e.target.value})}
+                className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
+                placeholder="e.g., React, Node.js, Python, SQL"
+              />
+            </div>
+
+            <div className="flex gap-3 pt-4">
+              <button
+                type="button"
+                onClick={onClose}
+                className="flex-1 px-4 py-2 border border-slate-300 rounded-lg text-slate-700 hover:bg-slate-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="flex-1 px-4 py-2 rounded-lg font-semibold text-white transition-all"
+                style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+              >
+                {jobData ? 'Update Job' : 'Post Job'}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default function AlumniCareerCenter() {
   const [activeTab, setActiveTab] = useState('jobs');
   const [searchTerm, setSearchTerm] = useState("");
   const [typeFilter, setTypeFilter] = useState("all");
@@ -404,30 +598,23 @@ export default function StudentJobs() {
   const [categoryFilter, setCategoryFilter] = useState([]);
   const [industryFilter, setIndustryFilter] = useState([]);
   const [techFilter, setTechFilter] = useState([]);
+  const [showPostJobModal, setShowPostJobModal] = useState(false);
+  const [editingJob, setEditingJob] = useState(null);
   
-  // 🎯 DEMO-FRIENDLY: Application states only persist during session (reset on refresh)
-  const [appliedJobs, setAppliedJobs] = useState(new Set());
-  const [savedJobs, setSavedJobs] = useState(new Set([1, 4])); // Mock some saved jobs
-  const [applicationData, setApplicationDataState] = useState({});
-
+  // New states for other posting modals
+  const [showPostMentorshipModal, setShowPostMentorshipModal] = useState(false);
+  const [editingMentorship, setEditingMentorship] = useState(null);
+  
+  const [showPostResourceModal, setShowPostResourceModal] = useState(false);
+  const [editingResource, setEditingResource] = useState(null);
+  
+  const [showPostStartupModal, setShowPostStartupModal] = useState(false);
+  const [editingStartup, setEditingStartup] = useState(null);
+  
+  const [showPostProjectModal, setShowPostProjectModal] = useState(false);
+  const [editingProject, setEditingProject] = useState(null);
+  
   const user = getCurrentUser();
-
-  // Extract all unique skills from job postings
-  const allSkills = useMemo(() => {
-    const skills = new Set();
-    jobPostings.forEach(job => {
-      job.skills.forEach(skill => skills.add(skill));
-    });
-    return Array.from(skills).sort();
-  }, []);
-
-  const toggleSkill = (skill) => {
-    setSkillsFilter(prev => 
-      prev.includes(skill) 
-        ? prev.filter(s => s !== skill)
-        : [...prev, skill]
-    );
-  };
 
   const clearAllFilters = () => {
     setSearchTerm("");
@@ -435,42 +622,53 @@ export default function StudentJobs() {
     setSkillsFilter([]);
   };
 
-  // 🎯 DEMO-FRIENDLY: Clear all applications for fresh demo
-  const clearAllApplications = () => {
-    setAppliedJobs(new Set());
-    setApplicationDataState({});
+  const handlePostJob = (jobData) => {
+    // In a real app, this would be an API call
+    console.log('Posting job:', jobData);
+    alert(`Job ${jobData.id ? 'updated' : 'posted'} successfully!`);
   };
 
-  const handleApply = (jobId) => {
-    const newAppliedJobs = new Set(appliedJobs);
-    newAppliedJobs.add(jobId);
-    setAppliedJobs(newAppliedJobs);
-    
-    // Store application data in session state only
-    setApplicationDataState(prev => ({
-      ...prev,
-      [jobId]: {
-        appliedDate: new Date().toISOString(),
-        status: 'submitted'
-      }
-    }));
+  const handlePostMentorship = (mentorData) => {
+    // In a real app, this would be an API call
+    console.log('Posting mentorship:', mentorData);
+    alert(`Mentorship profile ${mentorData.id ? 'updated' : 'posted'} successfully!`);
   };
 
-  const handleSave = (jobId) => {
-    const newSavedJobs = new Set(savedJobs);
-    if (newSavedJobs.has(jobId)) {
-      newSavedJobs.delete(jobId);
-    } else {
-      newSavedJobs.add(jobId);
+  const handlePostResource = (resourceData) => {
+    // In a real app, this would be an API call
+    console.log('Posting resource:', resourceData);
+    alert(`Resource ${resourceData.id ? 'updated' : 'posted'} successfully!`);
+  };
+
+  const handlePostStartup = (startupData) => {
+    // In a real app, this would be an API call
+    console.log('Posting startup:', startupData);
+    alert(`Startup ${startupData.id ? 'updated' : 'posted'} successfully!`);
+  };
+
+  const handlePostProject = (projectData) => {
+    // In a real app, this would be an API call
+    console.log('Posting project:', projectData);
+    alert(`Project ${projectData.id ? 'updated' : 'posted'} successfully!`);
+  };
+
+  const handleEditJob = (jobId) => {
+    const job = jobPostings.find(j => j.id === jobId);
+    setEditingJob(job);
+    setShowPostJobModal(true);
+  };
+
+  const handleDeleteJob = (jobId) => {
+    if (window.confirm('Are you sure you want to delete this job posting?')) {
+      // In a real app, this would be an API call
+      console.log('Deleting job:', jobId);
+      alert('Job deleted successfully!');
     }
-    setSavedJobs(newSavedJobs);
   };
 
-  const handleViewApplication = (jobId) => {
-    const application = applicationData[jobId];
-    if (application) {
-      alert(`Application submitted on ${new Date(application.appliedDate).toLocaleDateString()}\nStatus: ${application.status}\n\n✨ Demo Tip: Refresh the page to reset all applications for demo purposes!`);
-    }
+  const handleViewApplications = (jobId) => {
+    // In a real app, this would navigate to applications page or open a modal
+    alert(`Viewing applications for job ${jobId}. In a real app, this would show all applicants.`);
   };
 
   const filteredJobs = useMemo(() => {
@@ -486,19 +684,16 @@ export default function StudentJobs() {
     });
   }, [searchTerm, typeFilter, skillsFilter]);
 
-  const internships = filteredJobs.filter(job => job.type === 'Internship');
-  const fullTimeJobs = filteredJobs.filter(job => job.type === 'Full-time');
-
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#F9F8FE' }}>
-      <StudentNavbar />
+      <AlumniNavbar />
       
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Career Center Header */}
         <div className="mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">Career Center</h1>
           <p className="text-slate-600 mt-1 text-sm sm:text-base">
-            Explore career opportunities, connect with mentors, and access valuable resources
+            Connect with students, share opportunities, and mentor the next generation
           </p>
         </div>
 
@@ -514,6 +709,7 @@ export default function StudentJobs() {
                     : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
                 }`}
               >
+                <Briefcase className="w-4 h-4 inline mr-2" />
                 Jobs & Internships
               </button>
               <button
@@ -524,6 +720,7 @@ export default function StudentJobs() {
                     : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
                 }`}
               >
+                <Users className="w-4 h-4 inline mr-2" />
                 Mentorship
               </button>
               <button
@@ -534,6 +731,7 @@ export default function StudentJobs() {
                     : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
                 }`}
               >
+                <BookOpen className="w-4 h-4 inline mr-2" />
                 Resources
               </button>
               <button
@@ -544,6 +742,7 @@ export default function StudentJobs() {
                     : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
                 }`}
               >
+                <Target className="w-4 h-4 inline mr-2" />
                 Startups
               </button>
               <button
@@ -554,6 +753,7 @@ export default function StudentJobs() {
                     : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
                 }`}
               >
+                <Lightbulb className="w-4 h-4 inline mr-2" />
                 Projects
               </button>
             </nav>
@@ -563,36 +763,24 @@ export default function StudentJobs() {
             {/* Jobs & Internships Tab */}
             {activeTab === 'jobs' && (
               <div>
-                {/* Header with Demo Reset Button and Post Options */}
+                {/* Header with Post Job Button */}
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
                   <div>
                     <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2">Jobs & Internships</h2>
-                    <p className="text-slate-600 text-sm sm:text-base">Discover exclusive opportunities shared by alumni mentors</p>
+                    <p className="text-slate-600 text-sm sm:text-base">Post opportunities and manage your job listings</p>
                   </div>
                   
-                  <div className="flex gap-2">
-                    {/* Demo Reset Button - Shows only if there are applications */}
-                    {appliedJobs.size > 0 && (
-                      <button 
-                        onClick={clearAllApplications}
-                        className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-xl font-medium border border-slate-300 text-slate-700 hover:bg-slate-50 transition-all text-sm"
-                        title="Reset all applications for demo"
-                      >
-                        <RotateCcw className="w-4 h-4" />
-                        <span className="hidden sm:inline">Reset Demo</span>
-                      </button>
-                    )}
-                    
-                    {/* Post Mentorship Request Button */}
-                    <button 
-                      onClick={() => alert('Mentorship request feature coming soon!')}
-                      className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-xl font-medium text-white transition-all hover:shadow-lg transform hover:scale-105 text-sm"
-                      style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
-                    >
-                      <Users className="w-4 h-4" />
-                      <span className="hidden sm:inline">Request Mentorship</span>
-                    </button>
-                  </div>
+                  <button 
+                    onClick={() => {
+                      setEditingJob(null);
+                      setShowPostJobModal(true);
+                    }}
+                    className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold text-white transition-all hover:shadow-lg transform hover:scale-105 text-sm sm:text-base"
+                    style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                  >
+                    <Plus className="w-4 h-4" />
+                    Post Job
+                  </button>
                 </div>
                 
                 {/* Filter Section */}
@@ -699,7 +887,6 @@ export default function StudentJobs() {
                   <div className="mb-4 sm:mb-6">
                     <p className="text-xs sm:text-sm text-slate-600">
                       Showing {filteredJobs.length} of {jobPostings.filter(j => j.isActive).length} job opportunities
-                      {appliedJobs.size > 0 && ` • ${appliedJobs.size} applications submitted`}
                     </p>
                   </div>
                 )}
@@ -710,11 +897,10 @@ export default function StudentJobs() {
                     <JobCard 
                       key={job.id} 
                       job={job} 
-                      isApplied={appliedJobs.has(job.id)}
-                      isSaved={savedJobs.has(job.id)}
-                      onApply={handleApply}
-                      onSave={handleSave}
-                      onViewApplication={handleViewApplication}
+                      isPostedByUser={job.postedBy === "You" || job.postedBy === user?.name}
+                      onViewApplications={handleViewApplications}
+                      onEdit={handleEditJob}
+                      onDelete={handleDeleteJob}
                     />
                   ))}
                 </div>
@@ -740,8 +926,14 @@ export default function StudentJobs() {
                       >
                         Show All Jobs
                       </button>
-                      <button className="px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 transition-all text-sm">
-                        Set Job Alerts
+                      <button 
+                        onClick={() => {
+                          setEditingJob(null);
+                          setShowPostJobModal(true);
+                        }}
+                        className="px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 transition-all text-sm"
+                      >
+                        Post a Job
                       </button>
                     </div>
                   </div>
@@ -752,31 +944,29 @@ export default function StudentJobs() {
             {/* Mentorship Tab */}
             {activeTab === 'mentorship' && (
               <div>
-                {/* Header with Request Mentorship Button */}
+                {/* Header with Post Mentorship Button */}
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
                   <div>
-                    <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2">Mentorship</h2>
-                    <p className="text-slate-600 text-sm sm:text-base">Connect with experienced alumni mentors</p>
+                    <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2">Mentorship Program</h2>
+                    <p className="text-slate-600 text-sm sm:text-base">Offer your expertise and guide the next generation</p>
                   </div>
                   
                   <button 
-                    onClick={() => alert('Mentorship request feature coming soon!')}
+                    onClick={() => {
+                      setEditingMentorship(null);
+                      setShowPostMentorshipModal(true);
+                    }}
                     className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold text-white transition-all hover:shadow-lg transform hover:scale-105 text-sm sm:text-base"
                     style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
                   >
-                    <Users className="w-4 h-4" />
-                    Request Mentorship
+                    <Plus className="w-4 h-4" />
+                    Offer Mentorship
                   </button>
                 </div>
                 
                 <FilterSection 
                   searchTerm={searchTerm} 
                   setSearchTerm={setSearchTerm}
-                  onClearFilters={() => {
-                    setSearchTerm("");
-                    setDomainFilter([]);
-                    setSkillsFilter([]);
-                  }}
                 >
                   <div className="flex flex-wrap gap-2">
                     {['Software Engineering', 'Data Science', 'Product Management', 'UX Design', 'DevOps'].map(domain => (
@@ -818,30 +1008,29 @@ export default function StudentJobs() {
             {/* Resources Tab */}
             {activeTab === 'resources' && (
               <div>
-                {/* Header with Request Resource Button */}
+                {/* Header with Post Resource Button */}
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
                   <div>
-                    <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2">Resources</h2>
-                    <p className="text-slate-600 text-sm sm:text-base">Access learning materials shared by alumni</p>
+                    <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2">Learning Resources</h2>
+                    <p className="text-slate-600 text-sm sm:text-base">Share valuable resources with the community</p>
                   </div>
                   
                   <button 
-                    onClick={() => alert('Resource request feature coming soon!')}
+                    onClick={() => {
+                      setEditingResource(null);
+                      setShowPostResourceModal(true);
+                    }}
                     className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold text-white transition-all hover:shadow-lg transform hover:scale-105 text-sm sm:text-base"
                     style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
                   >
-                    <BookOpen className="w-4 h-4" />
-                    Request Resource
+                    <Plus className="w-4 h-4" />
+                    Share Resource
                   </button>
                 </div>
                 
                 <FilterSection 
                   searchTerm={searchTerm} 
                   setSearchTerm={setSearchTerm}
-                  onClearFilters={() => {
-                    setSearchTerm("");
-                    setCategoryFilter([]);
-                  }}
                 >
                   <div className="flex flex-wrap gap-2">
                     {['Web Development', 'Data Science', 'Career Guidance', 'Product Management', 'UX Design'].map(category => (
@@ -883,14 +1072,29 @@ export default function StudentJobs() {
             {/* Startups Tab */}
             {activeTab === 'startups' && (
               <div>
-                <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4">Startups</h2>
+                {/* Header with Post Startup Button */}
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+                  <div>
+                    <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2">Startup Opportunities</h2>
+                    <p className="text-slate-600 text-sm sm:text-base">Connect with talent and promote your venture</p>
+                  </div>
+                  
+                  <button 
+                    onClick={() => {
+                      setEditingStartup(null);
+                      setShowPostStartupModal(true);
+                    }}
+                    className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold text-white transition-all hover:shadow-lg transform hover:scale-105 text-sm sm:text-base"
+                    style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                  >
+                    <Plus className="w-4 h-4" />
+                    Post Startup
+                  </button>
+                </div>
+                
                 <FilterSection 
                   searchTerm={searchTerm} 
                   setSearchTerm={setSearchTerm}
-                  onClearFilters={() => {
-                    setSearchTerm("");
-                    setIndustryFilter([]);
-                  }}
                 >
                   <div className="flex flex-wrap gap-2">
                     {['CleanTech', 'HealthTech', 'FinTech', 'EdTech', 'AgriTech', 'Logistics'].map(industry => (
@@ -932,14 +1136,29 @@ export default function StudentJobs() {
             {/* Projects Tab */}
             {activeTab === 'projects' && (
               <div>
-                <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4">Projects</h2>
+                {/* Header with Post Project Button */}
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+                  <div>
+                    <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2">Project Opportunities</h2>
+                    <p className="text-slate-600 text-sm sm:text-base">Create collaborative projects and find team members</p>
+                  </div>
+                  
+                  <button 
+                    onClick={() => {
+                      setEditingProject(null);
+                      setShowPostProjectModal(true);
+                    }}
+                    className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold text-white transition-all hover:shadow-lg transform hover:scale-105 text-sm sm:text-base"
+                    style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                  >
+                    <Plus className="w-4 h-4" />
+                    Create Project
+                  </button>
+                </div>
+                
                 <FilterSection 
                   searchTerm={searchTerm} 
                   setSearchTerm={setSearchTerm}
-                  onClearFilters={() => {
-                    setSearchTerm("");
-                    setTechFilter([]);
-                  }}
                 >
                   <div className="flex flex-wrap gap-2">
                     {['React', 'Python', 'TensorFlow', 'Node.js', 'Docker', 'Kubernetes', 'React Native', 'AWS'].map(tech => (
@@ -980,6 +1199,50 @@ export default function StudentJobs() {
           </div>
         </div>
       </main>
+
+      {/* Post Job Modal */}
+      <PostJobModal
+        isOpen={showPostJobModal}
+        onClose={() => setShowPostJobModal(false)}
+        jobData={editingJob}
+        onSubmit={handlePostJob}
+      />
+      
+      {/* Post Mentorship Modal */}
+      <PostModal
+        isOpen={showPostMentorshipModal}
+        onClose={() => setShowPostMentorshipModal(false)}
+        onSubmit={handlePostMentorship}
+        postType="mentorship"
+        initialData={editingMentorship}
+      />
+      
+      {/* Post Resource Modal */}
+      <PostModal
+        isOpen={showPostResourceModal}
+        onClose={() => setShowPostResourceModal(false)}
+        onSubmit={handlePostResource}
+        postType="resource"
+        initialData={editingResource}
+      />
+      
+      {/* Post Startup Modal */}
+      <PostModal
+        isOpen={showPostStartupModal}
+        onClose={() => setShowPostStartupModal(false)}
+        onSubmit={handlePostStartup}
+        postType="startup"
+        initialData={editingStartup}
+      />
+      
+      {/* Post Project Modal */}
+      <PostModal
+        isOpen={showPostProjectModal}
+        onClose={() => setShowPostProjectModal(false)}
+        onSubmit={handlePostProject}
+        postType="project"
+        initialData={editingProject}
+      />
     </div>
   );
 }

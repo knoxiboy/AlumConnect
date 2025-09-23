@@ -18,6 +18,7 @@ import AlumniExplore from "./pages/alumni/AlumniExplore";
 import AlumniEvents from "./pages/alumni/AlumniEvents";
 import AlumniJobs from "./pages/alumni/AlumniJobs";
 import AlumniNetwork from "./pages/alumni/AlumniNetwork";
+import AlumniCareerCenter from "./pages/alumni/AlumniCareerCenter";
 
 // Student Portal
 import StudentDashboard from "./pages/student/StudentDashboard";
@@ -63,6 +64,7 @@ export default function App() {
           <Route path="/alumni/explore" element={<AlumniExplore />} />
           <Route path="/alumni/events" element={<AlumniEvents />} />
           <Route path="/alumni/jobs" element={<AlumniJobs />} />
+          <Route path="/alumni/career-center" element={<AlumniCareerCenter />} />
           <Route path="/alumni/network" element={<AlumniNetwork />} />
         </Route>
 
