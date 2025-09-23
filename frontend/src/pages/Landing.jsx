@@ -104,8 +104,18 @@ export default function Landing() {
       <main className="pt-20">
 
         {/* --- Hero Section --- */}
-        <section className="px-4 sm:px-6 pt-8 sm:pt-16 pb-12 sm:pb-20">
-          <div className="max-w-7xl mx-auto text-center lg:text-left grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+        <section className="px-4 sm:px-6 pt-8 sm:pt-16 pb-12 sm:pb-20 relative">
+          {/* Background Image for SRM University AP */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center z-0"
+            style={{ 
+              backgroundImage: "url('/images/srm-university-ap.jpg')",
+              backgroundBlendMode: 'overlay',
+              backgroundColor: 'rgba(255, 255, 255, 0.5)'
+            }}
+          />
+          
+          <div className="max-w-7xl mx-auto text-center lg:text-left grid lg:grid-cols-2 gap-8 lg:gap-12 items-center relative z-10">
             {/* Left: Content */}
             <div>
               {/* SVG Icons Row */}
@@ -180,9 +190,9 @@ export default function Landing() {
               </div>
             </div>
           </div>
-        </section>
+      </section>
 
-        {/* --- Problem Statement Section --- */}
+      {/* --- Problem Statement Section --- */}
         <section className="py-12 sm:py-16 border-b border-slate-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="text-center mb-8 sm:mb-12">
