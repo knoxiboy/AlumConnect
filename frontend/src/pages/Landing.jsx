@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import Navbar from "../layouts/Navbar";
 import colleges from "../data/colleges";
 import {
@@ -77,6 +78,21 @@ const TimelineItem = ({ number, title, description }) => (
 // --- Main Landing Page Component ---
 
 export default function Landing() {
+  const location = useLocation();
+
+  useEffect(() => {
+    // Scroll to the section specified in the hash
+    if (location.hash) {
+      const element = document.querySelector(location.hash);
+      if (element) {
+        // Wait a bit for the page to fully render before scrolling
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    }
+  }, [location]);
+
   return (
     <div
       className="text-slate-900 min-h-screen"
