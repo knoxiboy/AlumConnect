@@ -27,8 +27,8 @@ export default function Navbar() {
 
         {/* Desktop Links */}
         <div className="hidden md:flex items-center space-x-6 lg:space-x-8 font-medium">
-          <Link to="/#features" className="text-slate-700 hover:text-slate-900 transition-colors text-sm lg:text-base">Features</Link>
-          <Link to="/#how-it-works" className="text-slate-700 hover:text-slate-900 transition-colors text-sm lg:text-base">How It Works</Link>
+          <a href="#features" className="text-slate-700 hover:text-slate-900 transition-colors text-sm lg:text-base">Features</a>
+          <a href="#how-it-works" className="text-slate-700 hover:text-slate-900 transition-colors text-sm lg:text-base">How It Works</a>
           <Link to="/explore" className="text-slate-700 hover:text-slate-900 transition-colors text-sm lg:text-base">Explore</Link>
         </div>
 
@@ -56,8 +56,8 @@ export default function Navbar() {
       {isMenuOpen && (
         <div className="md:hidden absolute top-full left-0 right-0 bg-white border-b border-slate-200 py-4 px-4 shadow-lg">
           <div className="flex flex-col space-y-3">
-            <Link to="/#features" className="text-slate-700 hover:text-slate-900 transition-colors py-2" onClick={() => setIsMenuOpen(false)}>Features</Link>
-            <Link to="/#how-it-works" className="text-slate-700 hover:text-slate-900 transition-colors py-2" onClick={() => setIsMenuOpen(false)}>How It Works</Link>
+            <a href="#features" className="text-slate-700 hover:text-slate-900 transition-colors py-2" onClick={() => setIsMenuOpen(false)}>Features</a>
+            <a href="#how-it-works" className="text-slate-700 hover:text-slate-900 transition-colors py-2" onClick={() => setIsMenuOpen(false)}>How It Works</a>
             <Link to="/explore" className="text-slate-700 hover:text-slate-900 transition-colors py-2" onClick={() => setIsMenuOpen(false)}>Explore</Link>
             <Link
               to="/alumni-auth"
