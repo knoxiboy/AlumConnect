@@ -1,7 +1,8 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import AlumniNavbar from "../../layouts/AlumniNavbar";
 import { jobPostings as initialJobPostings } from "../../data/jobs";
 import { getCurrentUser } from "../../utils/auth";
+import { applyForJob, getUserJobApplications, uploadResume } from "../../utils/api";
 import {
   Briefcase, MapPin, DollarSign, Clock, Search, Filter, Plus, Code, X, ChevronDown, CheckCircle, Send, RotateCcw
 } from "lucide-react";
@@ -149,19 +150,29 @@ const JobApplicationModal = ({ isOpen, onClose, job, onSubmitApplication }) => {
     whyInterested: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [resumeFileName, setResumeFileName] = useState('');
 
   if (!isOpen || !job) return null;
+
+  const handleResumeChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setApplicationData({...applicationData, resumeFile: file});
+      setResumeFileName(file.name);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    onSubmitApplication(job.id, applicationData);
-    setIsSubmitting(false);
-    onClose();
+    try {
+      await onSubmitApplication(job.id, applicationData);
+    } catch (error) {
+      console.error("Error submitting application:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
     
     // Reset form
     setApplicationData({
@@ -172,6 +183,7 @@ const JobApplicationModal = ({ isOpen, onClose, job, onSubmitApplication }) => {
       availableFrom: '',
       whyInterested: ''
     });
+    setResumeFileName('');
   };
 
   return (
@@ -270,7 +282,7 @@ const JobApplicationModal = ({ isOpen, onClose, job, onSubmitApplication }) => {
               </div>
             </div>
 
-            {/* Resume Upload Placeholder */}
+            {/* Resume Upload */}
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-2">
                 Resume Upload (Optional)
@@ -284,14 +296,21 @@ const JobApplicationModal = ({ isOpen, onClose, job, onSubmitApplication }) => {
                   type="file"
                   accept=".pdf,.doc,.docx"
                   className="hidden"
-                  onChange={(e) => setApplicationData({...applicationData, resumeFile: e.target.files[0]})}
+                  onChange={handleResumeChange}
+                  id="resume-upload"
                 />
+                <label 
+                  htmlFor="resume-upload"
+                  className="mt-3 inline-block px-4 py-2 bg-indigo-50 text-indigo-600 rounded-lg cursor-pointer hover:bg-indigo-100 transition-colors text-sm"
+                >
+                  Choose File
+                </label>
+                {resumeFileName && (
+                  <p className="text-sm text-green-600 mt-2">
+                    ✓ {resumeFileName} selected
+                  </p>
+                )}
               </div>
-              {applicationData.resumeFile && (
-                <p className="text-sm text-green-600 mt-2">
-                  ✓ {applicationData.resumeFile.name} selected
-                </p>
-              )}
             </div>
 
             {/* Submit Buttons */}
@@ -676,6 +695,8 @@ export default function AlumniJobs() {
   const [selectedJob, setSelectedJob] = useState(null);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [successJobInfo, setSuccessJobInfo] = useState({});
+  const [loading, setLoading] = useState(true);
+  // Removed error state since we're not displaying error messages
 
   // NEW: State for the Stat Modal and Post Job Modal
   const [showStatModal, setShowStatModal] = useState(false);
@@ -683,6 +704,30 @@ export default function AlumniJobs() {
   const [showPostJobModal, setShowPostJobModal] = useState(false);
 
   const user = getCurrentUser();
+
+  // Fetch user's job applications from backend
+  useEffect(() => {
+    const fetchApplications = async () => {
+      if (user) {
+        try {
+          setLoading(true);
+          const response = await getUserJobApplications(user.id);
+          const jobIds = new Set(response.data.map(app => app.job._id));
+          setAppliedJobs(jobIds);
+          setLoading(false);
+        } catch (err) {
+          console.error("Error fetching job applications:", err);
+          // Don't set error state to avoid showing the error message
+          // setError("Failed to load job applications");
+          setLoading(false);
+          // Initialize with empty set if there's an error
+          setAppliedJobs(new Set());
+        }
+      }
+    };
+
+    fetchApplications();
+  }, [user]);
 
   // Extract all unique skills from job postings
   const allSkills = useMemo(() => {
@@ -723,31 +768,61 @@ export default function AlumniJobs() {
     setShowApplicationModal(true);
   };
 
-  const handleSubmitApplication = (jobId, appData) => {
-    const newAppliedJobs = new Set(appliedJobs);
-    newAppliedJobs.add(jobId);
-    
-    setAppliedJobs(newAppliedJobs);
-    
-    // Store application data in session state only
-    setApplicationDataState(prev => ({
-      ...prev,
-      [jobId]: {
-        ...appData,
-        appliedDate: new Date().toISOString(),
-        status: 'submitted'
+  const handleSubmitApplication = async (jobId, appData) => {
+    try {
+      // Handle resume upload if file is provided
+      let resumeUrl = null;
+      if (appData.resumeFile) {
+        resumeUrl = await uploadResume(appData.resumeFile);
       }
-    }));
-    
-    // Show success modal
-    setSuccessJobInfo({ title: selectedJob.title, company: selectedJob.company });
-    setShowSuccessModal(true);
+
+      // Prepare application data for backend
+      const applicationPayload = {
+        jobId: jobId,
+        applicantId: user.id,
+        coverLetter: appData.coverLetter,
+        resumeUrl: resumeUrl,
+        portfolioUrl: appData.portfolio,
+        expectedSalary: appData.expectedSalary,
+        availableFrom: appData.availableFrom,
+        whyInterested: appData.whyInterested
+      };
+
+      // Submit application to backend
+      const response = await applyForJob(applicationPayload);
+      
+      const newAppliedJobs = new Set(appliedJobs);
+      newAppliedJobs.add(jobId);
+      
+      setAppliedJobs(newAppliedJobs);
+      
+      // Store application data in session state only
+      setApplicationDataState(prev => ({
+        ...prev,
+        [jobId]: {
+          ...appData,
+          resumeUrl: resumeUrl,
+          appliedDate: new Date().toISOString(),
+          status: 'submitted'
+        }
+      }));
+      
+      // Show success modal
+      setSuccessJobInfo({ title: selectedJob.title, company: selectedJob.company });
+      setShowSuccessModal(true);
+    } catch (error) {
+      console.error("Error submitting application:", error);
+      alert("Failed to submit application. Please try again.");
+    }
   };
 
   const handleViewApplication = (jobId) => {
     const application = applicationData[jobId];
     if (application) {
-      alert(`Application submitted on ${new Date(application.appliedDate).toLocaleDateString()}\nStatus: ${application.status}\n\n✨ Demo Tip: Refresh the page to reset all applications for demo purposes!`);
+      alert(`Application submitted on ${new Date(application.appliedDate).toLocaleDateString()}
+Status: ${application.status}
+
+✨ Demo Tip: Refresh the page to reset all applications for demo purposes!`);
     }
   };
 
@@ -795,6 +870,13 @@ export default function AlumniJobs() {
       <AlumniNavbar />
       
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        {/* Loading State */}
+        {loading && (
+          <div className="flex justify-center items-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+          </div>
+        )}
+        
         {/* Header with Demo Reset Button */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 sm:mb-8">
           <div>

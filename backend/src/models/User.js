@@ -16,11 +16,6 @@ const UserSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    googleId: {
-      type: String,
-      unique: true,
-      sparse: true, // Allows null values while still enforcing uniqueness
-    },
     role: {
       type: String,
       enum: ['student', 'alumni', 'admin'],
@@ -32,8 +27,7 @@ const UserSchema = mongoose.Schema(
 
 // Encrypt password before saving
 UserSchema.pre('save', async function (next) {
-  // Only hash the password if it's modified and not a Google auth user
-  if (!this.isModified('password') || this.password === 'google_auth') {
+  if (!this.isModified('password')) {
     next();
   } else {
     const salt = await bcrypt.genSalt(10);
@@ -43,10 +37,6 @@ UserSchema.pre('save', async function (next) {
 
 // Match user entered password to hashed password in database
 UserSchema.methods.matchPassword = async function (enteredPassword) {
-  // Google auth users don't have a real password
-  if (this.password === 'google_auth') {
-    return false;
-  }
   return await bcrypt.compare(enteredPassword, this.password);
 };
 

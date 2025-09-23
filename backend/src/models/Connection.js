@@ -13,8 +13,8 @@ const ConnectionSchema = mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['pending', 'accepted', 'rejected'],
-    default: 'pending'
+    enum: ['Pending', 'Accepted', 'Rejected'],
+    default: 'Pending'
   },
   message: {
     type: String

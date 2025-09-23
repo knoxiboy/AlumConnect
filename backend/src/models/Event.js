@@ -35,7 +35,7 @@ const EventSchema = mongoose.Schema({
   },
   eventType: {
     type: String,
-    enum: ['conference', 'workshop', 'seminar', 'networking', 'career_fair'],
+    enum: ['Conference', 'Workshop', 'Seminar', 'Networking', 'Career Fair'],
     required: true
   },
   isVirtual: {

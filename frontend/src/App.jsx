@@ -49,7 +49,6 @@ export default function App() {
 
   return (
     <Router>
-      <p>Database Status: {dbStatus}</p>
       <Routes>
         {/* Public */}
         <Route path="/" element={<Navigate to="/landing" />} />
