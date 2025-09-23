@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { testDB } from "./utils/api";
 import Landing from "./pages/Landing";
 import ExplorePage from "./pages/ExplorePage";
 import AuthPage from "./pages/AuthPage";
@@ -31,8 +33,23 @@ import ProtectedRoute from "./components/ProtectedRoute";
 const AdminApprovals = () => <div className="text-3xl font-bold">Alumni & Student Approvals</div>;
 
 export default function App() {
+  const [dbStatus, setDbStatus] = useState("");
+
+  useEffect(() => {
+    const checkDb = async () => {
+      try {
+        const data = await testDB();
+        setDbStatus(data.message);
+      } catch (error) {
+        setDbStatus("Error connecting to the database");
+      }
+    };
+    checkDb();
+  }, []);
+
   return (
     <Router>
+      <p>Database Status: {dbStatus}</p>
       <Routes>
         {/* Public */}
         <Route path="/" element={<Navigate to="/landing" />} />
