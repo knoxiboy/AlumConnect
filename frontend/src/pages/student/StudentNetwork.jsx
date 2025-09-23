@@ -14,7 +14,7 @@ const brand = {
 };
 
 // Mock data
-const networkData = {
+const initialNetworkData = {
   stats: {
     connections: 3,
     mentors: 3,
@@ -27,12 +27,12 @@ const networkData = {
     { id: 3, initials: "ED", name: "Emily Davis", role: "Senior Product Manager", type: "alumni" }
   ],
   mentors: [
-    { id: 1, name: "Lisa Martinez", role: "Senior Mechanical Engineer", company: "Tesla" },
-    { id: 2, name: "David Kim", role: "Principal Software Engineer", company: "Epic Systems" },
-    { id: 3, name: "Priya Patel", role: "Vice President", company: "Goldman Sachs" }
+    { id: 4, name: "Lisa Martinez", role: "Senior Mechanical Engineer", company: "Tesla" },
+    { id: 5, name: "David Kim", role: "Principal Software Engineer", company: "Epic Systems" },
+    { id: 6, name: "Priya Patel", role: "Vice President", company: "Goldman Sachs" }
   ],
   requests: [
-    { id: 1, name: "Sarah Johnson", major: "Computer Science", type: "student", time: "2 days ago", message: "Hi John! I'd love to connect and discuss your AI/ML projects." }
+    { id: 7, name: "Sarah Johnson", major: "Computer Science", type: "student", time: "2 days ago", message: "Hi John! I'd love to connect and discuss your AI/ML projects." }
   ]
 };
 
@@ -187,36 +187,64 @@ export default function StudentNetwork() {
   const [showShareModal, setShowShareModal] = useState(false);
   const [newPost, setNewPost] = useState({
     content: '',
-    type: 'achievement' // 'achievement', 'photo', 'poll'
+    type: 'achievement'
   });
+  
+  // State for network data to make it dynamic
+  const [networkStats, setNetworkStats] = useState(initialNetworkData.stats);
+  const [mentorsList, setMentorsList] = useState(initialNetworkData.mentors);
+  const [connectionsList, setConnectionsList] = useState(initialNetworkData.connections);
+  const [requestsList, setRequestsList] = useState(initialNetworkData.requests);
+
+  const [connectedMentors, setConnectedMentors] = useState({});
 
   const handleAcceptRequest = (id) => {
-    // Handle accept request logic
+    // Logic to move request to connections list
+    const requestToAccept = requestsList.find(req => req.id === id);
+    if (requestToAccept) {
+      setRequestsList(requestsList.filter(req => req.id !== id));
+      setConnectionsList([...connectionsList, { ...requestToAccept, initials: requestToAccept.name.split(' ')[0][0] + requestToAccept.name.split(' ')[1][0] }]);
+      setNetworkStats(prevStats => ({
+        ...prevStats,
+        connections: prevStats.connections + 1,
+      }));
+    }
     console.log("Accept request", id);
   };
 
   const handleDeclineRequest = (id) => {
-    // Handle decline request logic
+    setRequestsList(requestsList.filter(req => req.id !== id));
     console.log("Decline request", id);
   };
 
-  const handleConnect = (id) => {
-    // Handle connect logic
-    console.log("Connect with mentor", id);
+  const handleConnect = (mentorId) => {
+    // Update the connected state
+    setConnectedMentors(prev => ({
+      ...prev,
+      [mentorId]: true,
+    }));
+    
+    // Update the stat cards
+    setNetworkStats(prevStats => ({
+      ...prevStats,
+      connections: prevStats.connections + 1,
+      mentors: prevStats.mentors - 1,
+    }));
+
+    // In a real app, you would also add the mentor to the connections list
+    // after a successful connection is established.
+    console.log("Connect with mentor", mentorId);
   };
 
   const handleLikePost = (id) => {
-    // Handle like post logic
     console.log("Like post", id);
   };
 
   const handleSharePost = (id) => {
-    // Handle share post logic
     console.log("Share post", id);
   };
 
   const handleCreatePost = () => {
-    // Handle create post logic
     console.log("Creating post", newPost);
     setShowShareModal(false);
     setNewPost({ content: '', type: 'achievement' });
@@ -247,7 +275,7 @@ export default function StudentNetwork() {
               </div>
               <div>
                 <p className="text-xs sm:text-sm font-medium text-slate-600">Total Connections</p>
-                <p className="text-xl sm:text-2xl font-bold text-slate-900">{networkData.stats.connections}</p>
+                <p className="text-xl sm:text-2xl font-bold text-slate-900">{networkStats.connections}</p>
               </div>
             </div>
           </div>
@@ -262,7 +290,7 @@ export default function StudentNetwork() {
               </div>
               <div>
                 <p className="text-xs sm:text-sm font-medium text-slate-600">Available Mentors</p>
-                <p className="text-xl sm:text-2xl font-bold text-slate-900">{networkData.stats.mentors}</p>
+                <p className="text-xl sm:text-2xl font-bold text-slate-900">{networkStats.mentors}</p>
               </div>
             </div>
           </div>
@@ -277,7 +305,7 @@ export default function StudentNetwork() {
               </div>
               <div>
                 <p className="text-xs sm:text-sm font-medium text-slate-600">Hiring Alumni</p>
-                <p className="text-xl sm:text-2xl font-bold text-slate-900">{networkData.stats.hiring}</p>
+                <p className="text-xl sm:text-2xl font-bold text-slate-900">{networkStats.hiring}</p>
               </div>
             </div>
           </div>
@@ -292,7 +320,7 @@ export default function StudentNetwork() {
               </div>
               <div>
                 <p className="text-xs sm:text-sm font-medium text-slate-600">Messages</p>
-                <p className="text-xl sm:text-2xl font-bold text-slate-900">{networkData.stats.messages}</p>
+                <p className="text-xl sm:text-2xl font-bold text-slate-900">{networkStats.messages}</p>
               </div>
             </div>
           </div>
@@ -565,10 +593,10 @@ export default function StudentNetwork() {
                 {/* Connections Section */}
                 <div>
                   <h2 className="text-lg sm:text-xl font-semibold text-slate-900 mb-3 sm:mb-4">
-                    My Connections ({networkData.connections.length})
+                    My Connections ({connectionsList.length})
                   </h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {networkData.connections.map((person) => (
+                    {connectionsList.map((person) => (
                       <div key={person.id} className="bg-white border border-slate-200 rounded-lg p-4 hover:shadow-md transition-all">
                         <div className="flex items-center gap-3">
                           <div 
@@ -593,10 +621,10 @@ export default function StudentNetwork() {
                 {/* Mentors Section */}
                 <div>
                   <h2 className="text-lg sm:text-xl font-semibold text-slate-900 mb-3 sm:mb-4">
-                    Available Mentors ({networkData.mentors.length})
+                    Available Mentors ({mentorsList.length - Object.keys(connectedMentors).length})
                   </h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {networkData.mentors.map((mentor) => (
+                    {mentorsList.map((mentor) => (
                       <div key={mentor.id} className="bg-white border border-slate-200 rounded-lg p-4 hover:shadow-md transition-all">
                         <div className="flex items-start justify-between">
                           <div>
@@ -609,10 +637,16 @@ export default function StudentNetwork() {
                           </div>
                           <button
                             onClick={() => handleConnect(mentor.id)}
-                            className="px-3 py-1.5 text-xs sm:text-sm rounded-lg font-medium text-white transition-all"
-                            style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                            disabled={connectedMentors[mentor.id]}
+                            className={`px-3 py-1.5 text-xs sm:text-sm rounded-lg font-medium text-white transition-all ${
+                              connectedMentors[mentor.id] ? 'bg-green-500 cursor-not-allowed' : 'hover:bg-indigo-700'
+                            }`}
+                            style={{
+                              backgroundImage: connectedMentors[mentor.id] ? 'none' : `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))`,
+                              backgroundColor: connectedMentors[mentor.id] ? '#22C55E' : 'transparent',
+                            }}
                           >
-                            Connect
+                            {connectedMentors[mentor.id] ? 'Connection Sent' : 'Connect'}
                           </button>
                         </div>
                       </div>
@@ -626,10 +660,10 @@ export default function StudentNetwork() {
             {activeTab === 'requests' && (
               <div>
                 <h2 className="text-lg sm:text-xl font-semibold text-slate-900 mb-3 sm:mb-4">
-                  Incoming Requests ({networkData.requests.length})
+                  Incoming Requests ({requestsList.length})
                 </h2>
                 <div className="space-y-4">
-                  {networkData.requests.map((request) => (
+                  {requestsList.map((request) => (
                     <div key={request.id} className="bg-white border border-slate-200 rounded-lg p-4 hover:shadow-md transition-all">
                       <div className="flex items-start justify-between">
                         <div className="flex items-start gap-3">
@@ -689,7 +723,7 @@ export default function StudentNetwork() {
                   </div>
                   
                   <div className="space-y-2 max-h-96 overflow-y-auto">
-                    {networkData.connections.map((person) => (
+                    {connectionsList.map((person) => (
                       <div 
                         key={person.id}
                         onClick={() => setSelectedConversation(person)}

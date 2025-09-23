@@ -91,34 +91,6 @@ export default function Landing() {
         }, 100);
       }
     }
-    
-    // Add click event listener for anchor links to handle smooth scrolling
-    const handleAnchorClick = (e) => {
-      const href = e.target.getAttribute('href');
-      if (href && href.startsWith('#')) {
-        e.preventDefault();
-        const targetElement = document.querySelector(href);
-        if (targetElement) {
-          targetElement.scrollIntoView({ behavior: 'smooth' });
-          
-          // Update the URL hash without triggering a page reload
-          window.history.pushState({}, '', href);
-        }
-      }
-    };
-    
-    // Add event listeners to all anchor links in the document
-    const anchorLinks = document.querySelectorAll('a[href^="#"]');
-    anchorLinks.forEach(link => {
-      link.addEventListener('click', handleAnchorClick);
-    });
-    
-    // Cleanup event listeners
-    return () => {
-      anchorLinks.forEach(link => {
-        link.removeEventListener('click', handleAnchorClick);
-      });
-    };
   }, [location]);
 
   return (

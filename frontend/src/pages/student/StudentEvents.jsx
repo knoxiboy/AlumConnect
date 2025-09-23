@@ -2,7 +2,7 @@ import { useState } from "react";
 import StudentNavbar from "../../layouts/StudentNavbar";
 import { recentEvents } from "../../data/adminMockData";
 import {
-  Calendar, MapPin, Users, Clock, Filter, Search, CheckCircle, ChevronDown, X
+  Calendar, MapPin, Users, Clock, Filter, Search, CheckCircle, ChevronDown, X, Check
 } from "lucide-react";
 
 // Brand colors
@@ -12,7 +12,65 @@ const brand = {
   coral: '255 145 120',
 };
 
-const EventCard = ({ event, isRegistered, onRegister }) => (
+// New Event Details Modal Component
+const EventDetailsModal = ({ isOpen, onClose, event }) => {
+  if (!isOpen || !event) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm">
+      <div className="fixed bottom-0 left-0 right-0 lg:absolute lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 bg-white rounded-t-2xl lg:rounded-xl p-6 max-h-[90vh] overflow-y-auto w-full lg:max-w-xl shadow-lg">
+        <div className="flex items-center justify-between mb-4 border-b border-slate-200 pb-4">
+          <h3 className="text-xl font-bold text-slate-900 line-clamp-2">{event.name}</h3>
+          <button
+            onClick={onClose}
+            className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        <div className="space-y-4">
+          <p className="text-slate-700 text-sm">{event.description}</p>
+          
+          <div className="space-y-3 text-sm text-slate-600">
+            <div className="flex items-center gap-3">
+              <Calendar className="w-4 h-4 flex-shrink-0" style={{ color: `rgb(${brand.indigo})` }}/>
+              <span>
+                {new Date(event.date).toLocaleDateString('en-US', { 
+                  weekday: 'long',
+                  month: 'long',
+                  day: 'numeric',
+                  year: 'numeric'
+                })}
+              </span>
+            </div>
+            <div className="flex items-center gap-3">
+              <MapPin className="w-4 h-4 flex-shrink-0" style={{ color: `rgb(${brand.coral})` }}/>
+              <span>{event.venue}</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <Users className="w-4 h-4 flex-shrink-0" style={{ color: `rgb(${brand.lilac})` }}/>
+              <span>{event.attendees} registered</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6 flex justify-end">
+          <button
+            onClick={onClose}
+            className="w-full lg:w-auto px-6 py-3 rounded-lg font-semibold text-white transition-all"
+            style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
+const EventCard = ({ event, isRegistered, onRegister, onViewDetails }) => (
   <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-lg transition-all">
     <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-3 sm:mb-4 gap-2">
       <h3 className="text-base sm:text-lg font-bold text-slate-900 line-clamp-2 flex-1">
@@ -62,12 +120,18 @@ const EventCard = ({ event, isRegistered, onRegister }) => (
             Register Now
           </button>
         )}
-        <button className="flex-1 sm:flex-initial px-3 sm:px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-xs sm:text-sm font-medium transition-colors">
+        <button 
+          onClick={() => onViewDetails(event)}
+          className="flex-1 sm:flex-initial px-3 sm:px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-xs sm:text-sm font-medium transition-colors"
+        >
           View Details
         </button>
       </div>
     ) : (
-      <button className="w-full py-2 rounded-lg font-semibold bg-slate-100 text-slate-700 transition-all text-xs sm:text-sm">
+      <button 
+        onClick={() => onViewDetails(event)}
+        className="w-full py-2 rounded-lg font-semibold bg-slate-100 text-slate-700 transition-all text-xs sm:text-sm"
+      >
         View Event Summary
       </button>
     )}
@@ -81,7 +145,8 @@ const MobileFiltersModal = ({ isOpen, onClose, statusFilter, setStatusFilter }) 
   const statusOptions = [
     { value: "all", label: "All Events" },
     { value: "Upcoming", label: "Upcoming Events" },
-    { value: "Completed", label: "Past Events" }
+    { value: "Completed", label: "Past Events" },
+    { value: "registered", label: "Registered Events" }
   ];
 
   return (
@@ -140,15 +205,35 @@ export default function StudentEvents() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [registeredEvents, setRegisteredEvents] = useState([1, 3]); // Mock registered event IDs
   const [showMobileFilters, setShowMobileFilters] = useState(false);
-
+  
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [selectedEventForDetails, setSelectedEventForDetails] = useState(null);
+  
   const handleRegister = (eventId) => {
     setRegisteredEvents(prev => [...prev, eventId]);
   };
-
+  
+  const handleViewDetails = (event) => {
+    setSelectedEventForDetails(event);
+    setShowDetailsModal(true);
+  };
+  
+  const handleStatCardClick = (filterValue) => {
+    setStatusFilter(filterValue);
+  };
+  
   const filteredEvents = recentEvents.filter(event => {
     const matchesSearch = event.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          event.venue.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = statusFilter === "all" || event.status === statusFilter;
+    
+    let matchesStatus = false;
+    if (statusFilter === "all") {
+      matchesStatus = true;
+    } else if (statusFilter === "registered") {
+      matchesStatus = registeredEvents.includes(event.id);
+    } else {
+      matchesStatus = event.status === statusFilter;
+    }
     
     return matchesSearch && matchesStatus;
   });
@@ -171,22 +256,31 @@ export default function StudentEvents() {
 
         {/* Registration Stats */}
         <div className="grid grid-cols-3 gap-3 sm:gap-6 mb-6 sm:mb-8">
-          <div className="bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-xl p-3 sm:p-4 text-center">
+          <button 
+            className="bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-xl p-3 sm:p-4 text-center transition-transform hover:scale-105"
+            onClick={() => handleStatCardClick("registered")}
+          >
             <div className="text-lg sm:text-2xl font-bold text-slate-900">{registeredEvents.length}</div>
             <div className="text-xs sm:text-sm text-slate-600">Events Registered</div>
-          </div>
-          <div className="bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-xl p-3 sm:p-4 text-center">
+          </button>
+          <button 
+            className="bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-xl p-3 sm:p-4 text-center transition-transform hover:scale-105"
+            onClick={() => handleStatCardClick("Upcoming")}
+          >
             <div className="text-lg sm:text-2xl font-bold text-slate-900">
               {recentEvents.filter(e => e.status === 'Upcoming').length}
             </div>
             <div className="text-xs sm:text-sm text-slate-600">Upcoming Events</div>
-          </div>
-          <div className="bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-xl p-3 sm:p-4 text-center">
+          </button>
+          <button 
+            className="bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-xl p-3 sm:p-4 text-center transition-transform hover:scale-105"
+            onClick={() => handleStatCardClick("Completed")}
+          >
             <div className="text-lg sm:text-2xl font-bold text-slate-900">
               {recentEvents.filter(e => e.status === 'Completed').length}
             </div>
             <div className="text-xs sm:text-sm text-slate-600">Past Events</div>
-          </div>
+          </button>
         </div>
 
         {/* Search and Filters */}
@@ -214,6 +308,7 @@ export default function StudentEvents() {
                 <option value="all">All Events</option>
                 <option value="Upcoming">Upcoming</option>
                 <option value="Completed">Past Events</option>
+                <option value="registered">Registered</option>
               </select>
             </div>
 
@@ -249,7 +344,7 @@ export default function StudentEvents() {
                 )}
                 {statusFilter !== "all" && (
                   <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">
-                    Status: {statusFilter}
+                    Status: {statusFilter === 'registered' ? 'Registered' : statusFilter}
                   </span>
                 )}
                 <button
@@ -280,6 +375,7 @@ export default function StudentEvents() {
               event={event} 
               isRegistered={registeredEvents.includes(event.id)}
               onRegister={handleRegister}
+              onViewDetails={handleViewDetails}
             />
           ))}
         </div>
@@ -309,6 +405,13 @@ export default function StudentEvents() {
         onClose={() => setShowMobileFilters(false)}
         statusFilter={statusFilter}
         setStatusFilter={setStatusFilter}
+      />
+
+      {/* Event Details Modal */}
+      <EventDetailsModal
+        isOpen={showDetailsModal}
+        onClose={() => setShowDetailsModal(false)}
+        event={selectedEventForDetails}
       />
     </div>
   );
