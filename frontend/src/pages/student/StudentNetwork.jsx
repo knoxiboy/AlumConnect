@@ -263,7 +263,7 @@ export default function StudentNetwork() {
           <h2 className="text-lg sm:text-xl font-semibold text-slate-900 mb-4">Community Chat</h2>
           <p className="text-slate-600 mb-4">Connect with alumni, find mentors, and participate in discussions through our Discord community.</p>
           
-          {/* Discord Widget */}
+          {/* Discord Widget with Fallback */}
           <div className="rounded-lg overflow-hidden">
             <widgetbot
               server="1420060670828744877"
@@ -271,6 +271,15 @@ export default function StudentNetwork() {
               width="100%"
               height="600"
             ></widgetbot>
+          </div>
+          
+          <div className="mt-4 text-center">
+            <p className="text-sm text-slate-500">
+              If you're having trouble accessing the chat, make sure you're logged into Discord. 
+              <a href="https://discord.gg/eFGKpqMxvP" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:underline ml-1">
+                Join our Discord server directly
+              </a>
+            </p>
           </div>
         </div>
       </main>
