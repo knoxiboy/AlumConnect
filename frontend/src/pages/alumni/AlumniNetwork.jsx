@@ -34,10 +34,148 @@ const networkData = {
   ]
 };
 
+// News Feed Data
+const newsFeedData = [
+  {
+    id: 1,
+    author: {
+      name: "Sarah Chen",
+      initials: "SC",
+      class: "Class of 2018",
+      time: "2 hours ago"
+    },
+    content: "Excited to announce that I've been promoted to Senior Product Manager at Google! 🎉 Grateful for all the mentorship and support from our amazing alumni network.",
+    likes: 47,
+    comments: 12,
+    shares: 0
+  },
+  {
+    id: 2,
+    author: {
+      name: "Michael Rodriguez",
+      initials: "MR",
+      class: "Class of 2015",
+      time: "5 hours ago"
+    },
+    content: "After 8 amazing years at Microsoft, I'm thrilled to share that I'm joining OpenAI as a Staff Engineer! Looking forward to working on cutting-edge AI technology. Thanks to everyone who supported me through this transition.",
+    likes: 89,
+    comments: 24,
+    shares: 0
+  },
+  {
+    id: 3,
+    author: {
+      name: "Emily Johnson",
+      initials: "EJ",
+      class: "Class of 2020",
+      time: "1 day ago"
+    },
+    content: "Quick poll for fellow marketers: What's the most effective social media platform for B2B marketing in 2025?",
+    poll: {
+      question: "Best B2B social platform?",
+      options: [
+        { id: 1, text: "LinkedIn", votes: 45, percentage: 60 },
+        { id: 2, text: "Twitter/X", votes: 18, percentage: 24 },
+        { id: 3, text: "Instagram", votes: 8, percentage: 11 },
+        { id: 4, text: "TikTok", votes: 4, percentage: 5 }
+      ],
+      totalVotes: 75
+    },
+    likes: 23,
+    comments: 8,
+    shares: 0
+  },
+  {
+    id: 4,
+    author: {
+      name: "David Kim",
+      initials: "DK",
+      class: "Class of 2019",
+      time: "2 days ago"
+    },
+    content: "Celebrating 5 years at Goldman Sachs! It's been an incredible journey from analyst to VP. Grateful for the opportunities and looking forward to mentoring more junior professionals.",
+    likes: 34,
+    comments: 15,
+    shares: 0
+  }
+];
+
+// Success Stories Data
+const successStoriesData = [
+  {
+    id: 1,
+    category: "Entrepreneurship",
+    badge: "Raised Series A",
+    title: "From Student to Startup Founder",
+    author: {
+      name: "Lisa Park",
+      class: "Class of 2017",
+      company: "TechFlow Inc"
+    },
+    description: "Started as a computer science student with a simple idea. Today, TechFlow has 50+ employees and $10M in funding.",
+    image: null
+  },
+  {
+    id: 2,
+    category: "Technology",
+    badge: "Director at Tesla",
+    title: "Leading Innovation at Fortune 500",
+    author: {
+      name: "James Wilson",
+      class: "Class of 2016",
+      company: "Tesla"
+    },
+    description: "From engineering intern to Director of AI/ML. Led the team that developed Tesla's latest autonomous driving features.",
+    image: null
+  },
+  {
+    id: 3,
+    category: "Social Impact",
+    badge: "1M+ Trees Planted",
+    title: "Social Impact Through Business",
+    author: {
+      name: "Maria Santos",
+      class: "Class of 2019",
+      company: "EcoSolutions"
+    },
+    description: "Founded a social enterprise that has helped plant over 1M trees while providing sustainable income to rural communities.",
+    image: null
+  }
+];
+
+// Polls & Surveys Data
+const pollsData = [
+  {
+    id: 1,
+    author: {
+      name: "Emily Johnson",
+      class: "Class of 2020",
+      time: "1 day ago"
+    },
+    question: "Quick poll for fellow marketers: What's the most effective social media platform for B2B marketing in 2025?",
+    poll: {
+      question: "Best B2B social platform?",
+      options: [
+        { id: 1, text: "LinkedIn", votes: 45, percentage: 60 },
+        { id: 2, text: "Twitter/X", votes: 18, percentage: 24 },
+        { id: 3, text: "Instagram", votes: 8, percentage: 11 },
+        { id: 4, text: "TikTok", votes: 4, percentage: 5 }
+      ],
+      totalVotes: 75,
+      endDate: "in 2 days"
+    }
+  }
+];
+
 export default function AlumniNetwork() {
   const user = getCurrentUser();
   const [activeTab, setActiveTab] = useState('network');
   const [selectedConversation, setSelectedConversation] = useState(null);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [newPost, setNewPost] = useState({
+    content: '',
+    type: 'achievement' // 'achievement', 'photo', 'poll'
+  });
 
   const handleAcceptMentorship = (id) => {
     // Handle accept mentorship request logic
@@ -52,6 +190,23 @@ export default function AlumniNetwork() {
   const handleConnect = (id) => {
     // Handle connect logic
     console.log("Connect with person", id);
+  };
+
+  const handleLikePost = (id) => {
+    // Handle like post logic
+    console.log("Like post", id);
+  };
+
+  const handleSharePost = (id) => {
+    // Handle share post logic
+    console.log("Share post", id);
+  };
+
+  const handleCreatePost = () => {
+    // Handle create post logic
+    console.log("Creating post", newPost);
+    setShowShareModal(false);
+    setNewPost({ content: '', type: 'achievement' });
   };
 
   return (
@@ -164,10 +319,233 @@ export default function AlumniNetwork() {
               >
                 Messages
               </button>
+              <button
+                onClick={() => setActiveTab('newsfeed')}
+                className={`py-3 sm:py-4 px-1 border-b-2 font-medium text-sm sm:text-base whitespace-nowrap ${
+                  activeTab === 'newsfeed'
+                    ? 'border-indigo-500 text-indigo-600'
+                    : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
+                }`}
+              >
+                News Feed
+              </button>
+              <button
+                onClick={() => setActiveTab('success')}
+                className={`py-3 sm:py-4 px-1 border-b-2 font-medium text-sm sm:text-base whitespace-nowrap ${
+                  activeTab === 'success'
+                    ? 'border-indigo-500 text-indigo-600'
+                    : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
+                }`}
+              >
+                Success Stories
+              </button>
+              <button
+                onClick={() => setActiveTab('polls')}
+                className={`py-3 sm:py-4 px-1 border-b-2 font-medium text-sm sm:text-base whitespace-nowrap ${
+                  activeTab === 'polls'
+                    ? 'border-indigo-500 text-indigo-600'
+                    : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
+                }`}
+              >
+                Polls & Surveys
+              </button>
             </nav>
           </div>
 
           <div className="p-4 sm:p-6">
+            {/* News Feed Tab */}
+            {activeTab === 'newsfeed' && (
+              <div className="space-y-6">
+                {/* Share Update Section */}
+                <div className="bg-white border border-slate-200 rounded-lg p-4">
+                  <div className="flex items-start gap-3">
+                    <div 
+                      className="w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold text-sm"
+                      style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                    >
+                      {user.name.split(' ').map(n => n[0]).join('')}
+                    </div>
+                    <div className="flex-1">
+                      <button
+                        onClick={() => setShowShareModal(true)}
+                        className="w-full text-left p-3 bg-slate-100 rounded-lg text-slate-500 hover:bg-slate-200 transition-colors"
+                      >
+                        Share your achievements, career updates, or thoughts with the alumni community...
+                      </button>
+                      <div className="flex items-center gap-4 mt-3">
+                        <button className="flex items-center gap-1 text-sm text-slate-600 hover:text-indigo-600">
+                          <span className="w-5 h-5">📸</span>
+                          Photo
+                        </button>
+                        <button className="flex items-center gap-1 text-sm text-slate-600 hover:text-indigo-600">
+                          <span className="w-5 h-5">📊</span>
+                          Poll
+                        </button>
+                        <button className="flex items-center gap-1 text-sm text-slate-600 hover:text-indigo-600">
+                          <span className="w-5 h-5">🎉</span>
+                          Achievement
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* News Feed Posts */}
+                <div className="space-y-6">
+                  {newsFeedData.map((post) => (
+                    <div key={post.id} className="bg-white border border-slate-200 rounded-lg p-4 hover:shadow-md transition-all">
+                      <div className="flex items-start gap-3">
+                        <div 
+                          className="w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold text-sm"
+                          style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                        >
+                          {post.author.initials}
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <h3 className="font-medium text-slate-900">{post.author.name}</h3>
+                              <p className="text-xs text-slate-600">{post.author.class} • {post.author.time}</p>
+                            </div>
+                          </div>
+                          <p className="text-slate-800 mt-2">{post.content}</p>
+                          
+                          {post.poll && (
+                            <div className="mt-4 p-4 bg-slate-50 rounded-lg">
+                              <h4 className="font-medium text-slate-900 mb-3">{post.poll.question}</h4>
+                              <div className="space-y-2">
+                                {post.poll.options.map((option) => (
+                                  <div key={option.id} className="relative">
+                                    <div 
+                                      className="absolute inset-0 rounded h-full bg-blue-100"
+                                      style={{ width: `${option.percentage}%` }}
+                                    ></div>
+                                    <div className="relative flex justify-between items-center p-2">
+                                      <span className="text-sm font-medium text-slate-900">{option.text}</span>
+                                      <span className="text-sm text-slate-600">{option.percentage}%</span>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                              <p className="text-xs text-slate-500 mt-2">{post.poll.totalVotes} total votes</p>
+                            </div>
+                          )}
+                          
+                          <div className="flex items-center gap-6 mt-4 pt-3 border-t border-slate-100">
+                            <button 
+                              onClick={() => handleLikePost(post.id)}
+                              className="flex items-center gap-1 text-sm text-slate-600 hover:text-red-500"
+                            >
+                              ❤️ {post.likes}
+                            </button>
+                            <button className="flex items-center gap-1 text-sm text-slate-600 hover:text-blue-500">
+                              💬 {post.comments}
+                            </button>
+                            <button 
+                              onClick={() => handleSharePost(post.id)}
+                              className="flex items-center gap-1 text-sm text-slate-600 hover:text-green-500"
+                            >
+                              ↗️ Share
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Success Stories Tab */}
+            {activeTab === 'success' && (
+              <div className="space-y-6">
+                <h2 className="text-xl font-semibold text-slate-900">Alumni Success Stories</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {successStoriesData.map((story) => (
+                    <div key={story.id} className="bg-white border border-slate-200 rounded-lg overflow-hidden hover:shadow-md transition-all">
+                      <div className="p-5">
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="text-xs font-semibold px-2 py-1 rounded-full bg-indigo-100 text-indigo-800">
+                            {story.category}
+                          </span>
+                          <span className="text-xs font-semibold px-2 py-1 rounded-full bg-green-100 text-green-800">
+                            {story.badge}
+                          </span>
+                        </div>
+                        <h3 className="font-bold text-lg text-slate-900 mb-2">{story.title}</h3>
+                        <div className="flex items-center gap-3 mb-4">
+                          <div 
+                            className="w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold text-sm"
+                            style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                          >
+                            {story.author.name.split(' ').map(n => n[0]).join('')}
+                          </div>
+                          <div>
+                            <p className="font-medium text-slate-900 text-sm">{story.author.name}</p>
+                            <p className="text-xs text-slate-600">{story.author.class}</p>
+                            <p className="text-xs text-slate-600">{story.author.company}</p>
+                          </div>
+                        </div>
+                        <p className="text-slate-700 text-sm mb-4">{story.description}</p>
+                        <button className="text-sm font-medium text-indigo-600 hover:text-indigo-800">
+                          Read More →
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Polls & Surveys Tab */}
+            {activeTab === 'polls' && (
+              <div className="space-y-6">
+                <h2 className="text-xl font-semibold text-slate-900">Community Polls & Surveys</h2>
+                <div className="space-y-6">
+                  {pollsData.map((pollItem) => (
+                    <div key={pollItem.id} className="bg-white border border-slate-200 rounded-lg p-5 hover:shadow-md transition-all">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div 
+                          className="w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold text-sm"
+                          style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                        >
+                          {pollItem.author.name.split(' ').map(n => n[0]).join('')}
+                        </div>
+                        <div>
+                          <h3 className="font-medium text-slate-900">{pollItem.author.name}</h3>
+                          <p className="text-xs text-slate-600">{pollItem.author.class} • {pollItem.author.time}</p>
+                        </div>
+                      </div>
+                      
+                      <p className="text-slate-800 mb-4">{pollItem.question}</p>
+                      
+                      <div className="p-4 bg-slate-50 rounded-lg mb-4">
+                        <h4 className="font-medium text-slate-900 mb-3">{pollItem.poll.question}</h4>
+                        <div className="space-y-2">
+                          {pollItem.poll.options.map((option) => (
+                            <div key={option.id} className="relative">
+                              <div 
+                                className="absolute inset-0 rounded h-full bg-blue-100"
+                                style={{ width: `${option.percentage}%` }}
+                              ></div>
+                              <div className="relative flex justify-between items-center p-2">
+                                <span className="text-sm font-medium text-slate-900">{option.text}</span>
+                                <span className="text-sm text-slate-600">{option.percentage}%</span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="flex justify-between items-center mt-3 pt-3 border-t border-slate-200">
+                          <p className="text-xs text-slate-500">{pollItem.poll.totalVotes} votes</p>
+                          <p className="text-xs text-slate-500">Poll ends {pollItem.poll.endDate}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* My Network Tab */}
             {activeTab === 'network' && (
               <div className="space-y-6 sm:space-y-8">
@@ -369,6 +747,69 @@ export default function AlumniNetwork() {
             )}
           </div>
         </div>
+
+        {/* Share Update Modal */}
+        {showShareModal && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div className="bg-white rounded-xl max-w-lg w-full p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-slate-900">Share an Update</h3>
+                <button 
+                  onClick={() => setShowShareModal(false)}
+                  className="text-slate-400 hover:text-slate-600"
+                >
+                  ✕
+                </button>
+              </div>
+              
+              <div className="flex items-start gap-3 mb-4">
+                <div 
+                  className="w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold text-sm"
+                  style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                >
+                  {user.name.split(' ').map(n => n[0]).join('')}
+                </div>
+                <div className="flex-1">
+                  <textarea
+                    value={newPost.content}
+                    onChange={(e) => setNewPost({...newPost, content: e.target.value})}
+                    placeholder="What would you like to share with the community?"
+                    className="w-full border border-slate-300 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    rows="4"
+                  />
+                </div>
+              </div>
+              
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <button className="flex items-center gap-1 text-sm text-slate-600 hover:text-indigo-600">
+                    <span className="w-5 h-5">📸</span>
+                    Photo
+                  </button>
+                  <button className="flex items-center gap-1 text-sm text-slate-600 hover:text-indigo-600">
+                    <span className="w-5 h-5">📊</span>
+                    Poll
+                  </button>
+                  <button className="flex items-center gap-1 text-sm text-slate-600 hover:text-indigo-600">
+                    <span className="w-5 h-5">🎉</span>
+                    Achievement
+                  </button>
+                </div>
+                <button
+                  onClick={handleCreatePost}
+                  disabled={!newPost.content.trim()}
+                  className={`px-4 py-2 rounded-lg font-medium text-white text-sm ${
+                    newPost.content.trim() 
+                      ? 'bg-indigo-600 hover:bg-indigo-700' 
+                      : 'bg-indigo-300 cursor-not-allowed'
+                  }`}
+                >
+                  Post Update
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
