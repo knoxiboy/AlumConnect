@@ -179,7 +179,7 @@
                   className="text-lg font-bold"
                   style={{ color: '#c25f3a' }}
                 >
-                  AlumnNET
+                  AlumConnect
                 </span>
               </div>
             </div>
@@ -189,7 +189,7 @@
                 Institution Registration
               </h1>
               <p className="text-slate-600 text-lg">
-                Join AlumnNET to build a powerful, connected community for your institution
+                Join AlumConnect to build a powerful, connected community for your institution
               </p>
               <div className="mt-4 flex items-center justify-center gap-6 text-sm text-slate-500">
                 <div className="flex items-center gap-2">
@@ -382,7 +382,7 @@
           <div className="mt-16 bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-2xl shadow-lg p-8">
             <div className="text-center mb-8">
               <h2 className="text-2xl font-bold text-slate-900 mb-2">Frequently Asked Questions</h2>
-              <p className="text-slate-600">Everything you need to know about joining AlumnNET</p>
+              <p className="text-slate-600">Everything you need to know about joining AlumConnect</p>
             </div>
             
             <div className="max-w-3xl mx-auto space-y-2">
@@ -395,8 +395,8 @@
                 answer="Yes, once your profile is approved, the designated admin will have access to a comprehensive dashboard where they can update all institution information, branding, technical settings, and manage user permissions."
               />
               <FAQItem 
-                question="Is there a cost to join AlumnNET?" 
-                answer="Creating and setting up a basic institution profile on AlumnNET is completely free. We offer premium packages with advanced features like detailed analytics, targeted communication tools, event management, and priority support."
+                question="Is there a cost to join AlumConnect?" 
+                answer="Creating and setting up a basic institution profile on AlumConnect is completely free. We offer premium packages with advanced features like detailed analytics, targeted communication tools, event management, and priority support."
               />
               <FAQItem 
                 question="How secure is our data?" 

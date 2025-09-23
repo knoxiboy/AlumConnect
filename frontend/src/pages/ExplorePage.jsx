@@ -381,7 +381,7 @@ export default function ExplorePage() {
           
           <p className="text-base sm:text-lg text-slate-600 max-w-3xl mx-auto mb-6 sm:mb-8 px-2">
             Discover the growing network of prestigious colleges and universities on the 
-            <span className="font-semibold" style={{color: `rgb(${brand.indigo})`}}> AlumnNET</span> platform. 
+            <span className="font-semibold" style={{color: `rgb(${brand.indigo})`}}> AlumConnect</span> platform. 
             Connect with alumni, explore opportunities, and build meaningful professional relationships.
           </p>
 

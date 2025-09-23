@@ -18,7 +18,7 @@ export default function AdminLayout() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("alumnnet_admin_session");
+    localStorage.removeItem("AlumConnect_admin_session");
     navigate("/landing");
   };
 

@@ -15,7 +15,7 @@ export default function AdminLoginPage() {
     if (form.email === ADMIN_CONFIG.email && form.password === ADMIN_CONFIG.password) {
       // mock session
       localStorage.setItem(
-        "alumnnet_admin_session",
+        "AlumConnect_admin_session",
         JSON.stringify({ email: form.email, collegeId: ADMIN_CONFIG.collegeId, ts: Date.now() })
       );
       navigate("/admin/dashboard");

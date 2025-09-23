@@ -153,7 +153,7 @@ const AuthPage = () => {
       if (role === 'admin') {
         // Admin login logic
         if (email === 'karan@college.edu' && password === 'Tiwariji') {
-          localStorage.setItem("alumnnet_admin_session", JSON.stringify({ 
+          localStorage.setItem("AlumConnect_admin_session", JSON.stringify({ 
             email: email, 
             collegeId: "iit-delhi", 
             ts: Date.now() 
