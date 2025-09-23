@@ -482,6 +482,101 @@ export default function StudentProfile() {
             </div>
           </div>
         )}
+
+        {/* My Network Section */}
+        <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 mb-6 sm:mb-8">
+          <h3 className="text-base sm:text-lg font-semibold text-slate-900 mb-4">My Network</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { id: 1, initials: "JD", name: "Jane Doe", role: "Senior Software Engineer", type: "alumni" },
+              { id: 2, initials: "MJ", name: "Mike Johnson", role: "Lead Data Scientist", type: "alumni" },
+              { id: 3, initials: "ED", name: "Emily Davis", role: "Senior Product Manager", type: "alumni" }
+            ].map((person) => (
+              <div key={person.id} className="bg-white border border-slate-200 rounded-lg p-4 hover:shadow-md transition-all">
+                <div className="flex items-center gap-3">
+                  <div 
+                    className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-white font-semibold text-sm"
+                    style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                  >
+                    {person.initials}
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-slate-900">{person.name}</h4>
+                    <p className="text-xs sm:text-sm text-slate-600">{person.role}</p>
+                    <span className="inline-block mt-1 px-2 py-0.5 text-xs rounded-full bg-blue-100 text-blue-800">
+                      {person.type}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 text-center">
+            <a 
+              href="/student/network" 
+              className="text-sm font-medium"
+              style={{ color: `rgb(${brand.indigo})` }}
+            >
+              View all connections →
+            </a>
+          </div>
+        </div>
+
+        {/* Mentorship Requests Section */}
+        <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6">
+          <h3 className="text-base sm:text-lg font-semibold text-slate-900 mb-4">Mentorship Requests</h3>
+          <div className="space-y-4">
+            {[
+              { id: 1, name: "Sarah Johnson", major: "Computer Science", time: "2 days ago", message: "Hi John! I'd love to connect and discuss your AI/ML projects." }
+            ].map((request) => (
+              <div key={request.id} className="bg-white border border-slate-200 rounded-lg p-4 hover:shadow-md transition-all">
+                <div className="flex items-start justify-between">
+                  <div className="flex items-start gap-3">
+                    <div 
+                      className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-white font-semibold text-sm"
+                      style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                    >
+                      {request.name.split(' ').map(n => n[0]).join('')}
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-slate-900">{request.name}</h4>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className="text-xs text-slate-500">{request.major}</span>
+                        <span className="inline-block px-2 py-0.5 text-xs rounded-full bg-green-100 text-green-800">
+                          student
+                        </span>
+                      </div>
+                      <p className="text-xs sm:text-sm text-slate-500 mt-2">{request.time}</p>
+                      <p className="text-sm text-slate-600 mt-2 italic">"{request.message}"</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <button className="p-2 rounded-full bg-green-100 text-green-600 hover:bg-green-200 transition-colors">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    </button>
+                    <button className="p-2 rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition-colors">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 text-center">
+            <a 
+              href="/student/network" 
+              className="text-sm font-medium"
+              style={{ color: `rgb(${brand.indigo})` }}
+            >
+              View all requests →
+            </a>
+          </div>
+        </div>
       </main>
     </div>
   );
