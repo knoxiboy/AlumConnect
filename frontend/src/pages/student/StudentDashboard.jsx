@@ -6,7 +6,7 @@ import { recentEvents } from "../../data/adminMockData";
 import { jobPostings } from "../../data/jobs";
 import {
   Users, Calendar, Briefcase, TrendingUp, 
-  Bell, MessageCircle, BookOpen, Eye, Target, Award
+  Bell, MessageCircle, BookOpen, Eye, Target, Award, Check, X
 } from "lucide-react";
 
 // Brand colors
@@ -43,21 +43,133 @@ const StatCard = ({ icon, title, value, trend, color }) => (
   </div>
 );
 
+// Reusable modal for confirmation messages
+const MessageModal = ({ isOpen, onClose, title, message }) => {
+  if (!isOpen) return null;
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+      <div className="bg-white rounded-xl p-6 shadow-xl max-w-sm w-full relative">
+        <button 
+          onClick={onClose}
+          className="absolute top-3 right-3 p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors"
+        >
+          <X className="w-5 h-5" />
+        </button>
+        <div className="text-center mt-4">
+          <h3 className="text-xl font-bold text-slate-900 mb-2">{title}</h3>
+          <p className="text-slate-600 text-sm mb-6">{message}</p>
+          <button
+            onClick={onClose}
+            className="w-full px-6 py-3 rounded-lg font-semibold text-white transition-all"
+            style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+          >
+            Got it
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
+// New Form Modal Component
+const FormModal = ({ isOpen, onClose, title, item, onSubmit }) => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+
+  if (!isOpen) return null;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // In a real app, you would send this data to a server
+    console.log({ name, email, message, item });
+    onSubmit(item.id);
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+      <div className="bg-white rounded-xl p-6 shadow-xl max-w-lg w-full relative">
+        <button 
+          onClick={onClose}
+          className="absolute top-3 right-3 p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors"
+        >
+          <X className="w-5 h-5" />
+        </button>
+        <h3 className="text-xl font-bold text-slate-900 mb-2">{title}</h3>
+        <p className="text-slate-600 text-sm mb-4">{item.title || item.name} at {item.company || item.venue}</p>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label htmlFor="name" className="block text-sm font-medium text-slate-700">Full Name</label>
+            <input
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-sm"
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-slate-700">Email Address</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-sm"
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="message" className="block text-sm font-medium text-slate-700">
+              Optional Message
+            </label>
+            <textarea
+              id="message"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              rows="3"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-sm"
+            ></textarea>
+          </div>
+          <button
+            type="submit"
+            className="w-full px-6 py-3 rounded-lg font-semibold text-white transition-all"
+            style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+          >
+            Submit
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+
 export default function StudentDashboard() {
   const [userProfile, setUserProfile] = useState(null);
   const [recentActivity, setRecentActivity] = useState([]);
   
-  // Get user once and store in variable to prevent re-renders
+  const [appliedJobs, setAppliedJobs] = useState({});
+  const [registeredEvents, setRegisteredEvents] = useState({});
+  
+  // State for the new modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState(null);
+
+  // State for the new quick actions modal
+  const [isActionModalOpen, setIsActionModalOpen] = useState(false);
+  const [actionModalContent, setActionModalContent] = useState({ title: '', message: '' });
+
   const user = getCurrentUser();
 
   useEffect(() => {
-    // Only run if user exists and userProfile is not already set
     if (user && !userProfile) {
-      // Get user's student profile
       const profile = studentProfiles.find(p => p.id === user.id);
       setUserProfile(profile);
 
-      // Set recent activity (static data - no need to depend on user)
       setRecentActivity([
         { id: 1, type: 'connection', message: 'Priya Sharma (Alumni) viewed your profile', time: '1 hour ago' },
         { id: 2, type: 'event', message: 'New event: Tech Talks - AI & ML Trends', time: '3 hours ago' },
@@ -65,12 +177,67 @@ export default function StudentDashboard() {
         { id: 4, type: 'achievement', message: 'Profile completion: 85%', time: '2 days ago' },
       ]);
     }
-  }, [user?.id, userProfile]); // Only depend on user ID and whether profile is already loaded
+  }, [user?.id, userProfile]);
 
   const upcomingEvents = recentEvents.filter(e => e.status === 'Upcoming').slice(0, 3);
   const internshipJobs = jobPostings.filter(j => j.type === 'Internship' && j.isActive).slice(0, 3);
+  
+  // Handler for the "Register" button
+  const handleEventRegister = (event) => {
+    setIsModalOpen(true);
+    setModalContent({ 
+      title: "Event Registration", 
+      item: event,
+      type: 'event'
+    });
+  };
 
-  // Show loading while user profile is being fetched
+  // Handler for the "Apply" button
+  const handleJobApply = (job) => {
+    setIsModalOpen(true);
+    setModalContent({
+      title: "Job Application",
+      item: job,
+      type: 'job'
+    });
+  };
+
+  // Handler for form submission from the modal
+  const handleSubmitForm = (itemId) => {
+    if (modalContent.type === 'job') {
+      setAppliedJobs(prev => ({ ...prev, [itemId]: true }));
+    } else if (modalContent.type === 'event') {
+      setRegisteredEvents(prev => ({ ...prev, [itemId]: true }));
+    }
+    setIsModalOpen(false);
+    setModalContent(null);
+  };
+  
+  // Handlers for Quick Actions
+  const handleFindMentors = () => {
+    setActionModalContent({
+      title: "Find Mentors",
+      message: "You'll be redirected to the alumni network page to find mentors. This is where your career journey takes off! 🚀"
+    });
+    setIsActionModalOpen(true);
+  };
+
+  const handleBrowseInternships = () => {
+    setActionModalContent({
+      title: "Browse Internships",
+      message: "You'll be redirected to the internship listings page to discover new opportunities. Find your perfect role! ✨"
+    });
+    setIsActionModalOpen(true);
+  };
+
+  const handleUpdateProjects = () => {
+    setActionModalContent({
+      title: "Update Projects",
+      message: "You'll be redirected to your profile to add or edit your projects. Showcase your skills to potential employers! 📈"
+    });
+    setIsActionModalOpen(true);
+  };
+
   if (user && !userProfile) {
     return (
       <div className="min-h-screen" style={{ backgroundColor: '#F9F8FE' }}>
@@ -176,10 +343,22 @@ export default function StudentDashboard() {
                       </p>
                     </div>
                     <button 
-                      className="text-xs px-3 py-1 rounded-full text-white self-start sm:self-auto flex-shrink-0"
-                      style={{ backgroundColor: `rgb(${brand.indigo})` }}
+                      onClick={() => handleEventRegister(event)}
+                      disabled={registeredEvents[event.id]}
+                      className={`text-xs px-3 py-1 rounded-full text-white self-start sm:self-auto flex-shrink-0 transition-colors ${
+                        registeredEvents[event.id] ? 'bg-green-500 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700'
+                      }`}
+                      style={{ 
+                        backgroundColor: registeredEvents[event.id] ? '#22C55E' : `rgb(${brand.indigo})`,
+                        backgroundImage: 'none'
+                      }}
                     >
-                      Register
+                      {registeredEvents[event.id] ? 
+                        <span className="flex items-center gap-1">
+                          <Check className="w-3 h-3" /> Registered
+                        </span>
+                        : 'Register'
+                      }
                     </button>
                   </div>
                 ))}
@@ -233,15 +412,24 @@ export default function StudentDashboard() {
             <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6">
               <h3 className="font-bold text-slate-900 mb-3 sm:mb-4 text-sm sm:text-base">Quick Actions</h3>
               <div className="space-y-2 sm:space-y-3">
-                <button className="w-full flex items-center gap-2 sm:gap-3 p-2 sm:p-3 text-left hover:bg-slate-50 rounded-lg transition-colors">
+                <button 
+                  onClick={handleFindMentors}
+                  className="w-full flex items-center gap-2 sm:gap-3 p-2 sm:p-3 text-left hover:bg-slate-50 rounded-lg transition-colors"
+                >
                   <Users className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: `rgb(${brand.indigo})` }} />
                   <span className="text-slate-900 text-sm sm:text-base">Find Alumni Mentors</span>
                 </button>
-                <button className="w-full flex items-center gap-2 sm:gap-3 p-2 sm:p-3 text-left hover:bg-slate-50 rounded-lg transition-colors">
+                <button 
+                  onClick={handleBrowseInternships}
+                  className="w-full flex items-center gap-2 sm:gap-3 p-2 sm:p-3 text-left hover:bg-slate-50 rounded-lg transition-colors"
+                >
                   <Briefcase className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: `rgb(${brand.coral})` }} />
                   <span className="text-slate-900 text-sm sm:text-base">Browse Internships</span>
                 </button>
-                <button className="w-full flex items-center gap-2 sm:gap-3 p-2 sm:p-3 text-left hover:bg-slate-50 rounded-lg transition-colors">
+                <button 
+                  onClick={handleUpdateProjects}
+                  className="w-full flex items-center gap-2 sm:gap-3 p-2 sm:p-3 text-left hover:bg-slate-50 rounded-lg transition-colors"
+                >
                   <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: `rgb(${brand.lilac})` }} />
                   <span className="text-slate-900 text-sm sm:text-base">Update Projects</span>
                 </button>
@@ -261,10 +449,22 @@ export default function StudentDashboard() {
                     <p className="text-xs text-slate-600 line-clamp-1">{job.company}</p>
                     <p className="text-xs text-slate-500 mt-1">{job.salary}</p>
                     <button 
-                      className="text-xs px-2 py-1 mt-2 rounded-full text-white"
-                      style={{ backgroundColor: `rgb(${brand.coral})` }}
+                      onClick={() => handleJobApply(job)}
+                      disabled={appliedJobs[job.id]}
+                      className={`text-xs px-2 py-1 mt-2 rounded-full text-white transition-colors ${
+                        appliedJobs[job.id] ? 'bg-green-500 cursor-not-allowed' : 'bg-coral-600 hover:bg-coral-700'
+                      }`}
+                      style={{ 
+                        backgroundColor: appliedJobs[job.id] ? '#22C55E' : `rgb(${brand.coral})`,
+                        backgroundImage: 'none'
+                      }}
                     >
-                      Apply
+                      {appliedJobs[job.id] ? 
+                        <span className="flex items-center gap-1">
+                          <Check className="w-3 h-3" /> Applied
+                        </span> 
+                        : 'Apply'
+                      }
                     </button>
                   </div>
                 ))}
@@ -273,6 +473,25 @@ export default function StudentDashboard() {
           </div>
         </div>
       </main>
+
+      {/* The new modals are rendered here */}
+      {isModalOpen && modalContent && (
+        <FormModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          title={modalContent.title}
+          item={modalContent.item}
+          onSubmit={handleSubmitForm}
+        />
+      )}
+      {isActionModalOpen && (
+        <MessageModal
+          isOpen={isActionModalOpen}
+          onClose={() => setIsActionModalOpen(false)}
+          title={actionModalContent.title}
+          message={actionModalContent.message}
+        />
+      )}
     </div>
   );
 }
