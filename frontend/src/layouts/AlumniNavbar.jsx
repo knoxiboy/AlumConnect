@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   GraduationCap, Home, Users, Calendar, Briefcase, User, 
-  LogOut, Menu, X, Bell, Settings
+  LogOut, Menu, X, Bell
 } from "lucide-react";
 import { logout, getCurrentUser } from "../utils/auth";
 
@@ -26,11 +26,9 @@ export default function AlumniNavbar() {
 
   const navItems = [
     { name: 'Dashboard', href: '/alumni/dashboard', icon: Home },
-    { name: 'Events', href: '/alumni/events', icon: Calendar },
-    { name: 'Career', href: '/alumni/jobs', icon: Briefcase },
     { name: 'Directory', href: '/alumni/explore', icon: Users },
-    { name: 'Profile', href: '/alumni/profile', icon: User },
-    { name: 'Settings', href: '/alumni/settings', icon: Settings },
+    { name: 'Career', href: '/alumni/jobs', icon: Briefcase },
+    { name: 'Events', href: '/alumni/events', icon: Calendar },
   ];
 
   return (
@@ -87,16 +85,17 @@ export default function AlumniNavbar() {
             </button>
             
             <div className="flex items-center gap-3">
-              <div className="text-right">
+              <Link to="/alumni/profile" className="text-right">
                 <p className="text-sm font-medium text-slate-900">{user?.name}</p>
                 <p className="text-xs text-slate-500">Alumni</p>
-              </div>
-              <div 
+              </Link>
+              <Link 
+                to="/alumni/profile"
                 className="w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-sm"
                 style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
               >
                 {user?.name?.split(' ').map(n => n[0]).join('')}
-              </div>
+              </Link>
             </div>
 
             <button
@@ -147,6 +146,15 @@ export default function AlumniNavbar() {
             })}
             
             <div className="border-t border-slate-200 pt-4 mt-4">
+              <Link
+                to="/alumni/profile"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center gap-3 px-3 py-3 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-all"
+              >
+                <User className="w-5 h-5" />
+                Profile
+              </Link>
+              
               <button
                 onClick={handleLogout}
                 className="flex items-center gap-3 px-3 py-3 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-all w-full"

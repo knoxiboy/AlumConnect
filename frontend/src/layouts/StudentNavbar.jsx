@@ -26,10 +26,9 @@ export default function StudentNavbar() {
 
   const navItems = [
     { name: 'Dashboard', href: '/student/dashboard', icon: Home },
-    { name: 'Explore Alumni', href: '/student/explore', icon: Users },
+    { name: 'Directory', href: '/student/explore', icon: Users },
+    { name: 'Career', href: '/student/jobs', icon: Briefcase },
     { name: 'Events', href: '/student/events', icon: Calendar },
-    { name: 'Jobs', href: '/student/jobs', icon: Briefcase },
-    { name: 'Profile', href: '/student/profile', icon: User },
   ];
 
   return (
@@ -86,16 +85,17 @@ export default function StudentNavbar() {
             </button>
             
             <div className="flex items-center gap-3">
-              <div className="text-right">
+              <Link to="/student/profile" className="text-right">
                 <p className="text-sm font-medium text-slate-900">{user?.name}</p>
                 <p className="text-xs text-slate-500">Student</p>
-              </div>
-              <div 
+              </Link>
+              <Link 
+                to="/student/profile"
                 className="w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-sm"
                 style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
               >
                 {user?.name?.split(' ').map(n => n[0]).join('')}
-              </div>
+              </Link>
             </div>
 
             <button
@@ -146,6 +146,15 @@ export default function StudentNavbar() {
             })}
             
             <div className="border-t border-slate-200 pt-4 mt-4">
+              <Link
+                to="/student/profile"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center gap-3 px-3 py-3 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-all"
+              >
+                <User className="w-5 h-5" />
+                Profile
+              </Link>
+              
               <button
                 onClick={handleLogout}
                 className="flex items-center gap-3 px-3 py-3 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-all w-full"
