@@ -1,8 +1,9 @@
 import { useState } from "react";
 import AlumniNavbar from "../../layouts/AlumniNavbar";
 import { alumniProfiles } from "../../data/alumni";
+import { studentProfiles } from "../../data/students";
 import {
-  Search, Filter, MapPin, Briefcase, Calendar,
+  Search, Filter, MapPin, Briefcase, Calendar, Users,
   MessageCircle, UserPlus, ExternalLink, ChevronDown, X
 } from "lucide-react";
 
@@ -102,6 +103,63 @@ const AlumniCard = ({ alumni, onConnect, onMessage, isConnected, hasMessaged, is
               LinkedIn
             </a>
           )}
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const StudentCard = ({ student }) => (
+  <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-lg transition-all">
+    <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+      <div 
+        className="w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-lg flex-shrink-0 mx-auto sm:mx-0"
+        style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+      >
+        {student.name.split(' ').map(n => n[0]).join('')}
+      </div>
+      
+      <div className="flex-1 text-center sm:text-left">
+        <h3 className="text-lg sm:text-xl font-bold text-slate-900 line-clamp-1">{student.name}</h3>
+        <p className="text-slate-600 font-medium text-sm sm:text-base line-clamp-1">{student.degree}</p>
+        <p className="text-slate-600 text-sm sm:text-base line-clamp-1">{student.year}</p>
+        
+        <div className="flex flex-col sm:flex-row sm:items-center justify-center sm:justify-start gap-2 sm:gap-4 mt-2 sm:mt-3 text-xs sm:text-sm text-slate-500">
+          <div className="flex items-center justify-center sm:justify-start gap-1">
+            <MapPin className="w-3 h-3 sm:w-4 sm:h-4" />
+            <span>{student.location}</span>
+          </div>
+        </div>
+        
+        <p className="text-slate-600 mt-2 sm:mt-3 text-xs sm:text-sm line-clamp-2 sm:line-clamp-3">
+          {student.bio}
+        </p>
+        
+        <div className="flex flex-wrap justify-center sm:justify-start gap-1 sm:gap-2 mt-2 sm:mt-3">
+          {student.skills.slice(0, 3).map((skill, index) => (
+            <span
+              key={index}
+              className="px-2 py-1 text-xs rounded-full bg-slate-100 text-slate-700"
+            >
+              {skill}
+            </span>
+          ))}
+          {student.skills.length > 3 && (
+            <span className="px-2 py-1 text-xs rounded-full bg-slate-100 text-slate-500">
+              +{student.skills.length - 3} more
+            </span>
+          )}
+        </div>
+        
+        <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-2 sm:gap-3 mt-3 sm:mt-4">
+          <button className="w-full sm:w-auto flex items-center justify-center gap-2 px-3 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-xs sm:text-sm font-medium transition-colors">
+            <MessageCircle className="w-3 h-3 sm:w-4 sm:h-4" />
+            Message
+          </button>
+          <button className="w-full sm:w-auto flex items-center justify-center gap-2 px-3 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-xs sm:text-sm font-medium transition-colors">
+            <UserPlus className="w-3 h-3 sm:w-4 sm:h-4" />
+            Connect
+          </button>
         </div>
       </div>
     </div>
@@ -279,6 +337,7 @@ export default function AlumniExplore() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterCompany, setFilterCompany] = useState("all");
   const [filterLocation, setFilterLocation] = useState("all");
+  const [directoryView, setDirectoryView] = useState("alumni"); // "alumni" or "student"
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   
   // Simulated backend state for connections and messages
@@ -291,6 +350,7 @@ export default function AlumniExplore() {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [messageRecipient, setMessageRecipient] = useState(null);
 
+  // Filter alumni or students based on directory view
   const filteredAlumni = alumniProfiles.filter(alumni => {
     const matchesSearch = alumni.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          alumni.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -300,6 +360,14 @@ export default function AlumniExplore() {
     const matchesLocation = filterLocation === "all" || alumni.location.includes(filterLocation);
     
     return matchesSearch && matchesCompany && matchesLocation;
+  });
+
+  const filteredStudents = studentProfiles.filter(student => {
+    const matchesSearch = student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         student.degree.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         student.skills.some(skill => skill.toLowerCase().includes(searchTerm.toLowerCase()));
+    
+    return matchesSearch;
   });
 
   const companies = [...new Set(alumniProfiles.map(a => a.company))];
@@ -357,6 +425,10 @@ export default function AlumniExplore() {
     }
   };
 
+  // Get current data based on directory view
+  const currentData = directoryView === "alumni" ? filteredAlumni : filteredStudents;
+  const currentCount = directoryView === "alumni" ? alumniProfiles.length : studentProfiles.length;
+
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#F9F8FE' }}>
       <AlumniNavbar />
@@ -364,8 +436,40 @@ export default function AlumniExplore() {
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Header */}
         <div className="text-center mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">Explore Alumni Network</h1>
-          <p className="text-slate-600 text-sm sm:text-base">Connect with fellow alumni and expand your professional network</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">
+            {directoryView === "alumni" ? "Explore Alumni Network" : "Explore Student Directory"}
+          </h1>
+          <p className="text-slate-600 text-sm sm:text-base">
+            {directoryView === "alumni" 
+              ? "Connect with fellow alumni and expand your professional network" 
+              : "Connect with students and support the next generation"}
+          </p>
+        </div>
+
+        {/* Directory Toggle */}
+        <div className="flex justify-center mb-6">
+          <div className="inline-flex rounded-lg border border-slate-200 p-1 bg-white">
+            <button
+              onClick={() => setDirectoryView("alumni")}
+              className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
+                directoryView === "alumni"
+                  ? "bg-indigo-500 text-white shadow-sm"
+                  : "text-slate-600 hover:text-slate-900"
+              }`}
+            >
+              Alumni Directory
+            </button>
+            <button
+              onClick={() => setDirectoryView("student")}
+              className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
+                directoryView === "student"
+                  ? "bg-indigo-500 text-white shadow-sm"
+                  : "text-slate-600 hover:text-slate-900"
+              }`}
+            >
+              Student Directory
+            </button>
+          </div>
         </div>
 
         {/* Search and Filters */}

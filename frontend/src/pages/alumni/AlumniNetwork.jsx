@@ -34,6 +34,16 @@ const networkData = {
   ]
 };
 
+// Student directory data
+const studentDirectoryData = [
+  { id: 1, initials: "JD", name: "Jane Doe", role: "Computer Science Student", year: "3rd Year", type: "student" },
+  { id: 2, initials: "SJ", name: "Sarah Johnson", role: "AI/ML Researcher", year: "4th Year", type: "student" },
+  { id: 3, initials: "AB", name: "Alex Brown", role: "Electrical Engineering Student", year: "2nd Year", type: "student" },
+  { id: 4, initials: "CW", name: "Chris Wilson", role: "Business Administration Student", year: "1st Year", type: "student" },
+  { id: 5, initials: "EM", name: "Emma Miller", role: "Psychology Student", year: "3rd Year", type: "student" },
+  { id: 6, initials: "DR", name: "Daniel Rodriguez", role: "Mechanical Engineering Student", year: "4th Year", type: "student" }
+];
+
 // News Feed Data
 const newsFeedData = [
   {
@@ -231,6 +241,7 @@ const StatModal = ({ isOpen, onClose, title, data }) => {
 export default function AlumniNetwork() {
   const user = getCurrentUser();
   const [activeTab, setActiveTab] = useState('network');
+  const [directoryView, setDirectoryView] = useState('alumni'); // 'alumni' or 'student'
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [showShareModal, setShowShareModal] = useState(false);
   const [newPost, setNewPost] = useState({
@@ -641,31 +652,79 @@ export default function AlumniNetwork() {
             {/* My Network Tab */}
             {activeTab === 'network' && (
               <div className="space-y-6 sm:space-y-8">
+                {/* Directory Toggle */}
+                <div className="flex justify-center mb-6">
+                  <div className="inline-flex rounded-lg border border-slate-200 p-1 bg-white">
+                    <button
+                      onClick={() => setDirectoryView('alumni')}
+                      className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
+                        directoryView === 'alumni'
+                          ? 'bg-indigo-500 text-white shadow-sm'
+                          : 'text-slate-600 hover:text-slate-900'
+                      }`}
+                    >
+                      Alumni Directory
+                    </button>
+                    <button
+                      onClick={() => setDirectoryView('student')}
+                      className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
+                        directoryView === 'student'
+                          ? 'bg-indigo-500 text-white shadow-sm'
+                          : 'text-slate-600 hover:text-slate-900'
+                      }`}
+                    >
+                      Student Directory
+                    </button>
+                  </div>
+                </div>
+
                 {/* Connections Section */}
                 <div>
                   <h2 className="text-lg sm:text-xl font-semibold text-slate-900 mb-3 sm:mb-4">
-                    My Connections ({networkData.connections.length})
+                    {directoryView === 'alumni' ? 'Alumni Directory' : 'Student Directory'} ({directoryView === 'alumni' ? networkData.connections.filter(p => p.type === 'alumni').length : studentDirectoryData.length})
                   </h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {networkData.connections.map((person) => (
-                      <div key={person.id} className="bg-white border border-slate-200 rounded-lg p-4 hover:shadow-md transition-all">
-                        <div className="flex items-center gap-3">
-                          <div 
-                            className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-white font-semibold text-sm"
-                            style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
-                          >
-                            {person.initials}
+                    {directoryView === 'alumni' 
+                      ? networkData.connections.filter(p => p.type === 'alumni').map((person) => (
+                          <div key={person.id} className="bg-white border border-slate-200 rounded-lg p-4 hover:shadow-md transition-all">
+                            <div className="flex items-center gap-3">
+                              <div 
+                                className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-white font-semibold text-sm"
+                                style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                              >
+                                {person.initials}
+                              </div>
+                              <div>
+                                <h3 className="font-medium text-slate-900">{person.name}</h3>
+                                <p className="text-xs sm:text-sm text-slate-600">{person.role}</p>
+                                <span className="inline-block mt-1 px-2 py-0.5 text-xs rounded-full bg-blue-100 text-blue-800">
+                                  {person.type}
+                                </span>
+                              </div>
+                            </div>
                           </div>
-                          <div>
-                            <h3 className="font-medium text-slate-900">{person.name}</h3>
-                            <p className="text-xs sm:text-sm text-slate-600">{person.role}</p>
-                            <span className="inline-block mt-1 px-2 py-0.5 text-xs rounded-full bg-blue-100 text-blue-800">
-                              {person.type}
-                            </span>
+                        ))
+                      : studentDirectoryData.map((person) => (
+                          <div key={person.id} className="bg-white border border-slate-200 rounded-lg p-4 hover:shadow-md transition-all">
+                            <div className="flex items-center gap-3">
+                              <div 
+                                className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-white font-semibold text-sm"
+                                style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                              >
+                                {person.initials}
+                              </div>
+                              <div>
+                                <h3 className="font-medium text-slate-900">{person.name}</h3>
+                                <p className="text-xs sm:text-sm text-slate-600">{person.role}</p>
+                                <p className="text-xs text-slate-500">{person.year}</p>
+                                <span className="inline-block mt-1 px-2 py-0.5 text-xs rounded-full bg-green-100 text-green-800">
+                                  {person.type}
+                                </span>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                    ))}
+                        ))
+                    }
                   </div>
                 </div>
               </div>

@@ -36,6 +36,16 @@ const networkData = {
   ]
 };
 
+// Alumni directory data
+const alumniDirectoryData = [
+  { id: 1, initials: "JD", name: "Jane Doe", role: "Senior Software Engineer", company: "Google", type: "alumni" },
+  { id: 2, initials: "MJ", name: "Mike Johnson", role: "Lead Data Scientist", company: "Microsoft", type: "alumni" },
+  { id: 3, initials: "ED", name: "Emily Davis", role: "Senior Product Manager", company: "Meta", type: "alumni" },
+  { id: 4, initials: "TP", name: "Tom Peterson", role: "Software Engineer", company: "Amazon", type: "alumni" },
+  { id: 5, initials: "SC", name: "Sarah Chen", role: "UX Designer", company: "Apple", type: "alumni" },
+  { id: 6, initials: "MR", name: "Michael Rodriguez", role: "DevOps Engineer", company: "Netflix", type: "alumni" }
+];
+
 // News Feed Data
 const newsFeedData = [
   {
@@ -172,6 +182,7 @@ const pollsData = [
 export default function StudentNetwork() {
   const user = getCurrentUser();
   const [activeTab, setActiveTab] = useState('network');
+  const [directoryView, setDirectoryView] = useState('alumni'); // 'alumni' or 'student'
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [showShareModal, setShowShareModal] = useState(false);
   const [newPost, setNewPost] = useState({
