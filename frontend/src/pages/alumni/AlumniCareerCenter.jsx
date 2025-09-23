@@ -23,7 +23,7 @@ const JobCard = ({ job, isPostedByUser, onViewApplications, onEdit, onDelete }) 
     <div className="relative mb-3 sm:mb-4">
       <div 
         className="absolute top-0 left-0 w-full h-1 rounded-t-xl"
-        style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+        style={{ backgroundColor: '#9966CC' }}
       />
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between pt-3 gap-2">
         <div className="min-w-0 flex-1">
@@ -254,7 +254,7 @@ const ResourceCard = ({ resource }) => (
         
         <button 
           className="w-full mt-4 px-4 py-2 rounded-lg font-semibold text-white transition-all hover:shadow-lg text-xs sm:text-sm"
-          style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+          style={{ backgroundColor: '#9966CC' }}
         >
           Access Resource
         </button>
@@ -298,7 +298,7 @@ const StartupCard = ({ startup }) => (
         
         <button 
           className="w-full mt-4 px-4 py-2 rounded-lg font-semibold text-white transition-all hover:shadow-lg text-xs sm:text-sm"
-          style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+          style={{ backgroundColor: '#9966CC' }}
         >
           Connect with Startup
         </button>
@@ -353,7 +353,7 @@ const ProjectCard = ({ project }) => (
         
         <button 
           className="w-full mt-4 px-4 py-2 rounded-lg font-semibold text-white transition-all hover:shadow-lg text-xs sm:text-sm"
-          style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+          style={{ backgroundColor: '#9966CC' }}
         >
           Lead this Project
         </button>

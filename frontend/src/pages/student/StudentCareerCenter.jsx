@@ -4,8 +4,8 @@ import { jobPostings } from "../../data/jobs";
 import { mockMentors, mockResources, mockStartups, mockProjects } from "../../data/careerData";
 import { getCurrentUser } from "../../utils/auth";
 import {
-  Briefcase, MapPin, DollarSign, Clock, Search, Filter, 
-  BookOpen, Send, Heart, ExternalLink, X, Code, Target, TrendingUp, CheckCircle, RotateCcw, GraduationCap, Star
+  Briefcase, MapPin, DollarSign, Clock, Search, Filter,
+  BookOpen, Send, Heart, ExternalLink, X, Code, Target, TrendingUp, CheckCircle, RotateCcw, GraduationCap, Star, Users, Check
 } from "lucide-react";
 
 // Brand colors
@@ -13,6 +13,96 @@ const brand = {
   indigo: '118 98 214',
   lilac: '196 160 255', 
   coral: '255 145 120',
+};
+
+// New Mock Data for connections
+const mockConnections = [
+  { id: 1, name: 'Jane Doe', role: 'Senior Software Engineer', company: 'Google' },
+  { id: 2, name: 'John Smith', role: 'Data Scientist', company: 'Microsoft' },
+  { id: 3, name: 'Emily Chen', role: 'UX Designer', company: 'Apple' },
+  { id: 4, name: 'Michael Davis', role: 'Product Manager', company: 'Netflix' },
+];
+
+// New Mentorship Request Modal
+const MentorshipRequestModal = ({ isOpen, onClose, connections }) => {
+  const [requestSent, setRequestSent] = useState({});
+
+  if (!isOpen) return null;
+
+  const handleRequest = (connectionId) => {
+    // In a real application, you would send a request to your backend here
+    console.log(`Mentorship request sent to connection with ID: ${connectionId}`);
+    setRequestSent(prev => ({ ...prev, [connectionId]: true }));
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+      <div className="bg-white rounded-xl p-6 shadow-xl max-w-lg w-full relative">
+        <div className="flex items-center justify-between mb-4 border-b border-slate-200 pb-4">
+          <h3 className="text-xl font-bold text-slate-900">Request Mentorship</h3>
+          <button 
+            onClick={onClose}
+            className="p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        <p className="text-slate-600 text-sm mb-4">
+          Select a connection from your network to request mentorship from.
+        </p>
+
+        <div className="max-h-96 overflow-y-auto space-y-3">
+          {connections.length > 0 ? (
+            connections.map(connection => (
+              <div key={connection.id} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div 
+                    className="w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0"
+                    style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                  >
+                    {connection.name.split(' ').map(n => n[0]).join('')}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-medium text-sm text-slate-900 truncate">{connection.name}</p>
+                    <p className="text-xs text-slate-600 truncate">{connection.role} at {connection.company}</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => handleRequest(connection.id)}
+                  disabled={requestSent[connection.id]}
+                  className={`px-3 py-1.5 text-xs sm:text-sm rounded-lg font-medium text-white transition-all ${
+                    requestSent[connection.id] 
+                      ? 'bg-green-500 cursor-not-allowed' 
+                      : 'hover:bg-indigo-700'
+                  }`}
+                  style={{
+                    backgroundImage: requestSent[connection.id] ? 'none' : `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))`,
+                    backgroundColor: requestSent[connection.id] ? '#22C55E' : 'transparent',
+                  }}
+                >
+                  {requestSent[connection.id] ? <Check className="w-4 h-4" /> : 'Request'}
+                </button>
+              </div>
+            ))
+          ) : (
+            <div className="text-center p-8 text-slate-500">
+              You have no connections to request mentorship from yet.
+            </div>
+          )}
+        </div>
+
+        <div className="mt-6 flex justify-end">
+          <button
+            onClick={onClose}
+            className="px-6 py-2 rounded-lg font-semibold text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 transition-colors"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 const JobCard = ({ job, isApplied, isSaved, onApply, onSave, onViewApplication }) => (
@@ -404,7 +494,8 @@ export default function StudentJobs() {
   const [categoryFilter, setCategoryFilter] = useState([]);
   const [industryFilter, setIndustryFilter] = useState([]);
   const [techFilter, setTechFilter] = useState([]);
-  
+  const [showMentorshipModal, setShowMentorshipModal] = useState(false);
+
   // 🎯 DEMO-FRIENDLY: Application states only persist during session (reset on refresh)
   const [appliedJobs, setAppliedJobs] = useState(new Set());
   const [savedJobs, setSavedJobs] = useState(new Set([1, 4])); // Mock some saved jobs
@@ -584,8 +675,8 @@ export default function StudentJobs() {
                     )}
                     
                     {/* Post Mentorship Request Button */}
-                    <button 
-                      onClick={() => alert('Mentorship request feature coming soon!')}
+                    <button
+                      onClick={() => setShowMentorshipModal(true)}
                       className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-xl font-medium text-white transition-all hover:shadow-lg transform hover:scale-105 text-sm"
                       style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
                     >
@@ -619,10 +710,7 @@ export default function StudentJobs() {
                     
                     {(typeFilter !== "all" || skillsFilter.length > 0) && (
                       <button
-                        onClick={() => {
-                          setTypeFilter("all");
-                          setSkillsFilter([]);
-                        }}
+                        onClick={clearAllFilters}
                         className="text-sm text-slate-500 hover:text-slate-700 underline ml-auto"
                       >
                         Clear all filters
@@ -635,12 +723,7 @@ export default function StudentJobs() {
                     {['React', 'Node.js', 'Python', 'Java', 'JavaScript', 'AWS', 'Docker', 'Kubernetes', 'TensorFlow', 'SQL'].map(skill => (
                       <button
                         key={skill}
-                        onClick={() => {
-                          const newFilter = skillsFilter.includes(skill) 
-                            ? skillsFilter.filter(s => s !== skill)
-                            : [...skillsFilter, skill];
-                          setSkillsFilter(newFilter);
-                        }}
+                        onClick={() => toggleSkill(skill)}
                         className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
                           skillsFilter.includes(skill)
                             ? 'text-white shadow-sm'
@@ -746,9 +829,9 @@ export default function StudentJobs() {
                     <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2">Mentorship</h2>
                     <p className="text-slate-600 text-sm sm:text-base">Connect with experienced alumni mentors</p>
                   </div>
-                  
-                  <button 
-                    onClick={() => alert('Mentorship request feature coming soon!')}
+
+                  <button
+                    onClick={() => setShowMentorshipModal(true)}
                     className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold text-white transition-all hover:shadow-lg transform hover:scale-105 text-sm sm:text-base"
                     style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
                   >
@@ -968,6 +1051,13 @@ export default function StudentJobs() {
           </div>
         </div>
       </main>
+      
+      {/* Mentorship Request Modal */}
+      <MentorshipRequestModal
+        isOpen={showMentorshipModal}
+        onClose={() => setShowMentorshipModal(false)}
+        connections={mockConnections}
+      />
     </div>
   );
 }
