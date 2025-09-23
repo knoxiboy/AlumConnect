@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AlumniNavbar from "../../layouts/AlumniNavbar";
 import { getCurrentUser } from "../../utils/auth";
 import { 
@@ -34,6 +34,21 @@ const networkData = {
 export default function AlumniNetwork() {
   const user = getCurrentUser();
   const [activeTab, setActiveTab] = useState('network');
+
+  useEffect(() => {
+    // Create script element for WidgetBot
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/@widgetbot/html-embed';
+    script.async = true;
+    
+    // Add script to document
+    document.body.appendChild(script);
+    
+    // Cleanup function to remove script when component unmounts
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   const handleAcceptMentorship = (id) => {
     // Handle accept mentorship request logic
@@ -221,7 +236,6 @@ export default function AlumniNetwork() {
               width="100%"
               height="600"
             ></widgetbot>
-            <script src="https://cdn.jsdelivr.net/npm/@widgetbot/html-embed"></script>
           </div>
         </div>
       </main>
