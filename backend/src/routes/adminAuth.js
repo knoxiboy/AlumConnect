@@ -1,6 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const { createUser } = require('../controllers/authController');
 const Admin = require('../models/Admin');
 
 const router = express.Router();
@@ -17,21 +18,7 @@ router.post('/admin/signup', async (req, res) => {
   const { name, email, password, department, position } = req.body;
 
   try {
-    // Check if user already exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: 'User already exists with this email' });
-    }
-
-    // Create new user with admin role
-    const user = new User({
-      name,
-      email,
-      password,
-      role: 'admin'
-    });
-
-    const savedUser = await user.save();
+    const savedUser = await createUser(name, email, password, 'admin');
 
     // Create admin profile with password
     const admin = new Admin({

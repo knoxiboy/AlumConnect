@@ -30,7 +30,6 @@ import StudentNetwork from "./pages/student/StudentNetwork";
 // Protected Route Component
 import ProtectedRoute from "./components/ProtectedRoute";
 
-const AdminApprovals = () => <div className="text-3xl font-bold">Alumni & Student Approvals</div>;
 
 export default function App() {
   const [dbStatus, setDbStatus] = useState("");
@@ -83,7 +82,6 @@ export default function App() {
         <Route element={<ProtectedAdminRoute />}>
           <Route path="/admin" element={<AdminLayout />}>
             <Route path="dashboard" element={<AdminDashboard />} />
-            <Route path="approvals" element={<AdminApprovals />} />
             <Route path="events" element={<AdminEvents />} />
           </Route>
         </Route>
