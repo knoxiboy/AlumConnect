@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Navbar from "../layouts/Navbar";
 import colleges from "../data/colleges";
 import {
@@ -77,6 +78,21 @@ const TimelineItem = ({ number, title, description }) => (
 // --- Main Landing Page Component ---
 
 export default function Landing() {
+  const location = useLocation();
+
+  useEffect(() => {
+    // Scroll to the section specified in the hash
+    if (location.hash) {
+      const element = document.querySelector(location.hash);
+      if (element) {
+        // Wait a bit for the page to fully render before scrolling
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    }
+  }, [location]);
+
   return (
     <div
       className="text-slate-900 min-h-screen"
@@ -88,8 +104,18 @@ export default function Landing() {
       <main className="pt-20">
 
         {/* --- Hero Section --- */}
-        <section className="px-4 sm:px-6 pt-8 sm:pt-16 pb-12 sm:pb-20">
-          <div className="max-w-7xl mx-auto text-center lg:text-left grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+        <section className="px-4 sm:px-6 pt-8 sm:pt-16 pb-12 sm:pb-20 relative">
+          {/* Background Image */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center z-0"
+            style={{ 
+              backgroundImage: "url('/images/WhatsApp Image 2025-09-23 at 15.01.09_789f31d7.jpg')",
+              backgroundBlendMode: 'overlay',
+              backgroundColor: 'rgba(0, 0, 0, 0.6)'
+            }}
+          />
+          
+          <div className="max-w-7xl mx-auto text-center lg:text-left grid lg:grid-cols-2 gap-8 lg:gap-12 items-center relative z-10">
             {/* Left: Content */}
             <div>
               {/* SVG Icons Row */}
@@ -104,16 +130,16 @@ export default function Landing() {
                 <Building2 className="w-6 h-6 sm:w-8 sm:h-8" style={{color: `rgb(${brand.lilac})`}} />
               </div>
 
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter leading-tight text-slate-900">
-                Centralized Alumni Data
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter leading-tight text-white drop-shadow-2xl">
                 <span
                   className="block text-transparent bg-clip-text bg-gradient-to-r"
                   style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.coral}), rgb(${brand.lilac}), rgb(${brand.indigo}))` }}
                 >
-                  Management Solution.
+                  ऐक्यं बलं
                 </span>
+                <span className="block mt-2 text-white drop-shadow-lg">समाजस्या</span>
               </h1>
-              <p className="mt-4 sm:mt-5 text-base sm:text-lg text-slate-600 max-w-xl mx-auto lg:mx-0">
+              <p className="mt-4 sm:mt-5 text-base sm:text-lg text-white/90 max-w-xl mx-auto lg:mx-0 drop-shadow-lg">
                 A comprehensive digital platform to centralize alumni data, strengthen institutional relationships, and unlock opportunities for mentorship, fundraising, and career growth.
               </p>
 
@@ -164,9 +190,9 @@ export default function Landing() {
               </div>
             </div>
           </div>
-        </section>
+      </section>
 
-        {/* --- Problem Statement Section --- */}
+      {/* --- Problem Statement Section --- */}
         <section className="py-12 sm:py-16 border-b border-slate-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="text-center mb-8 sm:mb-12">
