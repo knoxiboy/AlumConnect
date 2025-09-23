@@ -16,8 +16,11 @@ const brand = {
   coral: '255 145 120',
 };
 
-const StatCard = ({ icon, title, value, trend, color }) => (
-  <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-lg transition-all">
+const StatCard = ({ icon, title, value, trend, color, onClick }) => (
+  <button 
+    className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-lg transition-all text-left w-full"
+    onClick={onClick}
+  >
     <div className="flex items-center justify-between">
       <div>
         <p className="text-xs sm:text-sm font-medium text-slate-600">{title}</p>
@@ -40,7 +43,7 @@ const StatCard = ({ icon, title, value, trend, color }) => (
         </div>
       </div>
     </div>
-  </div>
+  </button>
 );
 
 // Reusable modal for confirmation messages
@@ -147,6 +150,95 @@ const FormModal = ({ isOpen, onClose, title, item, onSubmit }) => {
   );
 };
 
+// New Stat Card Content Component
+const StatDetails = ({ type, data, onClose }) => {
+  const content = () => {
+    switch (type) {
+      case 'connections':
+        return (
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold text-slate-900">Your Alumni Connections</h3>
+            <p className="text-slate-600">You have connected with **23 alumni**. These connections are vital for mentorship, career advice, and networking. Here are some of the alumni you've engaged with:</p>
+            <div className="space-y-3">
+              <p className="text-sm font-medium text-slate-800">• John Doe (Software Engineer at Google)</p>
+              <p className="text-sm font-medium text-slate-800">• Jane Smith (Product Manager at Apple)</p>
+              <p className="text-sm font-medium text-slate-800">• Alex Chen (Data Scientist at Microsoft)</p>
+            </div>
+          </div>
+        );
+      case 'events':
+        const registered = recentEvents.filter(e => data.registeredEvents[e.id]);
+        return (
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold text-slate-900">Registered Events</h3>
+            <p className="text-slate-600">You've registered for **{registered.length}** events so far. Attending events is a great way to meet industry leaders and expand your network.</p>
+            <div className="space-y-3">
+              {registered.length > 0 ? (
+                registered.map(event => (
+                  <div key={event.id} className="p-3 bg-slate-50 rounded-lg">
+                    <p className="font-semibold text-slate-900">{event.name}</p>
+                    <p className="text-sm text-slate-600">{new Date(event.date).toLocaleDateString()}</p>
+                  </div>
+                ))
+              ) : (
+                <p className="text-sm text-slate-500">You haven't registered for any events yet. Check out the "Upcoming Events" section to get started!</p>
+              )}
+            </div>
+          </div>
+        );
+      case 'jobs':
+        const applied = jobPostings.filter(job => data.appliedJobs[job.id]);
+        return (
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold text-slate-900">Your Job Applications</h3>
+            <p className="text-slate-600">You have applied to **{applied.length}** jobs. This shows great initiative! Keep applying to find the perfect role for you.</p>
+            <div className="space-y-3">
+              {applied.length > 0 ? (
+                applied.map(job => (
+                  <div key={job.id} className="p-3 bg-slate-50 rounded-lg">
+                    <p className="font-semibold text-slate-900">{job.title}</p>
+                    <p className="text-sm text-slate-600">{job.company}</p>
+                  </div>
+                ))
+              ) : (
+                <p className="text-sm text-slate-500">You haven't applied for any jobs yet. Browse the "Latest Internships" section to find new opportunities!</p>
+              )}
+            </div>
+          </div>
+        );
+      case 'profile':
+        return (
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold text-slate-900">Profile Score Details</h3>
+            <p className="text-slate-600">Your profile is **85%** complete. A higher score improves your visibility to potential employers and mentors. Here's how to boost your score:</p>
+            <ul className="list-disc list-inside space-y-2 text-sm text-slate-800">
+              <li>Add a profile picture (+5%)</li>
+              <li>Add your work experience (+10%)</li>
+              <li>Join a student group (+5%)</li>
+              <li>Get a recommendation from an alumni (+15%)</li>
+            </ul>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 mb-6">
+      <div className="flex justify-end">
+        <button 
+          onClick={onClose}
+          className="p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors"
+        >
+          <X className="w-5 h-5" />
+        </button>
+      </div>
+      {content()}
+    </div>
+  );
+};
+
 
 export default function StudentDashboard() {
   const [userProfile, setUserProfile] = useState(null);
@@ -162,6 +254,9 @@ export default function StudentDashboard() {
   // State for the new quick actions modal
   const [isActionModalOpen, setIsActionModalOpen] = useState(false);
   const [actionModalContent, setActionModalContent] = useState({ title: '', message: '' });
+
+  // New state to track selected stat card
+  const [selectedStat, setSelectedStat] = useState(null);
 
   const user = getCurrentUser();
 
@@ -275,20 +370,23 @@ export default function StudentDashboard() {
             value="23"
             trend="+5 this month"
             color={brand.indigo}
+            onClick={() => setSelectedStat('connections')}
           />
           <StatCard
             icon={<Calendar className="w-5 h-5 sm:w-6 sm:h-6" />}
             title="Events Registered"
-            value="4"
+            value={Object.keys(registeredEvents).length}
             trend="+2 this week"
             color={brand.coral}
+            onClick={() => setSelectedStat('events')}
           />
           <StatCard
             icon={<Briefcase className="w-5 h-5 sm:w-6 sm:h-6" />}
             title="Job Applications"
-            value="8"
+            value={Object.keys(appliedJobs).length}
             trend="+3 this week"
             color={brand.lilac}
+            onClick={() => setSelectedStat('jobs')}
           />
           <StatCard
             icon={<Award className="w-5 h-5 sm:w-6 sm:h-6" />}
@@ -296,74 +394,86 @@ export default function StudentDashboard() {
             value="85%"
             trend="+10% this month"
             color={brand.indigo}
+            onClick={() => setSelectedStat('profile')}
           />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 order-2 lg:order-1">
-            {/* Recent Activity */}
-            <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 mb-6">
-              <h2 className="text-lg sm:text-xl font-bold text-slate-900 mb-3 sm:mb-4 flex items-center gap-2">
-                <Bell className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: `rgb(${brand.indigo})` }} />
-                Recent Activity
-              </h2>
-              <div className="space-y-3 sm:space-y-4">
-                {recentActivity.map(activity => (
-                  <div key={activity.id} className="flex items-start gap-3 p-2 sm:p-3 hover:bg-slate-50 rounded-lg transition-colors">
-                    <div 
-                      className="w-2 h-2 rounded-full mt-2 flex-shrink-0"
-                      style={{ backgroundColor: `rgb(${brand.coral})` }}
-                    />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-xs sm:text-sm text-slate-900 line-clamp-2">{activity.message}</p>
-                      <p className="text-xs text-slate-500 mt-1">{activity.time}</p>
-                    </div>
+            {/* Conditional Content based on selected stat */}
+            {selectedStat ? (
+              <StatDetails 
+                type={selectedStat} 
+                data={{ appliedJobs, registeredEvents }} 
+                onClose={() => setSelectedStat(null)}
+              />
+            ) : (
+              <>
+                {/* Default content (Recent Activity) */}
+                <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 mb-6">
+                  <h2 className="text-lg sm:text-xl font-bold text-slate-900 mb-3 sm:mb-4 flex items-center gap-2">
+                    <Bell className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: `rgb(${brand.indigo})` }} />
+                    Recent Activity
+                  </h2>
+                  <div className="space-y-3 sm:space-y-4">
+                    {recentActivity.map(activity => (
+                      <div key={activity.id} className="flex items-start gap-3 p-2 sm:p-3 hover:bg-slate-50 rounded-lg transition-colors">
+                        <div 
+                          className="w-2 h-2 rounded-full mt-2 flex-shrink-0"
+                          style={{ backgroundColor: `rgb(${brand.coral})` }}
+                        />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs sm:text-sm text-slate-900 line-clamp-2">{activity.message}</p>
+                          <p className="text-xs text-slate-500 mt-1">{activity.time}</p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </div>
+                </div>
 
-            {/* Upcoming Events */}
-            <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6">
-              <h2 className="text-lg sm:text-xl font-bold text-slate-900 mb-3 sm:mb-4 flex items-center gap-2">
-                <Calendar className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: `rgb(${brand.coral})` }} />
-                Upcoming Events
-              </h2>
-              <div className="space-y-3 sm:space-y-4">
-                {upcomingEvents.map(event => (
-                  <div key={event.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-2 sm:p-3 hover:bg-slate-50 rounded-lg transition-colors gap-2">
-                    <div className="min-w-0 flex-1">
-                      <p className="font-medium text-slate-900 text-sm sm:text-base line-clamp-1">{event.name}</p>
-                      <p className="text-xs sm:text-sm text-slate-600">
-                        {new Date(event.date).toLocaleDateString('en-US', { 
-                          month: 'short', 
-                          day: 'numeric' 
-                        })} • {event.venue}
-                      </p>
-                    </div>
-                    <button 
-                      onClick={() => handleEventRegister(event)}
-                      disabled={registeredEvents[event.id]}
-                      className={`text-xs px-3 py-1 rounded-full text-white self-start sm:self-auto flex-shrink-0 transition-colors ${
-                        registeredEvents[event.id] ? 'bg-green-500 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700'
-                      }`}
-                      style={{ 
-                        backgroundColor: registeredEvents[event.id] ? '#22C55E' : `rgb(${brand.indigo})`,
-                        backgroundImage: 'none'
-                      }}
-                    >
-                      {registeredEvents[event.id] ? 
-                        <span className="flex items-center gap-1">
-                          <Check className="w-3 h-3" /> Registered
-                        </span>
-                        : 'Register'
-                      }
-                    </button>
+                {/* Upcoming Events */}
+                <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6">
+                  <h2 className="text-lg sm:text-xl font-bold text-slate-900 mb-3 sm:mb-4 flex items-center gap-2">
+                    <Calendar className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: `rgb(${brand.coral})` }} />
+                    Upcoming Events
+                  </h2>
+                  <div className="space-y-3 sm:space-y-4">
+                    {upcomingEvents.map(event => (
+                      <div key={event.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-2 sm:p-3 hover:bg-slate-50 rounded-lg transition-colors gap-2">
+                        <div className="min-w-0 flex-1">
+                          <p className="font-medium text-slate-900 text-sm sm:text-base line-clamp-1">{event.name}</p>
+                          <p className="text-xs sm:text-sm text-slate-600">
+                            {new Date(event.date).toLocaleDateString('en-US', { 
+                              month: 'short', 
+                              day: 'numeric' 
+                            })} • {event.venue}
+                          </p>
+                        </div>
+                        <button 
+                          onClick={() => handleEventRegister(event)}
+                          disabled={registeredEvents[event.id]}
+                          className={`text-xs px-3 py-1 rounded-full text-white self-start sm:self-auto flex-shrink-0 transition-colors ${
+                            registeredEvents[event.id] ? 'bg-green-500 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700'
+                          }`}
+                          style={{ 
+                            backgroundColor: registeredEvents[event.id] ? '#22C55E' : `rgb(${brand.indigo})`,
+                            backgroundImage: 'none'
+                          }}
+                        >
+                          {registeredEvents[event.id] ? 
+                            <span className="flex items-center gap-1">
+                              <Check className="w-3 h-3" /> Registered
+                            </span>
+                            : 'Register'
+                          }
+                        </button>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </div>
+                </div>
+              </>
+            )}
           </div>
 
           {/* Sidebar */}
