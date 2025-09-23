@@ -36,19 +36,28 @@ export default function AlumniNavbar() {
     <nav className="bg-white/90 backdrop-blur-lg border-b border-slate-200 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <Link to="/alumni/dashboard" className="flex items-center gap-2">
-            <GraduationCap 
-              className="w-8 h-8" 
-              style={{ color: `rgb(${brand.indigo})` }}
-            />
-            <span
-              className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r"
-              style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.coral}), rgb(${brand.lilac}), rgb(${brand.indigo}))` }}
+          {/* Logo and Hamburger Menu */}
+          <div className="flex items-center gap-4">
+            {/* Mobile menu button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden p-2 text-slate-600 hover:text-slate-900"
             >
-              AlumConnect
-            </span>
-          </Link>
+              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+            <Link to="/alumni/dashboard" className="flex items-center gap-2">
+              <GraduationCap 
+                className="w-8 h-8" 
+                style={{ color: `rgb(${brand.indigo})` }}
+              />
+              <span
+                className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r"
+                style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.coral}), rgb(${brand.lilac}), rgb(${brand.indigo}))` }}
+              >
+                AlumConnect
+              </span>
+            </Link>
+          </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
@@ -76,7 +85,7 @@ export default function AlumniNavbar() {
             })}
           </div>
 
-          {/* User Menu */}
+          {/* User Menu & Logout */}
           <div className="hidden md:flex items-center gap-4">
             <button className="p-2 text-slate-600 hover:text-slate-900 relative">
               <Bell className="w-5 h-5" />
@@ -108,68 +117,60 @@ export default function AlumniNavbar() {
             </button>
           </div>
 
-          {/* Mobile menu button */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 text-slate-600 hover:text-slate-900"
-          >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          {/* Mobile Navigation */}
+          {isMobileMenuOpen && (
+            <div className="md:hidden bg-white border-t border-slate-200 absolute top-16 left-0 right-0 z-50 shadow-lg">
+              <div className="px-4 py-3 space-y-1 max-h-[calc(100vh-4rem)] overflow-y-auto">
+                {navItems.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = location.pathname === item.href;
+                  return (
+                    <Link
+                      key={item.name}
+                      to={item.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={`flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium transition-all ${
+                        isActive
+                          ? 'text-white shadow-lg'
+                          : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                      }`}
+                      style={isActive 
+                        ? { backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }
+                        : {}
+                      }
+                    >
+                      <Icon className="w-5 h-5" />
+                      {item.name}
+                    </Link>
+                  );
+                })}
+                
+                <div className="border-t border-slate-200 pt-2 mt-2">
+                  <Link
+                    to="/alumni/profile"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-all text-base font-medium"
+                  >
+                    <User className="w-5 h-5" />
+                    Profile
+                  </Link>
+                  
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="flex items-center gap-3 w-full px-4 py-3 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-all text-base font-medium"
+                  >
+                    <LogOut className="w-5 h-5" />
+                    Logout
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
-
-      {/* Mobile Navigation */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden bg-white border-t border-slate-200 absolute top-16 left-0 right-0 z-50 shadow-lg">
-          <div className="px-4 py-3 space-y-1 max-h-[calc(100vh-4rem)] overflow-y-auto">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = location.pathname === item.href;
-              return (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium transition-all ${
-                    isActive
-                      ? 'text-white shadow-lg'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-                  }`}
-                  style={isActive 
-                    ? { backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }
-                    : {}
-                  }
-                >
-                  <Icon className="w-5 h-5" />
-                  {item.name}
-                </Link>
-              );
-            })}
-            
-            <div className="border-t border-slate-200 pt-2 mt-2">
-              <Link
-                to="/alumni/profile"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-all text-base font-medium"
-              >
-                <User className="w-5 h-5" />
-                Profile
-              </Link>
-              
-              <button
-                onClick={() => {
-                  handleLogout();
-                  setIsMobileMenuOpen(false);
-                }}
-                className="flex items-center gap-3 w-full px-4 py-3 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-all text-base font-medium"
-              >
-                <LogOut className="w-5 h-5" />
-                Logout
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </nav>
   );
 }

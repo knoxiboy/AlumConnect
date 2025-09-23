@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import AlumniNavbar from "../../layouts/AlumniNavbar";
 import { getCurrentUser } from "../../utils/auth";
 import { alumniProfiles } from "../../data/alumni";
@@ -46,6 +46,8 @@ const StatCard = ({ icon, title, value, trend, color }) => (
 export default function AlumniDashboard() {
   const [userProfile, setUserProfile] = useState(null);
   const [recentActivity, setRecentActivity] = useState([]);
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const notificationsRef = useRef(null);
   
   // Get user once and store in variable to prevent re-renders
   const user = getCurrentUser();
@@ -59,13 +61,32 @@ export default function AlumniDashboard() {
 
       // Set recent activity (static data - no need to depend on user)
       setRecentActivity([
-        { id: 1, type: 'connection', message: 'Neha Patel viewed your profile', time: '2 hours ago' },
-        { id: 2, type: 'event', message: 'New event: Annual Alumni Meet 2025', time: '1 day ago' },
-        { id: 3, type: 'job', message: 'Your job posting received 5 new applications', time: '2 days ago' },
+        { id: 1, type: 'connection', message: 'Neha Patel viewed your profile', time: '2 hours ago', unread: true },
+        { id: 2, type: 'event', message: 'New event: Annual Alumni Meet 2025', time: '1 day ago', unread: true },
+        { id: 3, type: 'job', message: 'Your job posting received 5 new applications', time: '2 days ago', unread: false },
+        { id: 4, type: 'message', message: 'You have a new message from a fellow alumnus', time: '4 days ago', unread: true },
+        { id: 5, type: 'job', message: 'A new job was posted: Senior Software Engineer at Google', time: '5 days ago', unread: false },
       ]);
     }
   }, [user?.id, userProfile]); // Only depend on user ID and whether profile is already loaded
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (notificationsRef.current && !notificationsRef.current.contains(event.target)) {
+        setIsNotificationsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [notificationsRef]);
+
+  const handleMarkAllAsRead = () => {
+    setRecentActivity(recentActivity.map(activity => ({ ...activity, unread: false })));
+  };
+
+  const unreadCount = recentActivity.filter(a => a.unread).length;
   const upcomingEvents = recentEvents.filter(e => e.status === 'Upcoming').slice(0, 3);
   const latestJobs = jobPostings.filter(j => j.isActive).slice(0, 3);
 
@@ -90,13 +111,49 @@ export default function AlumniDashboard() {
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Welcome Section */}
-        <div className="mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">
+        <div className="mb-6 sm:mb-8 flex items-center justify-between relative">
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 flex items-center">
             Welcome back, {userProfile?.name || user?.name}! 👋
           </h1>
-          <p className="text-slate-600 mt-1 text-sm sm:text-base">
-            Here's what's happening in your alumni network today.
-          </p>
+          <div className="relative" ref={notificationsRef}>
+            <button
+              onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
+              className="p-2 rounded-full text-slate-600 hover:text-slate-900 transition-colors relative"
+            >
+              <Bell className="w-6 h-6" />
+              {unreadCount > 0 && (
+                <span className="absolute top-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-white bg-red-500"></span>
+              )}
+            </button>
+            {isNotificationsOpen && (
+              <div className="absolute top-12 right-0 w-80 bg-white border border-slate-200 rounded-xl shadow-lg p-4 z-50">
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="font-bold text-lg text-slate-900">Notifications</h3>
+                  <button onClick={handleMarkAllAsRead} className="text-sm text-indigo-600 hover:text-indigo-800 transition-colors">
+                    Mark all as read
+                  </button>
+                </div>
+                {recentActivity.length > 0 ? (
+                  <div className="space-y-3 max-h-60 overflow-y-auto">
+                    {recentActivity.map(activity => (
+                      <div key={activity.id} className={`flex items-start gap-3 p-3 rounded-lg transition-colors ${activity.unread ? 'bg-indigo-50' : 'hover:bg-slate-50'}`}>
+                        <div 
+                          className={`w-2 h-2 rounded-full mt-2 flex-shrink-0 ${activity.unread ? 'bg-coral' : 'bg-slate-300'}`}
+                          style={{ backgroundColor: `rgb(${activity.unread ? brand.coral : '203 213 225'})` }}
+                        />
+                        <div className="flex-1 min-w-0">
+                          <p className={`text-xs sm:text-sm line-clamp-2 ${activity.unread ? 'font-semibold text-slate-900' : 'text-slate-600'}`}>{activity.message}</p>
+                          <p className="text-xs text-slate-500 mt-1">{activity.time}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-center text-sm text-slate-500 py-4">You're all caught up!</p>
+                )}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Stats Grid */}
