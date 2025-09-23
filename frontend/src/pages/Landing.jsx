@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../layouts/Navbar";
 import colleges from "../data/colleges";
 import {
@@ -105,11 +105,11 @@ export default function Landing() {
 
         {/* --- Hero Section --- */}
         <section className="px-4 sm:px-6 pt-8 sm:pt-16 pb-12 sm:pb-20 relative">
-          {/* Background Image for SRM University AP */}
+          {/* Background Image */}
           <div 
             className="absolute inset-0 bg-cover bg-center z-0"
             style={{ 
-              backgroundImage: "url('/images/srm-university-ap.jpg')",
+              backgroundImage: "url('/images/WhatsApp Image 2025-09-23 at 15.01.09_789f31d7.jpg')",
               backgroundBlendMode: 'overlay',
               backgroundColor: 'rgba(255, 255, 255, 0.5)'
             }}
