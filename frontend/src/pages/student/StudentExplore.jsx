@@ -277,6 +277,22 @@ export default function StudentExplore() {
   // State to track the connection status of each alumni by their ID
   const [connectionStatuses, setConnectionStatuses] = useState({});
 
+  // Extract unique companies from alumni profiles
+  const companies = [...new Set(alumniProfiles.map(profile => profile.company))].filter(Boolean);
+
+  // Filter alumni based on search and filter criteria
+  const filteredAlumni = alumniProfiles.filter(alumni => {
+    const matchesSearch = alumni.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         alumni.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         alumni.currentRole.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         alumni.skills.some(skill => skill.toLowerCase().includes(searchTerm.toLowerCase()));
+    
+    const matchesCompany = filterCompany === "all" || alumni.company === filterCompany;
+    const matchesMentors = !showMentorsOnly || alumni.mentoring;
+    
+    return matchesSearch && matchesCompany && matchesMentors;
+  });
+
   const clearFilters = () => {
     setSearchTerm("");
     setFilterCompany("all");
@@ -463,10 +479,10 @@ export default function StudentExplore() {
 
         {/* Results */}
         <div className="space-y-4 sm:space-y-6">
-          {currentData.length > 0 ? (
+          {filteredAlumni.length > 0 ? (
             <>
               <div className="text-xs sm:text-sm text-slate-600 mb-3 sm:mb-4">
-                Showing {currentData.length} {directoryView === "alumni" ? "alumni" : "students"}
+                Showing {filteredAlumni.length} {directoryView === "alumni" ? "alumni" : "students"}
                 {showMentorsOnly && " available for mentoring"}
               </div>
               {filteredAlumni.map(alumni => (
