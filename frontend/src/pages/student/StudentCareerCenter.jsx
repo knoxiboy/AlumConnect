@@ -781,14 +781,14 @@ Status: ${application.status}
                       </button>
                     )}
                     
-                    {/* Post Mentorship Request Button */}
+                    {/* Job and Internship Button */}
                     <button
-                      onClick={() => setShowMentorshipModal(true)}
+                      onClick={() => alert('Job and internship search feature enhanced!')}
                       className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-xl font-medium text-white transition-all hover:shadow-lg transform hover:scale-105 text-sm"
                       style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
                     >
-                      <Users className="w-4 h-4" />
-                      <span className="hidden sm:inline">Request Mentorship</span>
+                      <Search className="w-4 h-4" />
+                      <span className="hidden sm:inline">Job and Internship</span>
                     </button>
                   </div>
                 </div>
