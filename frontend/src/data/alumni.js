@@ -32,7 +32,9 @@ export const alumniProfiles = [
       "Speaker at React Conference 2022"
     ],
     mentoring: true,
-    isAvailable: true
+    isAvailable: true,
+    isConnected: false,
+    hasMessaged: false
   },
   {
     id: "alumni_2",
@@ -67,7 +69,9 @@ export const alumniProfiles = [
       "Featured in Forbes 30 Under 30"
     ],
     mentoring: true,
-    isAvailable: true
+    isAvailable: true,
+    isConnected: false,
+    hasMessaged: false
   },
   {
     id: "alumni_3",
@@ -102,6 +106,8 @@ export const alumniProfiles = [
       "Published articles in Economic Times"
     ],
     mentoring: true,
-    isAvailable: true
+    isAvailable: true,
+    isConnected: false,
+    hasMessaged: false
   }
 ];
