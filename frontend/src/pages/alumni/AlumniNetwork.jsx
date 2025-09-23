@@ -213,23 +213,21 @@ export default function AlumniNetwork() {
           <h2 className="text-lg sm:text-xl font-semibold text-slate-900 mb-4">Community Chat</h2>
           <p className="text-slate-600 mb-4">Connect with students, offer mentorship, and participate in alumni discussions through our Discord community.</p>
           
-          {/* Discord Widget with Fallback */}
-          <div className="rounded-lg overflow-hidden bg-slate-50 border border-slate-200 min-h-[600px] flex items-center justify-center">
-            <div className="text-center p-4">
-              <h3 className="text-lg font-semibold text-slate-700 mb-2">Discord Community</h3>
-              <p className="text-slate-600 mb-4">Join our Discord server to connect with fellow alumni and students.</p>
-              <a 
-                href="https://discord.gg/eFGKpqMxvP" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="inline-block px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium"
-              >
-                Join Discord Server
-              </a>
-              <p className="text-xs text-slate-500 mt-3">
-                Click above to join our Discord community directly
-              </p>
-            </div>
+          {/* Discord Widget */}
+          <div 
+            className="rounded-lg overflow-hidden"
+            dangerouslySetInnerHTML={{
+              __html: `
+                <widgetbot
+                  server="1420060670828744877"
+                  channel="1420060672045355010"
+                  width="100%"
+                  height="600"
+                ></widgetbot>
+                <script src="https://cdn.jsdelivr.net/npm/@widgetbot/html-embed"></script>
+              `
+            }}
+          >
           </div>
         </div>
       </main>
