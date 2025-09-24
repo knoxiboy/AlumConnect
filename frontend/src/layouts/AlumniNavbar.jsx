@@ -8,7 +8,7 @@ import { logout, getCurrentUser } from "../utils/auth";
 
 // Brand colors
 const brand = {
-  indigo: '118 98 214',
+  indigo: '153 102 204',
   lilac: '196 160 255', 
   coral: '255 145 120',
 };
