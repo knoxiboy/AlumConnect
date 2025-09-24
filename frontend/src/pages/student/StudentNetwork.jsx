@@ -268,7 +268,7 @@ export default function StudentNetwork() {
             <widgetbot
               server="1420060670828744877"
               channel="1420060672045355010"
-              width="800"
+              width="1170"
               height="600"
             ></widgetbot>
           </div>
