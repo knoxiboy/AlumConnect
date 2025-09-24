@@ -2,7 +2,7 @@
 export const mockMentors = [
   {
     id: 1,
-    name: "Jane Doe",
+    name: "Tejash Shah",
     role: "Senior Software Engineer",
     company: "Tech Corp",
     status: "available",
@@ -16,7 +16,7 @@ export const mockMentors = [
   },
   {
     id: 2,
-    name: "Mike Johnson",
+    name: "Abhinav Kumar",
     role: "Lead Data Scientist",
     company: "Data Solutions",
     status: "available",
@@ -30,7 +30,7 @@ export const mockMentors = [
   },
   {
     id: 3,
-    name: "Sarah Williams",
+    name: "Tanish Mehta",
     role: "Product Manager",
     company: "Innovate Inc",
     status: "available",
@@ -44,7 +44,7 @@ export const mockMentors = [
   },
   {
     id: 4,
-    name: "Robert Chen",
+    name: "Priyanshu Singh",
     role: "DevOps Engineer",
     company: "Cloud Systems",
     status: "busy",
@@ -88,7 +88,7 @@ export const mockResources = [
   {
     id: 2,
     title: "Machine Learning Interview Prep",
-    author: "Jane Doe",
+    author: "Karan Singh",
     type: "article",
     description: "Essential questions and concepts for ML engineering interviews.",
     rating: 4.5,
@@ -121,7 +121,7 @@ export const mockResources = [
   {
     id: 5,
     title: "Data Science Career Roadmap",
-    author: "Robert Chen",
+    author: "Tanish Mehta",
     type: "guide",
     description: "Step-by-step guide to building a career in data science from zero to hero.",
     rating: 4.9,
@@ -132,7 +132,7 @@ export const mockResources = [
   {
     id: 6,
     title: "Product Management Fundamentals",
-    author: "Sarah Williams",
+    author: "Abhinav Kumar",
     type: "course",
     description: "Master the core skills needed to excel in product management roles.",
     rating: 4.7,
