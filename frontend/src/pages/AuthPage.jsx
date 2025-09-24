@@ -15,6 +15,9 @@ const brand = {
   coral:  '255 145 120',  // #FF9178
 };
 
+
+
+
 // College options
 const colleges = [
   { id: 'srm-ap', name: 'SRM UNIVERSITY AP, Amravati' },
@@ -140,95 +143,85 @@ const AuthPage = () => {
     setShowPassword(!showPassword);
   };
 
+  
+
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-    
-    const formData = new FormData(e.target);
-    const email = formData.get('email');
-    const password = formData.get('password');
-    
-    if (isLogin) {
-      if (role === 'admin') {
-        // Admin login logic
-        if (email === 'karan@college.edu' && password === 'Tiwariji') {
-          localStorage.setItem("AlumConnect_admin_session", JSON.stringify({ 
-            email: email, 
-            collegeId: "iit-delhi", 
-            ts: Date.now() 
-          }));
-          navigate('/admin/dashboard');
-        } else {
-          setError('Invalid admin credentials. Please check your email and password.');
-        }
+  e.preventDefault();
+  setLoading(true);
+  setError("");
+
+  const formData = new FormData(e.target);
+  const email = formData.get('email');
+  const password = formData.get('password');
+
+  if (isLogin) {
+    if (role === 'admin') {
+      // Admin login logic
+      if (email === 'karan@college.edu' && password === 'Tiwariji') {
+        localStorage.setItem("AlumConnect_admin_session", JSON.stringify({ 
+          email: email, 
+          collegeId: "iit-delhi", 
+          ts: Date.now() 
+        }));
+        navigate('/admin/dashboard');
       } else {
-        // Regular user login
-        const userData = login(email, password, role);
-        
-        if (userData) {
-          // Redirect based on role
-          if (role === 'alumni') {
-            navigate('/alumni/dashboard');
-          } else {
-            navigate('/student/dashboard');
-          }
-        } else {
-          setError('Invalid credentials or account not approved. Please check your email and password.');
-        }
+        setError('Invalid admin credentials. Please check your email and password.');
       }
     } else {
-      // Sign up logic
-      const name = formData.get('name');
-      const college = formData.get('college');
-      
-      const signupData = {
-        name,
-        email: formData.get('email'),
-        password: formData.get('password'),
-        college,
-      };
+      // Regular user login
+      const userData = login(email, password, role);
 
-      if (role === 'student') {
-        signupData.enrollmentYear = formData.get('enrollmentYear');
-        signupData.degree = formData.get('degree');
-        signupData.major = formData.get('major');
-        signupData.currentYear = formData.get('currentYear');
-      } else if (role === 'alumni') {
-        signupData.graduationYear = formData.get('graduationYear');
-        signupData.degree = formData.get('degree');
-        signupData.major = formData.get('major');
-        signupData.currentPosition = formData.get('currentPosition');
-        signupData.company = formData.get('company');
-        signupData.industry = formData.get('industry');
-        signupData.location = formData.get('location');
-      }
-
-      try {
-        const response = await axios.post(`http://localhost:3001/api/auth/${role}/signup`, signupData);
-        const { data } = response;
-        
-        const userData = {
-          id: data._id,
-          name: data.name,
-          email: data.email,
-          role: data.role,
-          token: data.token
-        };
-        localStorage.setItem('alumconnect_user', JSON.stringify(userData));
-
+      if (userData) {
+        // Redirect based on role
         if (role === 'alumni') {
           navigate('/alumni/dashboard');
         } else {
           navigate('/student/dashboard');
         }
-      } catch (err) {
-        setError(err.response?.data?.message || 'An error occurred during sign up.');
+      } else {
+        setError('Invalid credentials or account not approved. Please check your email and password.');
       }
     }
+  } else {
+    // Sign up logic
+    const name = formData.get('name');
+    const college = formData.get('college');
+
+    const signupData = {
+      name,
+      email: formData.get('email'),
+      password: formData.get('password'),
+      college,
+    };
+
+    if (role === 'student') {
+      signupData.enrollmentYear = formData.get('enrollmentYear');
+      signupData.degree = formData.get('degree');
+      signupData.major = formData.get('major');
+      signupData.currentYear = formData.get('currentYear');
+    } else if (role === 'alumni') {
+      signupData.graduationYear = formData.get('graduationYear');
+      signupData.degree = formData.get('degree');
+      signupData.major = formData.get('major');
+      signupData.currentPosition = formData.get('currentPosition');
+      signupData.company = formData.get('company');
+      signupData.industry = formData.get('industry');
+      signupData.location = formData.get('location');
+    }
+
     
-    setLoading(false);
-  };
+      
+
+      // Show alert for admin approval
+      alert("Your request is sent. Wait for admin approval");
+
+      setError(err.response?.data?.message || 'An error occurred during sign up.');
+   
+  }
+
+  setLoading(false);
+};
+
 
   return (
     <div 
@@ -586,20 +579,7 @@ const AuthPage = () => {
               )}
             </form>
 
-            {(isLogin || role !== 'admin') && (
-              <>
-                <div className="flex items-center my-4 sm:my-6">
-                  <hr className="flex-grow border-slate-300"/>
-                  <span className="mx-3 sm:mx-4 text-slate-500 text-xs sm:text-sm font-medium">OR</span>
-                  <hr className="flex-grow border-slate-300"/>
-                </div>
-
-                <button className="w-full flex items-center justify-center gap-2 sm:gap-3 bg-white/80 border border-slate-200 text-slate-700 font-semibold py-3 sm:py-3.5 rounded-lg sm:rounded-xl hover:bg-white hover:border-slate-300 transition-all shadow-sm hover:shadow-md text-sm sm:text-base">
-                  <GoogleIcon/>
-                  Continue with Google
-                </button>
-              </>
-            )}
+            
 
             {role !== 'admin' && (
               <div className="text-center mt-4 sm:mt-6">
