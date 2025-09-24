@@ -1011,7 +1011,7 @@ export default function AlumniCareerCenter() {
                       setShowPostMentorshipModal(true);
                     }}
                     className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold text-white transition-all hover:shadow-lg transform hover:scale-105 text-sm sm:text-base"
-                    style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                    style={{ backgroundColor: '#9966CC' }}
                   >
                     <Plus className="w-4 h-4" />
                     Offer Mentorship
@@ -1122,7 +1122,7 @@ export default function AlumniCareerCenter() {
                       setShowPostResourceModal(true);
                     }}
                     className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold text-white transition-all hover:shadow-lg transform hover:scale-105 text-sm sm:text-base"
-                    style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                    style={{ backgroundColor: '#9966CC' }}
                   >
                     <Plus className="w-4 h-4" />
                     Share Resource
