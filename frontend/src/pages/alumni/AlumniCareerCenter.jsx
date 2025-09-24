@@ -10,11 +10,10 @@ import {
   Plus, Users, Calendar, FileText, Lightbulb
 } from "lucide-react";
 
-// Brand colors
 const brand = {
-  indigo: '118 98 214',
-  lilac: '196 160 255', 
-  coral: '255 145 120',
+  indigo: '153 102 204',   // #9966CC
+  lilac:  '196 160 255',  // #C4A0FF
+  coral:  '255 145 120',  // #FF9178
 };
 
 const JobCard = ({ job, isPostedByUser, onViewApplications, onEdit, onDelete }) => (
@@ -1012,7 +1011,7 @@ export default function AlumniCareerCenter() {
                       setShowPostMentorshipModal(true);
                     }}
                     className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold text-white transition-all hover:shadow-lg transform hover:scale-105 text-sm sm:text-base"
-                    style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                    style={{ backgroundColor: '#9966CC' }}
                   >
                     <Plus className="w-4 h-4" />
                     Offer Mentorship
@@ -1123,7 +1122,7 @@ export default function AlumniCareerCenter() {
                       setShowPostResourceModal(true);
                     }}
                     className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold text-white transition-all hover:shadow-lg transform hover:scale-105 text-sm sm:text-base"
-                    style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                    style={{ backgroundColor: '#9966CC' }}
                   >
                     <Plus className="w-4 h-4" />
                     Share Resource

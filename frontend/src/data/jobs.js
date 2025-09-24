@@ -86,5 +86,95 @@ export const jobPostings = [
     deadline: "2025-10-20",
     applicants: 12,
     isActive: true
-  }
+  },
+
+  {
+  id: "job_5",
+  title: "Data Analyst",
+  company: "Deloitte",
+  location: "Hyderabad, India",
+  type: "Full-time",
+  experience: "1-3 years",
+  salary: "₹8-12 LPA",
+  description: "Work with large datasets to deliver business insights, create dashboards, and support decision-making.",
+  requirements: [
+    "Bachelor's degree in Statistics, Mathematics, or related field",
+    "Proficiency in SQL and Excel",
+    "Experience with BI tools like Power BI or Tableau",
+    "Strong analytical and problem-solving skills"
+  ],
+  skills: ["SQL", "Excel", "Tableau", "Python", "Data Visualization"],
+  postedBy: "alumni_2",
+  postedDate: "2025-09-12",
+  deadline: "2025-10-20",
+  applicants: 30,
+  isActive: true
+},
+{
+  id: "job_6",
+  title: "Frontend Developer",
+  company: "Flipkart",
+  location: "Bangalore, India",
+  type: "Full-time",
+  experience: "0-2 years",
+  salary: "₹10-18 LPA",
+  description: "Design and implement engaging, high-performance web applications for e-commerce platforms.",
+  requirements: [
+    "Bachelor's degree in Computer Science or equivalent",
+    "Hands-on experience with React.js and JavaScript",
+    "Knowledge of responsive design principles",
+    "Familiarity with REST APIs and version control"
+  ],
+  skills: ["JavaScript", "React", "HTML", "CSS", "Git"],
+  postedBy: "alumni_3",
+  postedDate: "2025-09-14",
+  deadline: "2025-10-18",
+  applicants: 55,
+  isActive: true
+},
+{
+  id: "job_7",
+  title: "Machine Learning Engineer",
+  company: "Google",
+  location: "Hyderabad, India",
+  type: "Full-time",
+  experience: "2-4 years",
+  salary: "₹20-35 LPA",
+  description: "Develop and optimize ML models for search, recommendations, and NLP-based applications.",
+  requirements: [
+    "Bachelor's/Master's in Computer Science or related field",
+    "Strong understanding of ML algorithms and data preprocessing",
+    "Experience with TensorFlow or PyTorch",
+    "Ability to deploy models into production"
+  ],
+  skills: ["Python", "TensorFlow", "PyTorch", "NLP", "Deep Learning"],
+  postedBy: "alumni_4",
+  postedDate: "2025-09-15",
+  deadline: "2025-10-25",
+  applicants: 70,
+  isActive: true
+},
+{
+  id: "job_8",
+  title: "Cloud Engineer",
+  company: "Microsoft",
+  location: "Noida, India",
+  type: "Full-time",
+  experience: "1-3 years",
+  salary: "₹12-20 LPA",
+  description: "Design, deploy, and maintain scalable cloud solutions using Azure services.",
+  requirements: [
+    "Bachelor's degree in Computer Science/IT",
+    "Experience with Azure or AWS cloud services",
+    "Strong scripting knowledge (Python/Shell)",
+    "Understanding of DevOps practices"
+  ],
+  skills: ["Azure", "AWS", "DevOps", "Kubernetes", "Python"],
+  postedBy: "alumni_5",
+  postedDate: "2025-09-16",
+  deadline: "2025-10-22",
+  applicants: 40,
+  isActive: true
+}
+
 ];
