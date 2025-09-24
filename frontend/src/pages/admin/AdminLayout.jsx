@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard, Users, Calendar, Settings, LogOut, Menu, X,
-  Bell, Search, GraduationCap
+  Bell, Search, GraduationCap, Database
 } from "lucide-react";
 
 const brand = {
@@ -23,6 +23,7 @@ export default function AdminLayout() {
 
   const navigation = [
     { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
+    { name: 'States', href: '/admin/states', icon: Database },
     { name: 'Events', href: '/admin/events', icon: Calendar },
     { name: 'Settings', href: '/admin/settings', icon: Settings },
   ];

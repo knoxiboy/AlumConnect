@@ -99,7 +99,7 @@ export const mockResources = [
   {
     id: 3,
     title: "Building Scalable Microservices",
-    author: "Mike Johnson",
+    author: "Abhinav Kumar",
     type: "ebook",
     description: "Architectural patterns and best practices for designing microservices.",
     rating: 4.8,

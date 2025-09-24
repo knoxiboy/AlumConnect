@@ -16,7 +16,7 @@ const brand = {
 
 // New Mock Data for connections
 const mockConnections = [
-  { id: 1, name: 'Jane Doe', role: 'Senior Software Engineer', company: 'Google' },
+  { id: 1, name: 'Tanish Shah', role: 'Senior Software Engineer', company: 'Google' },
   { id: 2, name: 'John Smith', role: 'Data Scientist', company: 'Microsoft' },
   { id: 3, name: 'Emily Chen', role: 'UX Designer', company: 'Apple' },
   { id: 4, name: 'Michael Davis', role: 'Product Manager', company: 'Netflix' },
@@ -164,7 +164,7 @@ const JobCard = ({ job, isApplied, isSaved, onApply, onSave, onViewApplication }
       <div className="flex items-center gap-2 sm:gap-3 text-slate-600">
         <div 
           className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-          style={{ backgroundColor: `rgba(${brand.indigo}, 0.1)` }}
+          style={{ backgroundColor: '#9966CC' }}
         >
           <MapPin className="w-3 h-3 sm:w-4 sm:h-4" style={{ color: `rgb(${brand.indigo})` }} />
         </div>
@@ -1376,7 +1376,7 @@ Status: ${application.status}
                   <button 
                     onClick={() => alert('Project collaboration feature coming soon!')}
                     className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold text-white transition-all hover:shadow-lg transform hover:scale-105 text-sm sm:text-base"
-                    style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                    style={{ backgroundImage: '#9966CC' }}
                   >
                     <Code className="w-4 h-4" />
                     <span className="hidden sm:inline">Collaborate on Projects</span>

@@ -201,7 +201,7 @@ export default function AdminEvents() {
             </div>
             <div 
               className="w-8 h-8 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center mx-auto sm:mx-0 mt-2 sm:mt-0"
-              style={{ backgroundColor: `rgba(${brand.indigo}, 0.1)` }}
+              style={{ backgroundColor: '#9966CC' }}
             >
               <CalendarDays className="w-4 h-4 sm:w-6 sm:h-6" style={{ color: `rgb(${brand.indigo})` }} />
             </div>

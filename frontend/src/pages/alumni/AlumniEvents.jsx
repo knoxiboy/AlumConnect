@@ -54,7 +54,7 @@ const EventCard = ({ event, isRegistered, onRegister, onUnregister, onSponsor })
       <div className="flex items-center gap-2 sm:gap-3 text-slate-600">
         <div 
           className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-          style={{ backgroundColor: `rgba(${brand.indigo}, 0.1)` }}
+          style={{ backgroundColor: '#9966CC' }}
         >
           <Calendar className="w-3 h-3 sm:w-4 sm:h-4" style={{ color: `rgb(${brand.indigo})` }} />
         </div>
@@ -514,7 +514,7 @@ export default function AlumniEvents() {
               </div>
               <div 
                 className="w-6 h-6 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center mx-auto sm:mx-0 mt-1 sm:mt-0"
-                style={{ backgroundColor: `rgba(${brand.indigo}, 0.1)` }}
+                style={{ backgroundColor: '#9966CC' }}
               >
                 <Calendar className="w-3 h-3 sm:w-6 sm:h-6" style={{ color: `rgb(${brand.indigo})` }} />
               </div>
@@ -559,7 +559,7 @@ export default function AlumniEvents() {
               </div>
               <div 
                 className="w-6 h-6 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center mx-auto sm:mx-0 mt-1 sm:mt-0"
-                style={{ backgroundColor: `rgba(${brand.indigo}, 0.1)` }}
+                style={{ backgroundColor: '#9966CC' }}
               >
                 <Clock className="w-3 h-3 sm:w-6 sm:h-6" style={{ color: `rgb(${brand.indigo})` }} />
               </div>
@@ -674,7 +674,7 @@ export default function AlumniEvents() {
           <div className="text-center py-12 sm:py-16">
             <div 
               className="w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-4"
-              style={{ backgroundColor: `rgba(${brand.indigo}, 0.1)` }}
+              style={{ backgroundColor: '#9966CC' }}
             >
               <Calendar className="w-6 h-6 sm:w-8 sm:h-8" style={{ color: `rgb(${brand.indigo})` }} />
             </div>

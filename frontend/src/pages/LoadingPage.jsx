@@ -174,7 +174,7 @@ export default function LoadingPage() {
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
               <div className="bg-white border border-slate-200 rounded-xl p-5 text-center">
                 <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3"
-                     style={{ backgroundColor: `rgba(${brand.indigo}, 0.1)` }}>
+                     style={{ backgroundColor: '#9966CC' }}>
                   <Users className="w-6 h-6" style={{ color: `rgb(${brand.indigo})` }} />
                 </div>
                 <h3 className="font-semibold text-slate-900 mb-1">Alumni Network</h3>

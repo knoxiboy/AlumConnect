@@ -65,7 +65,7 @@ const JobCard = ({ job, isPostedByUser, onViewApplications, onEdit, onDelete }) 
       <div className="flex items-center gap-2 sm:gap-3 text-slate-600">
         <div 
           className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-          style={{ backgroundColor: `rgba(${brand.indigo}, 0.1)` }}
+          style={{ backgroundColor: '#9966CC' }}
         >
           <MapPin className="w-3 h-3 sm:w-4 sm:h-4" style={{ color: `rgb(${brand.indigo})` }} />
         </div>
@@ -267,7 +267,7 @@ const StartupCard = ({ startup }) => (
     <div className="flex items-start gap-3 sm:gap-4">
       <div 
         className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg flex items-center justify-center text-white font-semibold text-lg"
-        style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.coral}), rgb(${brand.lilac}))` }}
+        style={{ backgroundImage: '#9966CC' }}
       >
         <Target className="w-6 h-6" />
       </div>
@@ -964,7 +964,7 @@ export default function AlumniCareerCenter() {
                   <div className="text-center py-12 sm:py-16">
                     <div 
                       className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6"
-                      style={{ backgroundImage: `linear-gradient(135deg, rgba(${brand.indigo}, 0.1), rgba(${brand.coral}, 0.1))` }}
+                      style={{ backgroundImage: '#9966CC' }}
                     >
                       <Briefcase className="w-8 h-8 sm:w-10 sm:h-10" style={{ color: `rgb(${brand.indigo})` }} />
                     </div>
@@ -1084,7 +1084,7 @@ export default function AlumniCareerCenter() {
                   <div className="text-center py-12 sm:py-16">
                     <div 
                       className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6"
-                      style={{ backgroundImage: `linear-gradient(135deg, rgba(${brand.indigo}, 0.1), rgba(${brand.coral}, 0.1))` }}
+                      style={{ backgroundImage: '#9966CC' }}
                     >
                       <Users className="w-8 h-8 sm:w-10 sm:h-10" style={{ color: `rgb(${brand.indigo})` }} />
                     </div>
@@ -1228,7 +1228,7 @@ export default function AlumniCareerCenter() {
                   <div className="text-center py-12 sm:py-16">
                     <div 
                       className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6"
-                      style={{ backgroundImage: `linear-gradient(135deg, rgba(${brand.indigo}, 0.1), rgba(${brand.coral}, 0.1))` }}
+                      style={{ backgroundImage: '#9966CC' }}
                     >
                       <BookOpen className="w-8 h-8 sm:w-10 sm:h-10" style={{ color: `rgb(${brand.indigo})` }} />
                     </div>
@@ -1359,7 +1359,7 @@ export default function AlumniCareerCenter() {
                   <div className="text-center py-12 sm:py-16">
                     <div 
                       className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6"
-                      style={{ backgroundImage: `linear-gradient(135deg, rgba(${brand.indigo}, 0.1), rgba(${brand.coral}, 0.1))` }}
+                      style={{ backgroundImage: '#9966CC' }}
                     >
                       <Target className="w-8 h-8 sm:w-10 sm:h-10" style={{ color: `rgb(${brand.indigo})` }} />
                     </div>
@@ -1491,7 +1491,7 @@ export default function AlumniCareerCenter() {
                   <div className="text-center py-12 sm:py-16">
                     <div 
                       className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6"
-                      style={{ backgroundImage: `linear-gradient(135deg, rgba(${brand.indigo}, 0.1), rgba(${brand.coral}, 0.1))` }}
+                      style={{ backgroundImage: '#9966CC' }}
                     >
                       <Lightbulb className="w-8 h-8 sm:w-10 sm:h-10" style={{ color: `rgb(${brand.indigo})` }} />
                     </div>

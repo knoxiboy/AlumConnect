@@ -567,7 +567,7 @@ export default function AlumniExplore() {
           <div className="bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-xl p-3 sm:p-4 text-center">
             <div 
               className="w-8 h-8 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mx-auto mb-2"
-              style={{ backgroundColor: `rgba(${brand.indigo}, 0.1)` }}
+              style={{ backgroundColor: '#9966CC' }}
             >
               <Users className="w-4 h-4 sm:w-6 sm:h-6" style={{ color: `rgb(${brand.indigo})` }} />
             </div>

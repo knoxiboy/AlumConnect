@@ -9,6 +9,7 @@ import AdminLoginPage from "./pages/admin/AdminLogin";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminEvents from "./pages/admin/AdminEvents";
+import StatesPage from "./pages/admin/StatesPage";
 import ProtectedAdminRoute from "./pages/admin/ProtectedAdminRoute";
 
 // Alumni Portal
@@ -79,8 +80,9 @@ export default function App() {
         {/* Admin */}
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route element={<ProtectedAdminRoute />}>
-          <Route path="/admin" element={<AdminLayout />}>
+          <Route path="/admin" element={<AdminLayout />} >
             <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="states" element={<StatesPage />} />
             <Route path="events" element={<AdminEvents />} />
           </Route>
         </Route>

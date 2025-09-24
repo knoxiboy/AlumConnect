@@ -331,7 +331,7 @@ export default function Landing() {
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
               <div className="text-center">
-                <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-full flex items-center justify-center" style={{background: `rgba(${brand.indigo}, 0.1)`}}>
+                <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-full flex items-center justify-center" style={{background: '#9966CC'}}>
                   <GraduationCap className="w-6 h-6 sm:w-8 sm:h-8" style={{color: `rgb(${brand.indigo})`}} />
                 </div>
                 <h3 className="font-semibold text-slate-900 mb-2 text-sm sm:text-base">Alumni</h3>
@@ -352,7 +352,7 @@ export default function Landing() {
                 <p className="text-xs sm:text-sm text-slate-600">Enhanced reputation, fundraising capabilities, and alumni engagement</p>
               </div>
               <div className="text-center">
-                <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-full flex items-center justify-center" style={{background: `rgba(${brand.indigo}, 0.1)`}}>
+                <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-full flex items-center justify-center" style={{background: '#9966CC'}}>
                   <Briefcase className="w-6 h-6 sm:w-8 sm:h-8" style={{color: `rgb(${brand.indigo})`}} />
                 </div>
                 <h3 className="font-semibold text-slate-900 mb-2 text-sm sm:text-base">Recruiters</h3>

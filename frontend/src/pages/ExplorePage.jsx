@@ -519,7 +519,7 @@ export default function ExplorePage() {
             <div className="text-center py-12 sm:py-16">
               <div 
                 className="w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6"
-                style={{ backgroundColor: `rgba(${brand.indigo}, 0.1)` }}
+                style={{ backgroundColor: '#9966CC' }}
               >
                 <Search 
                   className="w-10 h-10 sm:w-12 sm:h-12" 

@@ -376,9 +376,9 @@ export default function AlumniProfile() {
           <h3 className="text-base sm:text-lg font-semibold text-slate-900 mb-4">My Network</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
-              { id: 1, initials: "JD", name: "Jane Doe", role: "Computer Science Student", type: "student" },
-              { id: 2, initials: "SJ", name: "Sarah Johnson", role: "AI/ML Researcher", type: "student" },
-              { id: 3, initials: "MJ", name: "Mike Johnson", role: "Lead Data Scientist", type: "alumni" }
+              { id: 1, initials: "JD", name: "Tanish Shah", role: "Computer Science Student", type: "student" },
+              { id: 2, initials: "SJ", name: "Priyanshu", role: "AI/ML Researcher", type: "student" },
+              { id: 3, initials: "MJ", name: "Abhinav Kumar", role: "Lead Data Scientist", type: "alumni" }
             ].map((person) => (
               <div key={person.id} className="bg-white border border-slate-200 rounded-lg p-4 hover:shadow-md transition-all">
                 <div className="flex items-center gap-3">
@@ -415,8 +415,8 @@ export default function AlumniProfile() {
           <h3 className="text-base sm:text-lg font-semibold text-slate-900 mb-4">Mentorship Requests</h3>
           <div className="space-y-4">
             {[
-              { id: 1, name: "Jane Doe", major: "Computer Science", message: "Hi! I'm interested in your software development experience and would love mentorship." },
-              { id: 2, name: "Sarah Johnson", major: "AI/ML", message: "I'm working on ML projects and would appreciate your guidance in this field." }
+              { id: 1, name: "Tanish Shah", major: "Computer Science", message: "Hi! I'm interested in your software development experience and would love mentorship." },
+              { id: 2, name: "Priyanshu", major: "AI/ML", message: "I'm working on ML projects and would appreciate your guidance in this field." }
             ].map((request) => (
               <div key={request.id} className="bg-white border border-slate-200 rounded-lg p-4 hover:shadow-md transition-all">
                 <div className="flex items-start justify-between">

@@ -487,8 +487,8 @@ export default function StudentProfile() {
           <h3 className="text-base sm:text-lg font-semibold text-slate-900 mb-4">My Network</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
-              { id: 1, initials: "JD", name: "Jane Doe", role: "Senior Software Engineer", type: "alumni" },
-              { id: 2, initials: "MJ", name: "Mike Johnson", role: "Lead Data Scientist", type: "alumni" },
+              { id: 1, initials: "JD", name: "Tanish Shah", role: "Senior Software Engineer", type: "alumni" },
+              { id: 2, initials: "MJ", name: "Abhinav Kumar", role: "Lead Data Scientist", type: "alumni" },
               { id: 3, initials: "ED", name: "Emily Davis", role: "Senior Product Manager", type: "alumni" }
             ].map((person) => (
               <div key={person.id} className="bg-white border border-slate-200 rounded-lg p-4 hover:shadow-md transition-all">
@@ -526,7 +526,7 @@ export default function StudentProfile() {
           <h3 className="text-base sm:text-lg font-semibold text-slate-900 mb-4">Mentorship Requests</h3>
           <div className="space-y-4">
             {[
-              { id: 1, name: "Sarah Johnson", major: "Computer Science", time: "2 days ago", message: "Hi John! I'd love to connect and discuss your AI/ML projects." }
+              { id: 1, name: "Priyanshu", major: "Computer Science", time: "2 days ago", message: "Hi John! I'd love to connect and discuss your AI/ML projects." }
             ].map((request) => (
               <div key={request.id} className="bg-white border border-slate-200 rounded-lg p-4 hover:shadow-md transition-all">
                 <div className="flex items-start justify-between">

@@ -30,7 +30,7 @@ export default function AlumniNavbar() {
 
   // NEW: Mock data for notifications
   const notifications = [
-    { id: 1, message: 'Jane Doe viewed your profile', time: '2h ago', unread: true },
+    { id: 1, message: 'Tanish Shah viewed your profile', time: '2h ago', unread: true },
     { id: 2, message: 'New message from John Smith', time: '5h ago', unread: true },
     { id: 3, message: 'New event: Annual Alumni Meet', time: '1d ago', unread: false },
   ];
