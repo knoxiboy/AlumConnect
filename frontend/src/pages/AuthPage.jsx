@@ -222,7 +222,6 @@ const AuthPage = () => {
   setLoading(false);
 };
 
-
   return (
     <div 
       className="min-h-screen text-slate-900 font-sans flex flex-col md:flex-row"

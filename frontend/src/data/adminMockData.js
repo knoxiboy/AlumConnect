@@ -2,14 +2,14 @@
 
 // Pending approvals (mixed alumni + students)
 export const pendingApprovals = [
-  { id: 1,  name: "Karan Mani Tripathi",  role: "Alumni",  joinDate: "2025-09-10", details: "B.Tech CSE, 2018" },
-  { id: 2,  name: "Rahul Verma",   role: "Student", joinDate: "2025-09-10", details: "Student ID: 19BCE1234" },
-  { id: 3,  name: "Ankit Gupta",   role: "Alumni",  joinDate: "2025-09-09", details: "MBA, 2015" },
-  { id: 4,  name: "Neha Patel",    role: "Alumni",  joinDate: "2025-09-08", details: "B.Tech ECE, 2016 • Amazon" },
-  { id: 5,  name: "Ishaan Mehta",  role: "Student", joinDate: "2025-09-07", details: "Student ID: 21BCE0456" },
-  { id: 6,  name: "Ananya Rao",    role: "Alumni",  joinDate: "2025-09-06", details: "M.Tech AI, 2020 • TCS" },
-  { id: 7,  name: "Kartik Singh",  role: "Student", joinDate: "2025-09-05", details: "Student ID: 22BME0321" },
-  { id: 8,  name: "Zara Khan",     role: "Alumni",  joinDate: "2025-09-05", details: "B.Sc IT, 2017 • Infosys" },
+  { id: 1,  name: "Karan Mani Tripathi",  role: "Alumni",  joinDate: "2025-09-24", details: "B.Tech CSE, 2018" },
+  { id: 2,  name: "Rahul Verma",   role: "Student", joinDate: "2025-09-24", details: "Student ID: 19BCE1234" },
+  { id: 3,  name: "Ankit Gupta",   role: "Alumni",  joinDate: "2025-09-24", details: "MBA, 2015" },
+  { id: 4,  name: "Neha Patel",    role: "Alumni",  joinDate: "2025-09-24", details: "B.Tech ECE, 2016 • Amazon" },
+  { id: 5,  name: "Ishaan Mehta",  role: "Student", joinDate: "2025-09-24", details: "Student ID: 21BCE0456" },
+  { id: 6,  name: "Ananya Rao",    role: "Alumni",  joinDate: "2025-09-24", details: "M.Tech AI, 2020 • TCS" },
+  { id: 7,  name: "Kartik Singh",  role: "Student", joinDate: "2025-09-24", details: "Student ID: 22BME0321" },
+  { id: 8,  name: "Zara Khan",     role: "Alumni",  joinDate: "2025-09-24", details: "B.Sc IT, 2017 • Infosys" },
 ];
 
 // Events (unique ids, varied status, venue, and attendees)
