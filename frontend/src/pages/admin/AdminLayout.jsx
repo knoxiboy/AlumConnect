@@ -13,6 +13,12 @@ const brand = {
 
 export default function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [notifications, setNotifications] = useState([
+    { id: 1, title: 'New Alumni Registration', time: '2 min ago', read: false },
+    { id: 2, title: 'Event Reminder: Career Fair', time: '1 hour ago', read: false },
+    { id: 3, title: 'System Update Completed', time: '3 hours ago', read: true },
+  ]);
+  const [showNotifications, setShowNotifications] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -21,9 +27,11 @@ export default function AdminLayout() {
     navigate("/landing");
   };
 
+  const unreadCount = notifications.filter(n => !n.read).length;
+
   const navigation = [
     { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
-    { name: 'States', href: '/admin/states', icon: Database },
+    { name: 'Stats', href: '/admin/stats', icon: Database },
     { name: 'Events', href: '/admin/events', icon: Calendar },
     { name: 'Settings', href: '/admin/settings', icon: Settings },
   ];

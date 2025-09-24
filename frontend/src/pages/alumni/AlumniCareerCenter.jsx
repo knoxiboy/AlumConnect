@@ -600,7 +600,7 @@ export default function AlumniCareerCenter() {
   const [showPostJobModal, setShowPostJobModal] = useState(false);
   const [editingJob, setEditingJob] = useState(null);
   
-  // New states for other posting modals
+  // New stats for other posting modals
   const [showPostMentorshipModal, setShowPostMentorshipModal] = useState(false);
   const [editingMentorship, setEditingMentorship] = useState(null);
   
