@@ -16,9 +16,10 @@ const brand = {
 };
 
 // Enhanced College Card Component
-const CollegeExploreCard = ({ id, name, desc, image, location, established, alumniCount, rating, viewMode }) => (
+const CollegeExploreCard = ({ id, name, desc, image, location, established, alumniCount, rating, viewMode, url }) => (
   <Link 
-    to={`/college/${id}`} 
+    to={url || '#'}
+    target="_blank"
     className={`group block bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-slate-200/60 hover:border-slate-300 transition-all duration-300 shadow-md hover:shadow-xl transform hover:scale-105 ${
       viewMode === 'list' ? 'flex items-center' : ''
     }`}
