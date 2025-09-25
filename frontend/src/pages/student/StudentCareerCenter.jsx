@@ -499,7 +499,7 @@ export default function StudentJobs() {
   const [techFilter, setTechFilter] = useState([]);
   const [showMentorshipModal, setShowMentorshipModal] = useState(false);
 
-  // 🎯 DEMO-FRIENDLY: Application states only persist during session (reset on refresh)
+  // 🎯 DEMO-FRIENDLY: Application stats only persist during session (reset on refresh)
   const [appliedJobs, setAppliedJobs] = useState(new Set());
   const [savedJobs, setSavedJobs] = useState(new Set([1, 4])); // Mock some saved jobs
   const [applicationData, setApplicationDataState] = useState({});
@@ -537,7 +537,7 @@ export default function StudentJobs() {
     setCategoryFilter([]);
     setIndustryFilter([]);
     setTechFilter([]);
-    // Also reset the action states
+    // Also reset the action stats
     setAppliedJobs(new Set());
     setSavedJobs(new Set());
     setRequestedMentors(new Set());

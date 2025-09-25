@@ -30,7 +30,7 @@ const brand = {
 
 const COLORS = ['#9966CC', '#C4A0FF', '#FF9178', '#66B2FF', '#FFCC66', '#99FF99', '#FF99CC', '#99CCFF'];
 
-export default function StatesPage() {
+export default function StatsPage() {
   const [activeTab, setActiveTab] = useState('overview');
 
   return (

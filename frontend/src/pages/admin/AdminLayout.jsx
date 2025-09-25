@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard, Users, Calendar, Settings, LogOut, Menu, X,
@@ -13,6 +13,13 @@ const brand = {
 
 export default function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [notifications, setNotifications] = useState([
+    { id: 1, title: 'New Alumni Registration', time: '2 min ago', read: false },
+    { id: 2, title: 'Event Reminder: Career Fair', time: '1 hour ago', read: false },
+    { id: 3, title: 'System Update Completed', time: '3 hours ago', read: true },
+  ]);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const notificationRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -21,9 +28,27 @@ export default function AdminLayout() {
     navigate("/landing");
   };
 
+  const unreadCount = notifications.filter(n => !n.read).length;
+
+  // Close notifications dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+        setShowNotifications(false);
+      }
+    }
+
+    // Bind the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const navigation = [
     { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
-    { name: 'States', href: '/admin/states', icon: Database },
+    { name: 'Statistics', href: '/admin/stats', icon: Database },
     { name: 'Events', href: '/admin/events', icon: Calendar },
     { name: 'Settings', href: '/admin/settings', icon: Settings },
   ];
@@ -179,12 +204,56 @@ export default function AdminLayout() {
               </button>
               
               {/* Notifications */}
-              <button className="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors relative">
-                <Bell className="w-5 h-5" />
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  3
-                </span>
-              </button>
+              <div className="relative">
+                <button 
+                  className="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors relative"
+                  onClick={() => setShowNotifications(!showNotifications)}
+                >
+                  <Bell className="w-5 h-5" />
+                  {unreadCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                      {unreadCount}
+                    </span>
+                  )}
+                </button>
+                
+                {/* Notification Dropdown */}
+                {showNotifications && (
+                  <div ref={notificationRef} className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-slate-200 z-50">
+                    <div className="p-3 border-b border-slate-200">
+                      <h3 className="font-semibold text-slate-900">Notifications</h3>
+                    </div>
+                    <div className="max-h-96 overflow-y-auto">
+                      {notifications.length > 0 ? (
+                        notifications.map((notification) => (
+                          <div 
+                            key={notification.id} 
+                            className={`p-3 border-b border-slate-100 hover:bg-slate-50 transition-colors ${!notification.read ? 'bg-blue-50' : ''}`}
+                          >
+                            <p className="font-medium text-slate-900">{notification.title}</p>
+                            <p className="text-xs text-slate-500 mt-1">{notification.time}</p>
+                          </div>
+                        ))
+                      ) : (
+                        <div className="p-4 text-center text-slate-500">
+                          <p>No notifications</p>
+                        </div>
+                      )}
+                    </div>
+                    <div className="p-2 border-t border-slate-200 text-center">
+                      <button 
+                        className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
+                        onClick={() => {
+                          // Mark all as read
+                          setNotifications(prev => prev.map(n => ({...n, read: true})))
+                        }}
+                      >
+                        Mark all as read
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
               
               {/* Admin profile */}
               <div className="flex items-center gap-2 sm:gap-3">

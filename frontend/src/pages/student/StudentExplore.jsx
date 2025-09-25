@@ -347,7 +347,7 @@ const AlumniListModal = ({ isOpen, onClose, title, alumniList, companies, onComp
    --------------------------- */
 
 export default function StudentExplore() {
-  // Search / filters / view states
+  // Search / filters / view stats
   const [searchTerm, setSearchTerm] = useState("");
   const [filterCompany, setFilterCompany] = useState("all");
   const [showMentorsOnly, setShowMentorsOnly] = useState(false);
