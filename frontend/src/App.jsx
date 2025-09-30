@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { testDB } from "./utils/api";
 import Landing from "./pages/Landing";
 import ExplorePage from "./pages/ExplorePage";
+import Contacts from "./pages/Contacts";
 import AuthPage from "./pages/AuthPage";
 import CollegeRegistrationPage from "./pages/CollegeRegistrationPage";
 import AdminLoginPage from "./pages/admin/AdminLogin";
@@ -54,6 +55,7 @@ export default function App() {
         <Route path="/" element={<Navigate to="/landing" />} />
         <Route path="/landing" element={<Landing />} />
         <Route path="/explore" element={<ExplorePage />} />
+        <Route path="/contacts" element={<Contacts />} />
         <Route path="/alumni-auth" element={<AuthPage />} />
         <Route path="/college-registration" element={<CollegeRegistrationPage />} />
 

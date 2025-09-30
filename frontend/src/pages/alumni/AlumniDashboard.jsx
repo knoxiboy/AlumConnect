@@ -147,11 +147,11 @@ export default function AlumniDashboard() {
 
       // Set recent activity (static data - no need to depend on user)
       setRecentActivity([
-        { id: 1, type: 'connection', message: 'Neha Patel viewed your profile', time: '2 hours ago', unread: true },
-        { id: 2, type: 'event', message: 'New event: Annual Alumni Meet 2025', time: '1 day ago', unread: true },
-        { id: 3, type: 'job', message: 'Your job posting received 5 new applications', time: '2 days ago', unread: false },
-        { id: 4, type: 'message', message: 'You have a new message from a fellow alumnus', time: '4 days ago', unread: true },
-        { id: 5, type: 'job', message: 'A new job was posted: Senior Software Engineer at Google', time: '5 days ago', unread: false },
+        { id: 1, type: 'connection', message: 'Saurav Kumar requested to connect with you', time: '30 mins ago', unread: true },
+        { id: 2, type: 'mentorship', message: 'Priya Sharma requested mentorship for Full Stack Development', time: '2 hours ago', unread: true },
+        { id: 3, type: 'event', message: 'Upcoming event: Tech Innovation Summit', time: '1 day ago', unread: true },
+        { id: 4, type: 'job', message: 'New opportunity: SDE-Intern at Microsoft', time: '1 day ago', unread: true },
+        { id: 5, type: 'network', message: 'New connections: 3 alumni joined your network', time: '2 days ago', unread: false },
       ]);
     }
   }, [user?.id, userProfile]); // Only depend on user ID and whether profile is already loaded
@@ -276,9 +276,9 @@ export default function AlumniDashboard() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
           <StatCard
             icon={<Users className="w-5 h-5 sm:w-6 sm:h-6" />}
-            title="Network Connections"
-            value="156"
-            trend="+12 this month"
+            title="Alumni Network"
+            value="245"
+            trend="+18 this month"
             color={brand.indigo}
             onClick={() => handleStatClick('connections')}
           />
@@ -286,21 +286,23 @@ export default function AlumniDashboard() {
             icon={<Calendar className="w-5 h-5 sm:w-6 sm:h-6" />}
             title="Upcoming Events"
             value={upcomingEvents.length}
+            trend={upcomingEvents.length > 0 ? '+3 this month' : ''}
             color={brand.coral}
             onClick={() => handleStatClick('events')}
           />
           <StatCard
             icon={<Briefcase className="w-5 h-5 sm:w-6 sm:h-6" />}
-            title="Job Opportunities"
+            title="Career Opportunities"
             value={latestJobs.length}
-            trend="+5 this week"
+            trend="+7 this week"
             color={brand.lilac}
             onClick={() => handleStatClick('jobs')}
           />
           <StatCard
             icon={<MessageCircle className="w-5 h-5 sm:w-6 sm:h-6" />}
-            title="Messages"
-            value="8"
+            title="Mentorship Requests"
+            value="12"
+            trend="+5 this week"
             color={brand.indigo}
             onClick={() => handleStatClick('messages')}
           />

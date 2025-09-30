@@ -30,6 +30,7 @@ export default function Navbar() {
           <a href="#features" className="text-slate-700 hover:text-slate-900 transition-colors text-sm lg:text-base">Features</a>
           <a href="#how-it-works" className="text-slate-700 hover:text-slate-900 transition-colors text-sm lg:text-base">How It Works</a>
           <Link to="/explore" className="text-slate-700 hover:text-slate-900 transition-colors text-sm lg:text-base">Explore</Link>
+          <Link to="/contacts" className="text-slate-700 hover:text-slate-900 transition-colors text-sm lg:text-base">Contact</Link>
         </div>
 
         {/* Mobile menu button */}
@@ -59,6 +60,7 @@ export default function Navbar() {
             <a href="#features" className="text-slate-700 hover:text-slate-900 transition-colors py-2" onClick={() => setIsMenuOpen(false)}>Features</a>
             <a href="#how-it-works" className="text-slate-700 hover:text-slate-900 transition-colors py-2" onClick={() => setIsMenuOpen(false)}>How It Works</a>
             <Link to="/explore" className="text-slate-700 hover:text-slate-900 transition-colors py-2" onClick={() => setIsMenuOpen(false)}>Explore</Link>
+            <Link to="/contacts" className="text-slate-700 hover:text-slate-900 transition-colors py-2" onClick={() => setIsMenuOpen(false)}>Contact</Link>
             <Link
               to="/alumni-auth"
               className="px-4 py-2 rounded-lg font-semibold text-white text-center shadow-md hover:shadow-lg transition-all text-sm"

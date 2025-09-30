@@ -152,6 +152,12 @@ export default function Landing() {
                   Get Started
                 </Link>
                 <Link
+                  to="/contacts"
+                  className="px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl font-semibold border border-slate-300 bg-white/80 backdrop-blur-sm text-slate-900 hover:border-slate-400 transition text-center"
+                >
+                  Contact Us
+                </Link>
+                <Link
                   to="/explore"
                   className="px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl font-semibold border border-slate-300 bg-white/80 backdrop-blur-sm text-slate-900 hover:border-slate-400 transition text-center"
                 >
@@ -395,6 +401,7 @@ export default function Landing() {
                 <p className="font-semibold text-slate-900 mb-3">Solution</p>
                 <ul className="space-y-2">
                   <li><Link to="/explore" className="hover:text-slate-900 text-sm">Platform Demo</Link></li>
+                  <li><Link to="/contacts" className="hover:text-slate-900 text-sm">Contact Us</Link></li>
                   <li><a href="#features" className="hover:text-slate-900 text-sm">Key Features</a></li>
                   <li><Link to="/college-registration" className="hover:text-slate-900 text-sm">Implementation</Link></li>
                   <li><a href="#" className="hover:text-slate-900 text-sm">Technical Specs</a></li>
@@ -414,7 +421,7 @@ export default function Landing() {
                 <p className="font-semibold text-slate-900 mb-3">Team</p>
                 <ul className="space-y-2">
                   <li><a href="#" className="hover:text-slate-900 text-sm">About Team</a></li>
-                  <li><a href="#" className="hover:text-slate-900 text-sm">Contact</a></li>
+                  <li><Link to="/contacts" className="hover:text-slate-900 text-sm">Contact Us</Link></li>
                   <li><a href="#" className="hover:text-slate-900 text-sm">Project Repository</a></li>
                 </ul>
               </div>
