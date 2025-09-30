@@ -249,8 +249,8 @@ export default function Contacts() {
                 icon={<MapPin className="w-5 h-5" style={{ color: `rgb(${brand.indigo})` }} />}
                 title="Our Location"
               >
-                <p className="mb-2">SRM Institute of Science and Technology</p>
-                <p className="text-slate-600">Kattankulathur, Tamil Nadu 603203, India</p>
+                <p className="mb-2">SRM University, Andhra Pradesh</p>
+                <p className="text-slate-600">Amaravati, Andhra Pradesh, India</p>
               </ContactInfoCard>
 
               <ContactInfoCard
@@ -269,14 +269,7 @@ export default function Contacts() {
                 <p className="text-slate-600">For general inquiries and support</p>
               </ContactInfoCard>
 
-              <ContactInfoCard
-                icon={<GraduationCap className="w-5 h-5" style={{ color: `rgb(${brand.indigo})` }} />}
-                title="For Educational Institutions"
-                action="Contact Institution Support"
-                actionLink="/institution-contact"
-              >
-                <p>Specialized support for universities and colleges interested in our platform</p>
-              </ContactInfoCard>
+
             </div>
           </div>
         </div>
@@ -284,33 +277,107 @@ export default function Contacts() {
         {/* Team Section */}
         <section className="mt-16 sm:mt-24">
           <div className="text-center mb-8 sm:mb-12">
-            <p className="font-semibold text-sm" style={{ color: `rgb(${brand.indigo})` }}>MEET OUR TEAM</p>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mt-2">Our Core Team</h2>
+            <p className="font-semibold text-sm" style={{ color: `rgb(${brand.indigo})` }}>VAKRATUND</p>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mt-2">Our Team</h2>
             <p className="mt-2 text-base sm:text-lg text-slate-600">The dedicated individuals behind AlumConnect</p>
           </div>
           
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            <TeamMemberCard
-              name="Rajesh Kumar"
-              role="Project Lead & Full Stack Developer"
-              email="rajesh.k@alumconnect.in"
-              phone="+91 98765 43210"
-              image="/api/placeholder/300/300"
-            />
-            <TeamMemberCard
-              name="Priya Sharma"
-              role="Frontend Developer & UI/UX Designer"
-              email="priya.s@alumconnect.in"
-              phone="+91 98765 43211"
-              image="/api/placeholder/300/300"
-            />
-            <TeamMemberCard
-              name="Amit Patel"
-              role="Backend Developer & Database Architect"
-              email="amit.p@alumconnect.in"
-              phone="+91 98765 43212"
-              image="/api/placeholder/300/300"
-            />
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl overflow-hidden border border-slate-200/80 text-center hover:shadow-lg transition-all">
+              <div className="p-5">
+                <h3 className="text-lg font-bold text-slate-900">Divya Saxena</h3>
+                <p className="text-sm text-slate-600 mb-2">Team Leader</p>
+                <div className="space-y-1 text-xs text-slate-600">
+                  <div className="flex items-center justify-center gap-1">
+                    <span>Female</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-1">
+                    <Mail className="w-3 h-3" />
+                    <span>divya_saxena@srmap.edu.in</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl overflow-hidden border border-slate-200/80 text-center hover:shadow-lg transition-all">
+              <div className="p-5">
+                <h3 className="text-lg font-bold text-slate-900">Shruthi Bhagawan</h3>
+                <p className="text-sm text-slate-600 mb-2">Team Member</p>
+                <div className="space-y-1 text-xs text-slate-600">
+                  <div className="flex items-center justify-center gap-1">
+                    <span>Female</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-1">
+                    <Mail className="w-3 h-3" />
+                    <span>shruthi_bhagawan@srmap.edu.in</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl overflow-hidden border border-slate-200/80 text-center hover:shadow-lg transition-all">
+              <div className="p-5">
+                <h3 className="text-lg font-bold text-slate-900">Saurav Shankar</h3>
+                <p className="text-sm text-slate-600 mb-2">Team Member</p>
+                <div className="space-y-1 text-xs text-slate-600">
+                  <div className="flex items-center justify-center gap-1">
+                    <span>Male</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-1">
+                    <Mail className="w-3 h-3" />
+                    <span>saurav_shankar@srmap.edu.in</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl overflow-hidden border border-slate-200/80 text-center hover:shadow-lg transition-all">
+              <div className="p-5">
+                <h3 className="text-lg font-bold text-slate-900">Karan Mani Tripathi</h3>
+                <p className="text-sm text-slate-600 mb-2">Team Member</p>
+                <div className="space-y-1 text-xs text-slate-600">
+                  <div className="flex items-center justify-center gap-1">
+                    <span>Male</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-1">
+                    <Mail className="w-3 h-3" />
+                    <span>karan_manitripathi@srmap.edu.in</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl overflow-hidden border border-slate-200/80 text-center hover:shadow-lg transition-all">
+              <div className="p-5">
+                <h3 className="text-lg font-bold text-slate-900">Punyap Tejas Kumar</h3>
+                <p className="text-sm text-slate-600 mb-2">Team Member</p>
+                <div className="space-y-1 text-xs text-slate-600">
+                  <div className="flex items-center justify-center gap-1">
+                    <span>Male</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-1">
+                    <Mail className="w-3 h-3" />
+                    <span>tejaskumar_punyap@srmap.edu.in</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl overflow-hidden border border-slate-200/80 text-center hover:shadow-lg transition-all">
+              <div className="p-5">
+                <h3 className="text-lg font-bold text-slate-900">Kunapaneni Amrutha Naga Sri</h3>
+                <p className="text-sm text-slate-600 mb-2">Team Member</p>
+                <div className="space-y-1 text-xs text-slate-600">
+                  <div className="flex items-center justify-center gap-1">
+                    <span>Female</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-1">
+                    <Mail className="w-3 h-3" />
+                    <span>amrutha_kunapaneni@srmap.edu.in</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
