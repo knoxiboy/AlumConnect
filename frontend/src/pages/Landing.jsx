@@ -301,7 +301,7 @@ export default function Landing() {
         {/* --- How it Works Timeline --- */}
         <section id="how-it-works" className="py-16 sm:py-24">
           <div className="max-w-4xl mx-auto px-4 sm:px-6">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-12 sm:mb-16">Implementation Process</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-12 sm:mb-16">Implementation Process</h2>
             <div className="space-y-12 sm:space-y-16">
               <TimelineItem 
                 number="1" 

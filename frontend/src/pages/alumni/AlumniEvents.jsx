@@ -499,7 +499,7 @@ export default function AlumniEvents() {
       
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Header */}
-        <div className="text-center mb-6 sm:mb-8">
+        <div className="mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">Alumni Events</h1>
           <p className="text-slate-600 text-sm sm:text-base">Stay connected with upcoming events and past gatherings</p>
         </div>

@@ -468,7 +468,7 @@ export default function StudentExplore() {
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Header */}
-        <div className="text-center mb-6 sm:mb-8">
+        <div className="mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">
             {directoryView === "alumni" ? "Connect with Alumni" : "Explore Student Directory"}
           </h1>
@@ -480,7 +480,7 @@ export default function StudentExplore() {
         </div>
 
         {/* Directory Toggle */}
-        <div className="flex justify-center mb-6">
+        <div className="flex justify-start mb-6">
           <div className="inline-flex rounded-lg border border-slate-200 p-1 bg-white">
             <button
               onClick={() => setDirectoryView("alumni")}
@@ -505,49 +505,12 @@ export default function StudentExplore() {
           </div>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-3 gap-3 sm:gap-6 mb-6 sm:mb-8">
-          <button
-            className="bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-xl p-3 sm:p-4 text-center transition-transform hover:scale-105"
-            onClick={() => handleStatCardClick("total")}
-          >
-            <div
-              className="w-8 h-8 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mx-auto mb-2"
-              style={{ backgroundColor: '#9966CC' }}
-            >
-              <Users className="w-4 h-4 sm:w-6 sm:h-6" style={{ color: `rgb(${brand.indigo})` }} />
-            </div>
-            <div className="text-lg sm:text-2xl font-bold text-slate-900">{alumniProfiles.length}</div>
-            <div className="text-xs sm:text-sm text-slate-600">Total Alumni</div>
-          </button>
-          <div className="bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-xl p-3 sm:p-4 text-center">
-            <div
-              className="w-8 h-8 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mx-auto mb-2"
-              style={{ backgroundColor: `rgba(${brand.coral}, 0.1)` }}
-            >
-              <MessageCircle className="w-4 h-4 sm:w-6 sm:h-6" style={{ color: `rgb(${brand.coral})` }} />
-            </div>
-            <div className="text-lg sm:text-2xl font-bold text-slate-900">
-              {alumniProfiles.filter(a => a.mentoring).length}
-            </div>
-            <div className="text-xs sm:text-sm text-slate-600">Available Mentors</div>
-          </div>
-          <div className="bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-xl p-3 sm:p-4 text-center">
-            <div
-              className="w-8 h-8 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mx-auto mb-2"
-              style={{ backgroundColor: `rgba(${brand.lilac}, 0.1)` }}
-            >
-              <Briefcase className="w-4 h-4 sm:w-6 sm:h-6" style={{ color: `rgb(${brand.lilac})` }} />
-            </div>
-            <div className="text-lg sm:text-2xl font-bold text-slate-900">{companies.length}</div>
-            <div className="text-xs sm:text-sm text-slate-600">Companies</div>
-          </div>
-        </div>
+        
 
         {/* Search and Filters */}
         <div className="bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-xl p-4 sm:p-6 mb-6 sm:mb-8">
           <div className="grid grid-cols-1 gap-4">
-            {/* Search Bar */}
+            {/* Search Bar with integrated filters */}
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-slate-400" />
               <input
@@ -555,37 +518,33 @@ export default function StudentExplore() {
                 placeholder="Search by name, company, role, or skills..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full bg-white border border-slate-200 rounded-lg py-2.5 sm:py-3 pl-10 sm:pl-12 pr-4 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-300 text-sm sm:text-base"
+                className="w-full bg-white border border-slate-200 rounded-lg py-2.5 sm:py-3 pl-10 sm:pl-12 pr-60 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-300 text-sm sm:text-base"
               />
-            </div>
-
-            {/* Desktop Filters */}
-            <div className="hidden sm:grid sm:grid-cols-3 gap-4">
-              <select
-                value={filterCompany}
-                onChange={(e) => setFilterCompany(e.target.value)}
-                className="w-full bg-white border border-slate-200 rounded-lg py-3 px-4 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-300"
-              >
-                <option value="all">All Companies</option>
-                {companies.map(company => (
-                  <option key={company} value={company}>{company}</option>
-                ))}
-              </select>
-
-              <label className="flex items-center gap-2 bg-white border border-slate-200 rounded-lg py-3 px-4 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={showMentorsOnly}
-                  onChange={(e) => setShowMentorsOnly(e.target.checked)}
-                  className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
-                />
-                <span className="text-slate-900 text-sm">Mentors Only</span>
-              </label>
-
-              <div className="flex items-center">
-                <span className="text-sm text-slate-600">
-                  {filteredAlumni.length} alumni found
-                </span>
+              <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-2">
+                <select
+                  value={filterCompany}
+                  onChange={(e) => setFilterCompany(e.target.value)}
+                  className="bg-white border border-slate-200 rounded-lg py-1.5 px-2 text-xs focus:outline-none focus:ring-1 focus:border-slate-300"
+                >
+                  <option value="all">All Companies</option>
+                  {companies.map(company => (
+                    <option key={company} value={company}>{company}</option>
+                  ))}
+                </select>
+                <label className="flex items-center gap-1 bg-white border border-slate-200 rounded-lg py-1.5 px-2 text-xs cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={showMentorsOnly}
+                    onChange={(e) => setShowMentorsOnly(e.target.checked)}
+                    className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                  />
+                  <span className="text-slate-900">Mentors</span>
+                </label>
+                <div className="flex items-center bg-white border border-slate-200 rounded-lg py-1.5 px-2 text-xs">
+                  <span className="text-slate-600">
+                    {filteredAlumni.length} found
+                  </span>
+                </div>
               </div>
             </div>
 
