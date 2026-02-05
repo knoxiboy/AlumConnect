@@ -14,3 +14,5 @@ const StatsCard = ({ icon, number, label, color }) => (
 );
 
 export default StatsCard;
+
+

@@ -8,7 +8,7 @@ import { logout, getCurrentUser } from "../../utils/auth";
 
 const brand = {
   indigo: '153 102 204',   // #9966CC
-  lilac: '196 160 255',  // #C4A0FF
+  lilac: '153 102 204',  // #9966CC
   coral: '255 145 120',  // #FF9178
 };
 
@@ -257,3 +257,5 @@ export default function StudentNavbar() {
     </nav>
   );
 }
+
+

@@ -83,13 +83,13 @@ export default function Landing() {
               {/* SVG Icons Row */}
               <div className="flex justify-center lg:justify-start gap-3 sm:gap-6 mb-4 sm:mb-5 flex-wrap">
                 <GraduationCap className="w-6 h-6 sm:w-8 sm:h-8" style={{ color: `rgb(${brand.indigo})` }} />
-                <Users className="w-6 h-6 sm:w-8 sm:h-8" style={{ color: `rgb(${brand.lilac})` }} />
+                <Users className="w-6 h-6 sm:w-8 sm:h-8" style={{ color: `rgb(${brand.indigo})` }} />
                 <Briefcase className="w-6 h-6 sm:w-8 sm:h-8" style={{ color: `rgb(${brand.coral})` }} />
-                <Sparkles className="w-6 h-6 sm:w-8 sm:h-8" style={{ color: `rgb(${brand.lilac})` }} />
+                <Sparkles className="w-6 h-6 sm:w-8 sm:h-8" style={{ color: `rgb(${brand.coral})` }} />
                 <ShieldCheck className="w-6 h-6 sm:w-8 sm:h-8" style={{ color: `rgb(${brand.indigo})` }} />
                 <Database className="w-6 h-6 sm:w-8 sm:h-8" style={{ color: `rgb(${brand.coral})` }} />
                 <CalendarDays className="w-6 h-6 sm:w-8 sm:h-8" style={{ color: `rgb(${brand.indigo})` }} />
-                <Building2 className="w-6 h-6 sm:w-8 sm:h-8" style={{ color: `rgb(${brand.lilac})` }} />
+                <Building2 className="w-6 h-6 sm:w-8 sm:h-8" style={{ color: `rgb(${brand.indigo})` }} />
               </div>
 
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter leading-tight text-white drop-shadow-2xl">
@@ -308,7 +308,7 @@ export default function Landing() {
               </FeatureCard>
               <FeatureCard
                 title="Career Progress Tracking"
-                icon={<TrendingUp className="w-6 h-6 sm:w-8 sm:h-8" style={{ color: `rgb(${brand.lilac})` }} />}
+                icon={<TrendingUp className="w-6 h-6 sm:w-8 sm:h-8" style={{ color: `rgb(${brand.indigo})` }} />}
               >
                 Track alumni career progress and achievements to create opportunities for current students and institutional growth.
               </FeatureCard>
@@ -326,7 +326,7 @@ export default function Landing() {
               </FeatureCard>
               <FeatureCard
                 title="Fundraising & Donations"
-                icon={<Globe className="w-6 h-6 sm:w-8 sm:h-8" style={{ color: `rgb(${brand.lilac})` }} />}
+                icon={<Globe className="w-6 h-6 sm:w-8 sm:h-8" style={{ color: `rgb(${brand.indigo})` }} />}
               >
                 Transparent donation tracking and campaign management to enhance institutional fundraising potential.
               </FeatureCard>
@@ -375,14 +375,14 @@ export default function Landing() {
               </div>
               <div className="text-center">
                 <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-full flex items-center justify-center" style={{ background: `rgba(${brand.coral}, 0.1)` }}>
-                  <Users className="w-6 h-6 sm:w-8 sm:h-8" style={{ color: `rgb(${brand.coral})` }} />
+                  <Users className="w-6 h-6 sm:w-8 sm:h-8" style={{ color: `rgb(${brand.indigo})` }} />
                 </div>
                 <h3 className="font-semibold text-slate-900 mb-2 text-sm sm:text-base">Current Students</h3>
                 <p className="text-xs sm:text-sm text-slate-600">Mentorship access, internship opportunities, and career guidance</p>
               </div>
               <div className="text-center">
-                <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-full flex items-center justify-center" style={{ background: `rgba(${brand.lilac}, 0.1)` }}>
-                  <Building2 className="w-6 h-6 sm:w-8 sm:h-8" style={{ color: `rgb(${brand.lilac})` }} />
+                <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-full flex items-center justify-center" style={{ background: `rgba(${brand.indigo}, 0.1)` }}>
+                  <Building2 className="w-6 h-6 sm:w-8 sm:h-8" style={{ color: `rgb(${brand.indigo})` }} />
                 </div>
                 <h3 className="font-semibold text-slate-900 mb-2 text-sm sm:text-base">Institutions</h3>
                 <p className="text-xs sm:text-sm text-slate-600">Enhanced reputation, fundraising capabilities, and alumni engagement</p>
@@ -465,3 +465,5 @@ export default function Landing() {
     </div>
   );
 }
+
+

@@ -21,3 +21,5 @@ const CollegeCard = ({ name, desc, image }) => (
 );
 
 export default CollegeCard;
+
+

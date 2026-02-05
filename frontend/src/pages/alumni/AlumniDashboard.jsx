@@ -12,7 +12,7 @@ import {
 // Brand colors
 const brand = {
   indigo: '153 102 204',
-  lilac: '196 160 255', 
+  lilac: '153 102 204', 
   coral: '255 145 120',
 };
 
@@ -59,7 +59,7 @@ const StatDetailModal = ({ isOpen, onClose, title, items, type }) => {
           <div key={index} className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
             <div 
               className="w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0"
-              style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+              style={{ backgroundColor: `rgb(${brand.indigo})` }}
             >
               {item.name.split(' ').map(n => n[0]).join('')}
             </div>
@@ -87,7 +87,7 @@ const StatDetailModal = ({ isOpen, onClose, title, items, type }) => {
         return (
           <div key={index} className="flex items-start gap-4 p-3 bg-slate-50 rounded-lg">
             <div>
-              <Briefcase className="w-8 h-8 text-lilac" style={{ color: `rgb(${brand.lilac})` }} />
+              <Briefcase className="w-8 h-8 text-lilac" style={{ color: `rgb(${brand.indigo})` }} />
             </div>
             <div className="flex-1">
               <p className="font-semibold text-slate-900">{item.title}</p>
@@ -295,7 +295,7 @@ export default function AlumniDashboard() {
             title="Career Opportunities"
             value={latestJobs.length}
             trend="+7 this week"
-            color={brand.lilac}
+            color={brand.indigo}
             onClick={() => handleStatClick('jobs')}
           />
           <StatCard
@@ -397,7 +397,7 @@ export default function AlumniDashboard() {
             {/* Latest Job Opportunities */}
             <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6">
               <h3 className="font-bold text-slate-900 mb-3 sm:mb-4 flex items-center gap-2 text-sm sm:text-base">
-                <Briefcase className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: `rgb(${brand.lilac})` }} />
+                <Briefcase className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: `rgb(${brand.indigo})` }} />
                 Latest Jobs
               </h3>
               <div className="space-y-2 sm:space-y-3">
@@ -425,3 +425,5 @@ export default function AlumniDashboard() {
     </div>
   );
 }
+
+

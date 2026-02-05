@@ -3,14 +3,14 @@ import StudentNavbar from "../../components/navigation/StudentNavbar";
 import { getCurrentUser } from "../../utils/auth";
 import { studentProfiles } from "../../data/students";
 import {
-  User, Mail, MapPin, Calendar, BookOpen, Award, 
+  User, Mail, MapPin, Calendar, BookOpen, Award,
   Edit3, Save, X, Plus, Trash2, ExternalLink, Hash
 } from "lucide-react";
 
 const brand = {
   indigo: '153 102 204',   // #9966CC
-  lilac:  '196 160 255',  // #C4A0FF
-  coral:  '255 145 120',  // #FF9178
+  lilac: '153 102 204',  // #9966CC
+  coral: '255 145 120',  // #FF9178
 };
 
 export default function StudentProfile() {
@@ -55,7 +55,7 @@ export default function StudentProfile() {
   return (
     <div className="min-h-screen mobile-scroll-container" style={{ backgroundColor: '#F9F8FE' }}>
       <StudentNavbar />
-      
+
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Header */}
         <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 mb-6 sm:mb-8">
@@ -74,7 +74,7 @@ export default function StudentProfile() {
               <button
                 onClick={() => isEditing ? handleSave() : setIsEditing(true)}
                 className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg font-semibold text-white transition-all text-sm sm:text-base"
-                style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                style={{ backgroundColor: `rgb(${brand.indigo})` }}
               >
                 {isEditing ? <Save className="w-3 h-3 sm:w-4 sm:h-4" /> : <Edit3 className="w-3 h-3 sm:w-4 sm:h-4" />}
                 {isEditing ? 'Save Changes' : 'Edit Profile'}
@@ -86,33 +86,33 @@ export default function StudentProfile() {
             {/* Profile Photo & Basic Info */}
             <div className="lg:col-span-1">
               <div className="text-center">
-                <div 
+                <div
                   className="w-24 h-24 sm:w-32 sm:h-32 rounded-full flex items-center justify-center text-white font-bold text-2xl sm:text-3xl mx-auto mb-3 sm:mb-4"
-                  style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                  style={{ backgroundColor: `rgb(${brand.indigo})` }}
                 >
                   {profile.name.split(' ').map(n => n[0]).join('')}
                 </div>
-                
+
                 {isEditing ? (
                   <div className="space-y-2 sm:space-y-3">
                     <input
                       type="text"
                       value={editForm.name}
-                      onChange={(e) => setEditForm({...editForm, name: e.target.value})}
+                      onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
                       className="w-full text-center font-bold text-lg sm:text-xl bg-white border border-slate-300 rounded-lg py-2 px-3 text-sm sm:text-base"
                       placeholder="Full Name"
                     />
                     <input
                       type="text"
                       value={editForm.year}
-                      onChange={(e) => setEditForm({...editForm, year: e.target.value})}
+                      onChange={(e) => setEditForm({ ...editForm, year: e.target.value })}
                       className="w-full text-center text-slate-600 bg-white border border-slate-300 rounded-lg py-2 px-3 text-sm sm:text-base"
                       placeholder="Academic Year"
                     />
                     <input
                       type="text"
                       value={editForm.degree}
-                      onChange={(e) => setEditForm({...editForm, degree: e.target.value})}
+                      onChange={(e) => setEditForm({ ...editForm, degree: e.target.value })}
                       className="w-full text-center text-slate-600 bg-white border border-slate-300 rounded-lg py-2 px-3 text-sm sm:text-base"
                       placeholder="Degree"
                     />
@@ -139,7 +139,7 @@ export default function StudentProfile() {
                       <input
                         type="email"
                         value={editForm.email}
-                        onChange={(e) => setEditForm({...editForm, email: e.target.value})}
+                        onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
                         className="flex-1 bg-white border border-slate-300 rounded-lg py-1 px-2 text-sm"
                         placeholder="Email"
                       />
@@ -147,14 +147,14 @@ export default function StudentProfile() {
                       <span className="text-slate-600 line-clamp-1">{profile.email}</span>
                     )}
                   </div>
-                  
+
                   <div className="flex items-center gap-2 sm:gap-3 p-2 sm:p-0">
                     <Hash className="w-4 h-4 text-slate-400 flex-shrink-0" />
                     {isEditing ? (
                       <input
                         type="text"
                         value={editForm.studentId}
-                        onChange={(e) => setEditForm({...editForm, studentId: e.target.value})}
+                        onChange={(e) => setEditForm({ ...editForm, studentId: e.target.value })}
                         className="flex-1 bg-white border border-slate-300 rounded-lg py-1 px-2 text-sm"
                         placeholder="Student ID"
                       />
@@ -162,14 +162,14 @@ export default function StudentProfile() {
                       <span className="text-slate-600">{profile.studentId}</span>
                     )}
                   </div>
-                  
+
                   <div className="flex items-center gap-2 sm:gap-3 p-2 sm:p-0">
                     <MapPin className="w-4 h-4 text-slate-400 flex-shrink-0" />
                     {isEditing ? (
                       <input
                         type="text"
                         value={editForm.location}
-                        onChange={(e) => setEditForm({...editForm, location: e.target.value})}
+                        onChange={(e) => setEditForm({ ...editForm, location: e.target.value })}
                         className="flex-1 bg-white border border-slate-300 rounded-lg py-1 px-2 text-sm"
                         placeholder="Location"
                       />
@@ -177,7 +177,7 @@ export default function StudentProfile() {
                       <span className="text-slate-600 line-clamp-1">{profile.location}</span>
                     )}
                   </div>
-                  
+
                   <div className="flex items-center gap-2 sm:gap-3 p-2 sm:p-0">
                     <Calendar className="w-4 h-4 text-slate-400 flex-shrink-0" />
                     {isEditing ? (
@@ -185,7 +185,7 @@ export default function StudentProfile() {
                         type="number"
                         step="0.01"
                         value={editForm.cgpa}
-                        onChange={(e) => setEditForm({...editForm, cgpa: parseFloat(e.target.value)})}
+                        onChange={(e) => setEditForm({ ...editForm, cgpa: parseFloat(e.target.value) })}
                         className="flex-1 bg-white border border-slate-300 rounded-lg py-1 px-2 text-sm"
                         placeholder="CGPA"
                         min="0"
@@ -204,7 +204,7 @@ export default function StudentProfile() {
                 {isEditing ? (
                   <textarea
                     value={editForm.bio}
-                    onChange={(e) => setEditForm({...editForm, bio: e.target.value})}
+                    onChange={(e) => setEditForm({ ...editForm, bio: e.target.value })}
                     rows={4}
                     className="w-full bg-white border border-slate-300 rounded-lg py-2 sm:py-3 px-3 sm:px-4 text-slate-900 resize-none text-sm sm:text-base"
                     placeholder="Tell us about yourself..."
@@ -229,7 +229,7 @@ export default function StudentProfile() {
                     <span
                       key={index}
                       className="px-2 sm:px-3 py-1 text-xs sm:text-sm rounded-full text-white"
-                      style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.lilac}))` }}
+                      style={{ backgroundColor: `rgb(${brand.indigo})` }}
                     >
                       {skill}
                       {isEditing && (
@@ -283,7 +283,7 @@ export default function StudentProfile() {
               </button>
             )}
           </div>
-          
+
           <div className="space-y-4 sm:space-y-6">
             {profile.projects && profile.projects.length > 0 ? (
               profile.projects.map((project, index) => (
@@ -326,7 +326,7 @@ export default function StudentProfile() {
                             ))}
                           </div>
                           {project.githubLink && (
-                            <a 
+                            <a
                               href={project.githubLink}
                               target="_blank"
                               rel="noopener noreferrer"
@@ -376,7 +376,7 @@ export default function StudentProfile() {
               </button>
             )}
           </div>
-          
+
           <div className="space-y-2 sm:space-y-3">
             {profile.achievements && profile.achievements.length > 0 ? (
               profile.achievements.map((achievement, index) => (
@@ -425,10 +425,10 @@ export default function StudentProfile() {
                 </button>
               )}
             </div>
-            
+
             <div className="space-y-4 sm:space-y-6">
               {profile.internships.map((internship, index) => (
-                <div key={index} className="border-l-2 sm:border-l-4 pl-3 sm:pl-6" style={{ borderColor: `rgb(${brand.lilac})` }}>
+                <div key={index} className="border-l-2 sm:border-l-4 pl-3 sm:pl-6" style={{ borderColor: `rgb(${brand.indigo})` }}>
                   <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-0">
                     <div className="flex-1 min-w-0">
                       {isEditing ? (
@@ -493,9 +493,9 @@ export default function StudentProfile() {
             ].map((person) => (
               <div key={person.id} className="bg-white border border-slate-200 rounded-lg p-4 hover:shadow-md transition-all">
                 <div className="flex items-center gap-3">
-                  <div 
+                  <div
                     className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-white font-semibold text-sm"
-                    style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                    style={{ backgroundColor: `rgb(${brand.indigo})` }}
                   >
                     {person.initials}
                   </div>
@@ -511,8 +511,8 @@ export default function StudentProfile() {
             ))}
           </div>
           <div className="mt-4 text-center">
-            <a 
-              href="/student/network" 
+            <a
+              href="/student/network"
               className="text-sm font-medium"
               style={{ color: `rgb(${brand.indigo})` }}
             >
@@ -531,9 +531,9 @@ export default function StudentProfile() {
               <div key={request.id} className="bg-white border border-slate-200 rounded-lg p-4 hover:shadow-md transition-all">
                 <div className="flex items-start justify-between">
                   <div className="flex items-start gap-3">
-                    <div 
+                    <div
                       className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-white font-semibold text-sm"
-                      style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                      style={{ backgroundColor: `rgb(${brand.indigo})` }}
                     >
                       {request.name.split(' ').map(n => n[0]).join('')}
                     </div>
@@ -567,8 +567,8 @@ export default function StudentProfile() {
             ))}
           </div>
           <div className="mt-4 text-center">
-            <a 
-              href="/student/network" 
+            <a
+              href="/student/network"
               className="text-sm font-medium"
               style={{ color: `rgb(${brand.indigo})` }}
             >
@@ -580,3 +580,5 @@ export default function StudentProfile() {
     </div>
   );
 }
+
+

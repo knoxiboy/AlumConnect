@@ -146,7 +146,7 @@ const AuthPage = () => {
           />
           <div
             className="absolute bottom-20 right-10 w-20 h-20 lg:w-24 lg:h-24 rounded-full opacity-20 animate-pulse delay-75"
-            style={{ background: `radial-gradient(circle, rgba(${brand.lilac}, 0.3), transparent)` }}
+            style={{ background: `radial-gradient(circle, rgba(${brand.indigo}, 0.3), transparent)` }}
           />
 
           {/* SVG Icon Elements */}
@@ -154,7 +154,7 @@ const AuthPage = () => {
             <Database className="w-10 h-10 lg:w-12 lg:h-12" style={{ color: `rgb(${brand.indigo})` }} />
           </div>
           <div className="absolute bottom-32 left-16 opacity-10">
-            <Sparkles className="w-8 h-8 lg:w-10 lg:h-10" style={{ color: `rgb(${brand.lilac})` }} />
+            <Sparkles className="w-8 h-8 lg:w-10 lg:h-10" style={{ color: `rgb(${brand.indigo})` }} />
           </div>
           <div className="absolute top-1/2 left-8 opacity-10">
             <Target className="w-6 h-6 lg:w-8 lg:h-8" style={{ color: `rgb(${brand.coral})` }} />
@@ -195,7 +195,7 @@ const AuthPage = () => {
               <span>Verified professional networking</span>
             </li>
             <li className="flex items-center gap-3">
-              <div className="w-2 h-2 rounded-full" style={{ background: `rgb(${brand.lilac})` }} />
+              <div className="w-2 h-2 rounded-full" style={{ background: `rgb(${brand.indigo})` }} />
               <span>Career mentorship opportunities</span>
             </li>
           </ul>
@@ -283,7 +283,7 @@ const AuthPage = () => {
         <div className="absolute inset-0 z-0 overflow-hidden">
           <div
             className="absolute top-0 -left-4 w-48 h-48 sm:w-72 sm:h-72 rounded-full filter blur-3xl animate-pulse opacity-10"
-            style={{ background: `radial-gradient(circle, rgb(${brand.lilac}), transparent)` }}
+            style={{ background: `radial-gradient(circle, rgb(${brand.indigo}), transparent)` }}
           />
           <div
             className="absolute bottom-0 -right-4 w-48 h-48 sm:w-72 sm:h-72 rounded-full filter blur-3xl animate-pulse opacity-10 animation-delay-2000"
@@ -321,7 +321,7 @@ const AuthPage = () => {
 
               <div className="flex gap-1.5 sm:gap-2">
                 <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full" style={{ background: `rgb(${brand.coral})` }} />
-                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full" style={{ background: `rgb(${brand.lilac})` }} />
+                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full" style={{ background: `rgb(${brand.indigo})` }} />
                 <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full" style={{ background: `rgb(${brand.indigo})` }} />
               </div>
             </div>
@@ -529,3 +529,5 @@ const AuthPage = () => {
 };
 
 export default AuthPage;
+
+

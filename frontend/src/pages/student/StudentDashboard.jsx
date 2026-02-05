@@ -5,18 +5,18 @@ import { studentProfiles } from "../../data/students";
 import { recentEvents } from "../../data/adminMockData";
 import { jobPostings } from "../../data/jobs";
 import {
-  Users, Calendar, Briefcase, TrendingUp, 
+  Users, Calendar, Briefcase, TrendingUp,
   Bell, MessageCircle, BookOpen, Eye, Target, Award, Check, X
 } from "lucide-react";
 
 const brand = {
   indigo: '153 102 204',   // #9966CC
-  lilac:  '196 160 255',  // #C4A0FF
-  coral:  '255 145 120',  // #FF9178
+  lilac: '153 102 204',  // #9966CC
+  coral: '255 145 120',  // #FF9178
 };
 
 const StatCard = ({ icon, title, value, trend, color, onClick }) => (
-  <button 
+  <button
     className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-lg transition-all text-left w-full"
     onClick={onClick}
   >
@@ -31,7 +31,7 @@ const StatCard = ({ icon, title, value, trend, color, onClick }) => (
           </p>
         )}
       </div>
-      <div 
+      <div
         className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center"
         style={{ backgroundColor: `rgba(${color}, 0.1)` }}
       >
@@ -51,7 +51,7 @@ const MessageModal = ({ isOpen, onClose, title, message }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
       <div className="bg-white rounded-xl p-6 shadow-xl max-w-sm w-full relative">
-        <button 
+        <button
           onClick={onClose}
           className="absolute top-3 right-3 p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors"
         >
@@ -63,7 +63,7 @@ const MessageModal = ({ isOpen, onClose, title, message }) => {
           <button
             onClick={onClose}
             className="w-full px-6 py-3 rounded-lg font-semibold text-white transition-all"
-            style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+            style={{ backgroundColor: `rgb(${brand.indigo})` }}
           >
             Got it
           </button>
@@ -92,7 +92,7 @@ const FormModal = ({ isOpen, onClose, title, item, onSubmit }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
       <div className="bg-white rounded-xl p-6 shadow-xl max-w-lg w-full relative">
-        <button 
+        <button
           onClick={onClose}
           className="absolute top-3 right-3 p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors"
         >
@@ -139,7 +139,7 @@ const FormModal = ({ isOpen, onClose, title, item, onSubmit }) => {
           <button
             type="submit"
             className="w-full px-6 py-3 rounded-lg font-semibold text-white transition-all"
-            style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+            style={{ backgroundColor: `rgb(${brand.indigo})` }}
           >
             Submit
           </button>
@@ -226,7 +226,7 @@ const StatDetails = ({ type, data, onClose }) => {
   return (
     <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 mb-6">
       <div className="flex justify-end">
-        <button 
+        <button
           onClick={onClose}
           className="p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors"
         >
@@ -242,10 +242,10 @@ const StatDetails = ({ type, data, onClose }) => {
 export default function StudentDashboard() {
   const [userProfile, setUserProfile] = useState(null);
   const [recentActivity, setRecentActivity] = useState([]);
-  
+
   const [appliedJobs, setAppliedJobs] = useState({});
   const [registeredEvents, setRegisteredEvents] = useState({});
-  
+
   // State for the new modal
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
@@ -275,12 +275,12 @@ export default function StudentDashboard() {
 
   const upcomingEvents = recentEvents.filter(e => e.status === 'Upcoming').slice(0, 3);
   const internshipJobs = jobPostings.filter(j => j.type === 'Internship' && j.isActive).slice(0, 3);
-  
+
   // Handler for the "Register" button
   const handleEventRegister = (event) => {
     setIsModalOpen(true);
-    setModalContent({ 
-      title: "Event Registration", 
+    setModalContent({
+      title: "Event Registration",
       item: event,
       type: 'event'
     });
@@ -306,7 +306,7 @@ export default function StudentDashboard() {
     setIsModalOpen(false);
     setModalContent(null);
   };
-  
+
   // Handlers for Quick Actions
   const handleFindMentors = () => {
     setActionModalContent({
@@ -349,7 +349,7 @@ export default function StudentDashboard() {
   return (
     <div className="min-h-screen mobile-scroll-container" style={{ backgroundColor: '#F9F8FE' }}>
       <StudentNavbar />
-      
+
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Welcome Section */}
         <div className="mb-6 sm:mb-8">
@@ -384,7 +384,7 @@ export default function StudentDashboard() {
             title="Job Applications"
             value={Object.keys(appliedJobs).length}
             trend="+3 this week"
-            color={brand.lilac}
+            color={brand.indigo}
             onClick={() => setSelectedStat('jobs')}
           />
           <StatCard
@@ -402,9 +402,9 @@ export default function StudentDashboard() {
           <div className="lg:col-span-2 order-2 lg:order-1">
             {/* Conditional Content based on selected stat */}
             {selectedStat ? (
-              <StatDetails 
-                type={selectedStat} 
-                data={{ appliedJobs, registeredEvents }} 
+              <StatDetails
+                type={selectedStat}
+                data={{ appliedJobs, registeredEvents }}
                 onClose={() => setSelectedStat(null)}
               />
             ) : (
@@ -418,7 +418,7 @@ export default function StudentDashboard() {
                   <div className="space-y-3 sm:space-y-4">
                     {recentActivity.map(activity => (
                       <div key={activity.id} className="flex items-start gap-3 p-2 sm:p-3 hover:bg-slate-50 rounded-lg transition-colors">
-                        <div 
+                        <div
                           className="w-2 h-2 rounded-full mt-2 flex-shrink-0"
                           style={{ backgroundColor: `rgb(${brand.coral})` }}
                         />
@@ -443,24 +443,23 @@ export default function StudentDashboard() {
                         <div className="min-w-0 flex-1">
                           <p className="font-medium text-slate-900 text-sm sm:text-base line-clamp-1">{event.name}</p>
                           <p className="text-xs sm:text-sm text-slate-600">
-                            {new Date(event.date).toLocaleDateString('en-US', { 
-                              month: 'short', 
-                              day: 'numeric' 
+                            {new Date(event.date).toLocaleDateString('en-US', {
+                              month: 'short',
+                              day: 'numeric'
                             })} • {event.venue}
                           </p>
                         </div>
-                        <button 
+                        <button
                           onClick={() => handleEventRegister(event)}
                           disabled={registeredEvents[event.id]}
-                          className={`text-xs px-3 py-1 rounded-full text-white self-start sm:self-auto flex-shrink-0 transition-colors ${
-                            registeredEvents[event.id] ? 'bg-green-500 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700'
-                          }`}
-                          style={{ 
+                          className={`text-xs px-3 py-1 rounded-full text-white self-start sm:self-auto flex-shrink-0 transition-colors ${registeredEvents[event.id] ? 'bg-green-500 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700'
+                            }`}
+                          style={{
                             backgroundColor: registeredEvents[event.id] ? '#22C55E' : `rgb(${brand.indigo})`,
                             backgroundImage: 'none'
                           }}
                         >
-                          {registeredEvents[event.id] ? 
+                          {registeredEvents[event.id] ?
                             <span className="flex items-center gap-1">
                               <Check className="w-3 h-3" /> Registered
                             </span>
@@ -481,9 +480,9 @@ export default function StudentDashboard() {
             <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6">
               <h3 className="font-bold text-slate-900 mb-3 sm:mb-4 text-sm sm:text-base">Your Profile</h3>
               <div className="text-center">
-                <div 
+                <div
                   className="w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-lg mx-auto mb-2 sm:mb-3"
-                  style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                  style={{ backgroundColor: `rgb(${brand.indigo})` }}
                 >
                   {(userProfile?.name || user?.name)?.split(' ').map(n => n[0]).join('')}
                 </div>
@@ -496,7 +495,7 @@ export default function StudentDashboard() {
                 <p className="text-xs sm:text-sm text-slate-600 line-clamp-1">
                   {userProfile?.year ? `Year ${userProfile.year}` : 'Current Student'}
                 </p>
-                
+
                 {/* Progress Bar */}
                 <div className="mt-3 sm:mt-4">
                   <div className="flex justify-between text-xs sm:text-sm text-slate-600 mb-2">
@@ -504,11 +503,11 @@ export default function StudentDashboard() {
                     <span>85%</span>
                   </div>
                   <div className="w-full bg-slate-200 rounded-full h-2">
-                    <div 
+                    <div
                       className="h-2 rounded-full"
-                      style={{ 
+                      style={{
                         width: '85%',
-                        backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))`
+                        backgroundColor: `rgb(${brand.indigo})`
                       }}
                     />
                   </div>
@@ -521,25 +520,25 @@ export default function StudentDashboard() {
             <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6">
               <h3 className="font-bold text-slate-900 mb-3 sm:mb-4 text-sm sm:text-base">Quick Actions</h3>
               <div className="space-y-2 sm:space-y-3">
-                <button 
+                <button
                   onClick={handleFindMentors}
                   className="w-full flex items-center gap-2 sm:gap-3 p-2 sm:p-3 text-left hover:bg-slate-50 rounded-lg transition-colors"
                 >
                   <Users className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: `rgb(${brand.indigo})` }} />
                   <span className="text-slate-900 text-sm sm:text-base">Find Alumni Mentors</span>
                 </button>
-                <button 
+                <button
                   onClick={handleBrowseInternships}
                   className="w-full flex items-center gap-2 sm:gap-3 p-2 sm:p-3 text-left hover:bg-slate-50 rounded-lg transition-colors"
                 >
                   <Briefcase className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: `rgb(${brand.coral})` }} />
                   <span className="text-slate-900 text-sm sm:text-base">Browse Internships</span>
                 </button>
-                <button 
+                <button
                   onClick={handleUpdateProjects}
                   className="w-full flex items-center gap-2 sm:gap-3 p-2 sm:p-3 text-left hover:bg-slate-50 rounded-lg transition-colors"
                 >
-                  <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: `rgb(${brand.lilac})` }} />
+                  <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: `rgb(${brand.indigo})` }} />
                   <span className="text-slate-900 text-sm sm:text-base">Update Projects</span>
                 </button>
               </div>
@@ -548,7 +547,7 @@ export default function StudentDashboard() {
             {/* Latest Internships */}
             <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6">
               <h3 className="font-bold text-slate-900 mb-3 sm:mb-4 flex items-center gap-2 text-sm sm:text-base">
-                <Target className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: `rgb(${brand.lilac})` }} />
+                <Target className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: `rgb(${brand.indigo})` }} />
                 Latest Internships
               </h3>
               <div className="space-y-2 sm:space-y-3">
@@ -557,21 +556,20 @@ export default function StudentDashboard() {
                     <p className="font-medium text-slate-900 text-xs sm:text-sm line-clamp-2">{job.title}</p>
                     <p className="text-xs text-slate-600 line-clamp-1">{job.company}</p>
                     <p className="text-xs text-slate-500 mt-1">{job.salary}</p>
-                    <button 
+                    <button
                       onClick={() => handleJobApply(job)}
                       disabled={appliedJobs[job.id]}
-                      className={`text-xs px-2 py-1 mt-2 rounded-full text-white transition-colors ${
-                        appliedJobs[job.id] ? 'bg-green-500 cursor-not-allowed' : 'bg-coral-600 hover:bg-coral-700'
-                      }`}
-                      style={{ 
+                      className={`text-xs px-2 py-1 mt-2 rounded-full text-white transition-colors ${appliedJobs[job.id] ? 'bg-green-500 cursor-not-allowed' : 'bg-coral-600 hover:bg-coral-700'
+                        }`}
+                      style={{
                         backgroundColor: appliedJobs[job.id] ? '#22C55E' : `rgb(${brand.coral})`,
                         backgroundImage: 'none'
                       }}
                     >
-                      {appliedJobs[job.id] ? 
+                      {appliedJobs[job.id] ?
                         <span className="flex items-center gap-1">
                           <Check className="w-3 h-3" /> Applied
-                        </span> 
+                        </span>
                         : 'Apply'
                       }
                     </button>
@@ -604,3 +602,5 @@ export default function StudentDashboard() {
     </div>
   );
 }
+
+

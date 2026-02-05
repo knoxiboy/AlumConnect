@@ -7,7 +7,7 @@ import {
 
 const brand = {
   indigo: '153 102 204',   // #9966CC
-  lilac:  '196 160 255',  // #C4A0FF
+  lilac:  '153 102 204',  // #9966CC
   coral:  '255 145 120',  // #FF9178
 };
 
@@ -48,7 +48,7 @@ const EventDetailsModal = ({ isOpen, onClose, event }) => {
               <span>{event.venue}</span>
             </div>
             <div className="flex items-center gap-3">
-              <Users className="w-4 h-4 flex-shrink-0" style={{ color: `rgb(${brand.lilac})` }}/>
+              <Users className="w-4 h-4 flex-shrink-0" style={{ color: `rgb(${brand.indigo})` }}/>
               <span>{event.attendees} registered</span>
             </div>
           </div>
@@ -58,7 +58,7 @@ const EventDetailsModal = ({ isOpen, onClose, event }) => {
           <button
             onClick={onClose}
             className="w-full lg:w-auto px-6 py-3 rounded-lg font-semibold text-white transition-all"
-            style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+            style={{ backgroundColor: `rgb(${brand.indigo})` }}
           >
             Close
           </button>
@@ -114,7 +114,7 @@ const EventCard = ({ event, isRegistered, onRegister, onViewDetails }) => (
           <button 
             onClick={() => onRegister(event.id)}
             className="flex-1 sm:flex-initial px-3 sm:px-4 py-2 rounded-lg font-semibold text-white transition-all text-xs sm:text-sm"
-            style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+            style={{ backgroundColor: `rgb(${brand.indigo})` }}
           >
             Register Now
           </button>
@@ -190,7 +190,7 @@ const MobileFiltersModal = ({ isOpen, onClose, statusFilter, setStatusFilter }) 
         <button
           onClick={onClose}
           className="w-full mt-6 px-6 py-3 rounded-xl font-semibold text-white transition-all"
-          style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+          style={{ backgroundColor: `rgb(${brand.indigo})` }}
         >
           Apply Filter
         </button>
@@ -390,7 +390,7 @@ export default function StudentEvents() {
             <button
               onClick={clearFilters}
               className="px-4 py-2 rounded-lg font-medium text-white shadow-sm hover:shadow-lg transition-all text-sm"
-              style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+              style={{ backgroundColor: `rgb(${brand.indigo})` }}
             >
               Show All Events
             </button>
@@ -415,3 +415,5 @@ export default function StudentEvents() {
     </div>
   );
 }
+
+

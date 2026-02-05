@@ -99,7 +99,7 @@ const MobileFiltersModal = ({ isOpen, onClose, typeFilter, locationFilter, sortB
                                             : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                                         }`}
                                     style={sortBy === option.value
-                                        ? { backgroundColor: `rgb(${brand.lilac})` }
+                                        ? { backgroundColor: `rgb(${brand.indigo})` }
                                         : {}
                                     }
                                 >
@@ -123,3 +123,5 @@ const MobileFiltersModal = ({ isOpen, onClose, typeFilter, locationFilter, sortB
 };
 
 export default MobileFiltersModal;
+
+

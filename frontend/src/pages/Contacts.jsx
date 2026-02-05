@@ -16,7 +16,7 @@ export default function Contacts() {
       className="min-h-screen text-slate-900 font-sans"
       style={{ backgroundColor: '#F9F8FE' }}
     >
-      <Navbar />
+      <Navbar hideLinks={true} />
 
       {/* Hero Section */}
       <section className="pt-20 sm:pt-24 pb-12 sm:pb-16 px-4 sm:px-6 relative overflow-hidden">
@@ -28,7 +28,7 @@ export default function Contacts() {
           />
           <div
             className="absolute bottom-20 right-10 w-20 h-20 sm:w-24 sm:h-24 rounded-full opacity-20 animate-pulse delay-75"
-            style={{ background: `radial-gradient(circle, rgba(${brand.lilac}, 0.3), transparent)` }}
+            style={{ background: `radial-gradient(circle, rgba(${brand.indigo}, 0.3), transparent)` }}
           />
           <div
             className="absolute top-1/2 left-1/4 w-12 h-12 sm:w-16 sm:h-16 rounded-full opacity-10 animate-pulse delay-150"
@@ -96,7 +96,7 @@ export default function Contacts() {
               </ContactInfoCard>
 
               <ContactInfoCard
-                icon={<Mail className="w-5 h-5" style={{ color: `rgb(${brand.lilac})` }} />}
+                icon={<Mail className="w-5 h-5" style={{ color: `rgb(${brand.indigo})` }} />}
                 title="Email Address"
               >
                 <p className="mb-2">contact@alumconnect.in</p>
@@ -211,7 +211,7 @@ export default function Contacts() {
             <a
               href="#"
               className="p-3 rounded-full bg-white/80 backdrop-blur-sm border border-slate-200/80 hover:border-slate-300 transition-all"
-              style={{ color: `rgb(${brand.lilac})` }}
+              style={{ color: `rgb(${brand.indigo})` }}
             >
               <Linkedin className="w-5 h-5" />
             </a>
@@ -280,3 +280,4 @@ export default function Contacts() {
     </div>
   );
 }
+

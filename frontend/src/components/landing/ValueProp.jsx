@@ -8,3 +8,5 @@ const ValueProp = ({ icon, children }) => (
 );
 
 export default ValueProp;
+
+

@@ -85,3 +85,5 @@ const CollegeExploreCard = ({ id, name, desc, image, location, established, alum
 );
 
 export default CollegeExploreCard;
+
+

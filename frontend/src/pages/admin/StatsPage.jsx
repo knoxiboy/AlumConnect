@@ -24,11 +24,11 @@ import {
 
 const brand = {
   indigo: '153 102 204',   // #9966CC
-  lilac:  '196 160 255',  // #C4A0FF
+  lilac:  '153 102 204',  // #9966CC
   coral:  '255 145 120',  // #FF9178
 };
 
-const COLORS = ['#9966CC', '#C4A0FF', '#FF9178', '#66B2FF', '#FFCC66', '#99FF99', '#FF99CC', '#99CCFF'];
+const COLORS = ['#9966CC', '#9966CC', '#FF9178', '#66B2FF', '#FFCC66', '#99FF99', '#FF99CC', '#99CCFF'];
 
 export default function StatsPage() {
   const [activeTab, setActiveTab] = useState('overview');
@@ -66,7 +66,7 @@ export default function StatsPage() {
           title="Avg Package" 
           value="₹24.5L" 
           delta="+12.3%" 
-          color={brand.lilac}
+          color={brand.indigo}
           subtitle="Annual average"
         />
         <StatCard 
@@ -214,7 +214,7 @@ export default function StatsPage() {
                   <Legend />
                   <Bar 
                     dataKey="percentage" 
-                    fill={`rgb(${brand.lilac})`} 
+                    fill={`rgb(${brand.indigo})`} 
                     name="Placement Percentage"
                   />
                 </BarChart>
@@ -288,7 +288,7 @@ export default function StatsPage() {
                 <Line 
                   type="monotone" 
                   dataKey="medianPackage" 
-                  stroke={`rgb(${brand.lilac})`} 
+                  stroke={`rgb(${brand.indigo})`} 
                   strokeWidth={2}
                   name="Median Package"
                 />
@@ -354,7 +354,7 @@ export default function StatsPage() {
                 <Legend />
                 <Bar 
                   dataKey="percentage" 
-                  fill={`rgb(${brand.lilac})`} 
+                  fill={`rgb(${brand.indigo})`} 
                   name="Placement Percentage"
                 />
               </BarChart>
@@ -420,3 +420,4 @@ function StatCard({ title, value, delta, color, subtitle }) {
     </div>
   );
 }
+

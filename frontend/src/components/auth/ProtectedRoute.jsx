@@ -14,3 +14,5 @@ export default function ProtectedRoute({ role }) {
 
   return <Outlet />;
 }
+
+

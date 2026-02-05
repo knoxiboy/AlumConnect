@@ -7,8 +7,8 @@ import {
 
 const brand = {
   indigo: '153 102 204',   // #9966CC
-  lilac:  '196 160 255',  // #C4A0FF
-  coral:  '255 145 120',  // #FF9178
+  lilac: '153 102 204',  // #9966CC
+  coral: '255 145 120',  // #FF9178
 };
 
 // Modal shell - Mobile Responsive
@@ -158,7 +158,7 @@ export default function AdminEvents() {
       );
     }
     // sort by date asc
-    rows = [...rows].sort((a,b) => a.date.localeCompare(b.date));
+    rows = [...rows].sort((a, b) => a.date.localeCompare(b.date));
     return rows;
   }, [events, q, status, dateFrom, dateTo]);
 
@@ -181,10 +181,10 @@ export default function AdminEvents() {
           <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">Alumni Event Management</h1>
           <p className="text-slate-600 text-sm sm:text-base">Create and manage events to strengthen alumni engagement and institutional relationships.</p>
         </div>
-        <button 
-          onClick={openAddModal} 
+        <button
+          onClick={openAddModal}
           className="inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-xl font-semibold text-white shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-sm sm:text-base"
-          style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+          style={{ backgroundColor: `rgb(${brand.indigo})` }}
         >
           <Plus className="h-4 w-4" />
           Add New Event
@@ -199,7 +199,7 @@ export default function AdminEvents() {
               <p className="text-xs sm:text-sm font-medium text-slate-600">Total Events</p>
               <p className="text-lg sm:text-2xl font-bold text-slate-900">{events.length}</p>
             </div>
-            <div 
+            <div
               className="w-8 h-8 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center mx-auto sm:mx-0 mt-2 sm:mt-0"
               style={{ backgroundColor: '#9966CC' }}
             >
@@ -214,7 +214,7 @@ export default function AdminEvents() {
               <p className="text-xs sm:text-sm font-medium text-slate-600">Upcoming</p>
               <p className="text-lg sm:text-2xl font-bold text-slate-900">{events.filter(e => e.status === 'Upcoming').length}</p>
             </div>
-            <div 
+            <div
               className="w-8 h-8 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center mx-auto sm:mx-0 mt-2 sm:mt-0"
               style={{ backgroundColor: `rgba(${brand.coral}, 0.1)` }}
             >
@@ -229,11 +229,11 @@ export default function AdminEvents() {
               <p className="text-xs sm:text-sm font-medium text-slate-600">Completed</p>
               <p className="text-lg sm:text-2xl font-bold text-slate-900">{events.filter(e => e.status === 'Completed').length}</p>
             </div>
-            <div 
+            <div
               className="w-8 h-8 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center mx-auto sm:mx-0 mt-2 sm:mt-0"
-              style={{ backgroundColor: `rgba(${brand.lilac}, 0.1)` }}
+              style={{ backgroundColor: `rgba(${brand.indigo}, 0.1)` }}
             >
-              <Check className="w-4 h-4 sm:w-6 sm:h-6" style={{ color: `rgb(${brand.lilac})` }} />
+              <Check className="w-4 h-4 sm:w-6 sm:h-6" style={{ color: `rgb(${brand.indigo})` }} />
             </div>
           </div>
         </div>
@@ -247,7 +247,7 @@ export default function AdminEvents() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 h-4 w-4 sm:h-5 sm:w-5" />
             <input
               value={q}
-              onChange={(e)=>setQ(e.target.value)}
+              onChange={(e) => setQ(e.target.value)}
               placeholder="Search by name, venue, or description"
               className="w-full bg-white border border-slate-300 rounded-lg py-2.5 pl-10 pr-3 text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:border-slate-400 transition-colors text-sm sm:text-base"
             />
@@ -259,7 +259,7 @@ export default function AdminEvents() {
               <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 h-5 w-5" />
               <select
                 value={status}
-                onChange={(e)=>setStatus(e.target.value)}
+                onChange={(e) => setStatus(e.target.value)}
                 className="w-full appearance-none bg-white border border-slate-300 rounded-lg py-2.5 pl-10 pr-8 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400 transition-colors"
               >
                 <option value="all">All Status</option>
@@ -269,13 +269,13 @@ export default function AdminEvents() {
             </div>
 
             <input
-              type="date" value={dateFrom} onChange={(e)=>setDateFrom(e.target.value)}
+              type="date" value={dateFrom} onChange={(e) => setDateFrom(e.target.value)}
               className="w-full bg-white border border-slate-300 rounded-lg py-2.5 px-3 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400 transition-colors"
               placeholder="From Date"
             />
 
             <input
-              type="date" value={dateTo} onChange={(e)=>setDateTo(e.target.value)}
+              type="date" value={dateTo} onChange={(e) => setDateTo(e.target.value)}
               className="w-full bg-white border border-slate-300 rounded-lg py-2.5 px-3 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400 transition-colors"
               placeholder="To Date"
             />
@@ -285,7 +285,7 @@ export default function AdminEvents() {
           <div className="grid grid-cols-2 gap-3 sm:hidden">
             <select
               value={status}
-              onChange={(e)=>setStatus(e.target.value)}
+              onChange={(e) => setStatus(e.target.value)}
               className="w-full bg-white border border-slate-300 rounded-lg py-2.5 px-3 text-slate-900 focus:outline-none text-sm"
             >
               <option value="all">All Status</option>
@@ -295,7 +295,7 @@ export default function AdminEvents() {
 
             <select
               value={pageSize}
-              onChange={(e)=>setPageSize(Number(e.target.value))}
+              onChange={(e) => setPageSize(Number(e.target.value))}
               className="w-full bg-white border border-slate-300 rounded-lg py-2.5 px-3 text-slate-900 focus:outline-none text-sm"
             >
               <option value={5}>5 per page</option>
@@ -313,10 +313,10 @@ export default function AdminEvents() {
           <span>Show:</span>
           <select
             value={pageSize}
-            onChange={(e)=>setPageSize(Number(e.target.value))}
+            onChange={(e) => setPageSize(Number(e.target.value))}
             className="bg-white border border-slate-300 rounded-md px-2 py-1 text-slate-900"
           >
-            {[10,25,50,100].map(s => <option key={s} value={s}>{s}</option>)}
+            {[10, 25, 50, 100].map(s => <option key={s} value={s}>{s}</option>)}
           </select>
           <span>per page</span>
         </div>
@@ -349,22 +349,21 @@ export default function AdminEvents() {
                     </div>
                   </td>
                   <td className="p-3 sm:p-4 text-slate-700 text-xs sm:text-sm">
-                    {new Date(event.date).toLocaleDateString('en-US', { 
-                      month: 'short', 
-                      day: 'numeric' 
+                    {new Date(event.date).toLocaleDateString('en-US', {
+                      month: 'short',
+                      day: 'numeric'
                     })}
                   </td>
                   <td className="p-3 sm:p-4 hidden lg:table-cell text-slate-600 text-sm">{event.venue}</td>
                   <td className="p-3 sm:p-4">
-                    <span className={`px-2 sm:px-3 py-1 text-xs rounded-full font-medium ${
-                      event.status === 'Upcoming'
+                    <span className={`px-2 sm:px-3 py-1 text-xs rounded-full font-medium ${event.status === 'Upcoming'
                         ? 'text-white'
                         : 'bg-slate-100 text-slate-700 border border-slate-200'
-                    }`}
-                    style={event.status === 'Upcoming' 
-                      ? { backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.lilac}))` }
-                      : {}
-                    }>
+                      }`}
+                      style={event.status === 'Upcoming'
+                        ? { backgroundColor: `rgb(${brand.indigo})` }
+                        : {}
+                      }>
                       {event.status}
                     </span>
                   </td>
@@ -409,15 +408,15 @@ export default function AdminEvents() {
           <div className="text-xs sm:text-sm text-slate-600 text-center sm:text-left">Page {safePage} of {totalPages}</div>
           <div className="flex items-center justify-center gap-2">
             <button
-              onClick={()=>setPage(p => Math.max(1, p-1))}
+              onClick={() => setPage(p => Math.max(1, p - 1))}
               className="inline-flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-md border border-slate-300 bg-white hover:bg-slate-50 transition-colors disabled:opacity-50 text-slate-700 text-xs sm:text-sm"
               disabled={safePage <= 1}
             >
-              <ChevronLeft className="h-3 h-3 sm:h-4 sm:w-4" /> 
+              <ChevronLeft className="h-3 h-3 sm:h-4 sm:w-4" />
               <span className="hidden sm:inline">Previous</span>
             </button>
             <button
-              onClick={()=>setPage(p => Math.min(totalPages, p+1))}
+              onClick={() => setPage(p => Math.min(totalPages, p + 1))}
               className="inline-flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-md border border-slate-300 bg-white hover:bg-slate-50 transition-colors disabled:opacity-50 text-slate-700 text-xs sm:text-sm"
               disabled={safePage >= totalPages}
             >
@@ -428,17 +427,17 @@ export default function AdminEvents() {
       </div>
 
       {/* Add Modal */}
-      <Modal open={openAdd} onClose={()=>setOpenAdd(false)} title="Create Alumni Engagement Event">
+      <Modal open={openAdd} onClose={() => setOpenAdd(false)} title="Create Alumni Engagement Event">
         <EventForm form={form} setForm={setForm} errors={errors} />
         <div className="mt-6 flex flex-col sm:flex-row justify-end gap-3">
-          <button 
-            onClick={()=>setOpenAdd(false)} 
+          <button
+            onClick={() => setOpenAdd(false)}
             className="px-4 py-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 transition-colors text-slate-700"
           >
             Cancel
           </button>
-          <button 
-            onClick={addEvent} 
+          <button
+            onClick={addEvent}
             className="px-4 py-2 rounded-lg font-semibold text-white shadow-lg hover:shadow-xl transition-all"
             style={{ backgroundColor: '#9966CC' }}
           >
@@ -448,17 +447,17 @@ export default function AdminEvents() {
       </Modal>
 
       {/* Edit Modal */}
-      <Modal open={openEdit} onClose={()=>{setOpenEdit(false); setEditing(null);}} title="Edit Alumni Event">
+      <Modal open={openEdit} onClose={() => { setOpenEdit(false); setEditing(null); }} title="Edit Alumni Event">
         <EventForm form={form} setForm={setForm} errors={errors} />
         <div className="mt-6 flex flex-col sm:flex-row justify-end gap-3">
-          <button 
-            onClick={()=>{setOpenEdit(false); setEditing(null);}} 
+          <button
+            onClick={() => { setOpenEdit(false); setEditing(null); }}
             className="px-4 py-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 transition-colors text-slate-700"
           >
             Cancel
           </button>
-          <button 
-            onClick={saveEdit} 
+          <button
+            onClick={saveEdit}
             className="px-4 py-2 rounded-lg font-semibold text-white shadow-lg hover:shadow-xl transition-all"
             style={{ backgroundColor: '#9966CC' }}
           >
@@ -471,7 +470,7 @@ export default function AdminEvents() {
 }
 
 function EventForm({ form, setForm, errors }) {
-  const onChange = (e) => setForm((f)=>({ ...f, [e.target.name]: e.target.value }));
+  const onChange = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
 
   return (
     <div className="grid grid-cols-1 gap-4">
@@ -526,3 +525,5 @@ function EventForm({ form, setForm, errors }) {
     </div>
   );
 }
+
+

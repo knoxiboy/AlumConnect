@@ -7,7 +7,7 @@ const FeatureCard = ({ icon, title, children }) => (
             <div
                 className="p-3 sm:p-4 rounded-full"
                 style={{
-                    background: `rgba(${brand.lilac}, 0.15)`,
+                    background: `rgba(${brand.indigo}, 0.15)`,
                     boxShadow: `inset 0 0 0 1px rgba(${brand.indigo}, 0.2)`
                 }}
             >
@@ -20,3 +20,5 @@ const FeatureCard = ({ icon, title, children }) => (
 );
 
 export default FeatureCard;
+
+

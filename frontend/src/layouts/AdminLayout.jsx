@@ -7,7 +7,7 @@ import {
 
 const brand = {
   indigo: '153 102 204',   // #9966CC
-  lilac:  '196 160 255',  // #C4A0FF
+  lilac:  '153 102 204',  // #9966CC
   coral:  '255 145 120',  // #FF9178
 };
 
@@ -91,7 +91,7 @@ export default function AdminLayout() {
                         : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                     }`}
                     style={isActive 
-                      ? { backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }
+                      ? { backgroundColor: `rgb(${brand.indigo})` }
                       : {}
                     }
                   >
@@ -263,7 +263,7 @@ export default function AdminLayout() {
                 </div>
                 <div 
                   className="w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0"
-                  style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                  style={{ backgroundColor: `rgb(${brand.indigo})` }}
                 >
                   A
                 </div>
@@ -289,3 +289,5 @@ export default function AdminLayout() {
     </div>
   );
 }
+
+

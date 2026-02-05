@@ -7,7 +7,7 @@ import {
 
 const brand = {
   indigo: '153 102 204',   // #9966CC
-  lilac:  '196 160 255',  // #C4A0FF
+  lilac:  '153 102 204',  // #9966CC
   coral:  '255 145 120',  // #FF9178
 };
 
@@ -107,7 +107,7 @@ export default function AdminDashboard() {
           value={dashboardStats.pendingApprovals} 
           delta="today" 
           icon={<CheckCircle className="h-5 h-5 sm:h-6 sm:w-6" />} 
-          color={brand.lilac}
+          color={brand.indigo}
           subtitle="Awaiting verification"
         />
         <StatCard 
@@ -135,7 +135,7 @@ export default function AdminDashboard() {
           value={dashboardStats.mentorshipConnections} 
           delta="+23 this month" 
           icon={<Target className="h-5 h-5 sm:h-6 sm:w-6" />} 
-          color={brand.lilac}
+          color={brand.indigo}
           subtitle="Alumni-student connections"
         />
         <StatCard 
@@ -259,7 +259,7 @@ export default function AdminDashboard() {
                 Schedule Alumni Event
               </button>
               <button className="w-full text-left p-2 hover:bg-slate-50 rounded-lg text-sm flex items-center gap-2 transition-colors">
-                <Database className="w-4 h-4" style={{ color: `rgb(${brand.lilac})` }} />
+                <Database className="w-4 h-4" style={{ color: `rgb(${brand.indigo})` }} />
                 Export Alumni Data
               </button>
             </div>
@@ -333,3 +333,5 @@ function Avatar({ name }) {
 function formatNum(n) {
   return Intl.NumberFormat("en", { notation: "compact" }).format(n);
 }
+
+

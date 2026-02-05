@@ -9,7 +9,7 @@ import {
 
 const brand = {
   indigo: '153 102 204',   // #9966CC
-  lilac:  '196 160 255',  // #C4A0FF
+  lilac:  '153 102 204',  // #9966CC
   coral:  '255 145 120',  // #FF9178
 };
 
@@ -18,7 +18,7 @@ const AlumniCard = ({ alumni, onConnect, onMessage, isConnected, hasMessaged, is
     <div className="flex flex-col sm:flex-row sm:items-start gap-4">
       <div 
         className="w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-lg flex-shrink-0 mx-auto sm:mx-0"
-        style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+        style={{ backgroundColor: `rgb(${brand.indigo})` }}
       >
         {alumni.name.split(' ').map(n => n[0]).join('')}
       </div>
@@ -113,7 +113,7 @@ const StudentCard = ({ student }) => (
     <div className="flex flex-col sm:flex-row sm:items-start gap-4">
       <div 
         className="w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-lg flex-shrink-0 mx-auto sm:mx-0"
-        style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+        style={{ backgroundColor: `rgb(${brand.indigo})` }}
       >
         {student.name.split(' ').map(n => n[0]).join('')}
       </div>
@@ -263,7 +263,7 @@ const MobileFiltersModal = ({ isOpen, onClose, filterCompany, setFilterCompany, 
         <button
           onClick={onClose}
           className="w-full mt-6 px-6 py-3 rounded-xl font-semibold text-white transition-all"
-          style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+          style={{ backgroundColor: `rgb(${brand.indigo})` }}
         >
           Apply Filters
         </button>
@@ -597,7 +597,7 @@ export default function AlumniExplore() {
               <button
                 onClick={clearFilters}
                 className="px-4 py-2 rounded-lg font-medium text-white shadow-sm hover:shadow-lg transition-all text-sm"
-                style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                style={{ backgroundColor: `rgb(${brand.indigo})` }}
               >
                 Clear All Filters
               </button>
@@ -630,3 +630,5 @@ export default function AlumniExplore() {
     </div>
   );
 }
+
+

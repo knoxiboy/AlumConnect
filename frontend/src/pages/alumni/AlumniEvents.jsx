@@ -10,35 +10,34 @@ import {
 
 const brand = {
   indigo: '153 102 204',   // #9966CC
-  lilac:  '196 160 255',  // #C4A0FF
-  coral:  '255 145 120',  // #FF9178
+  lilac: '153 102 204',  // #9966CC
+  coral: '255 145 120',  // #FF9178
 };
 
 const EventCard = ({ event, isRegistered, onRegister, onUnregister, onSponsor }) => (
   <div className="group bg-white/90 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-xl hover:border-slate-300 transition-all transform hover:-translate-y-1">
     {/* Header with gradient accent */}
     <div className="relative mb-3 sm:mb-4">
-      <div 
+      <div
         className="absolute top-0 left-0 w-full h-1 rounded-t-xl"
-        style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+        style={{ backgroundColor: `rgb(${brand.indigo})` }}
       />
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between pt-3 gap-2">
         <h3 className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-slate-800 transition-colors line-clamp-2">
           {event.name}
         </h3>
         <div className="flex gap-2">
-          <span className={`self-start px-2 sm:px-3 py-1 text-xs sm:text-sm font-medium rounded-full flex-shrink-0 ${
-            event.status === 'Upcoming' 
+          <span className={`self-start px-2 sm:px-3 py-1 text-xs sm:text-sm font-medium rounded-full flex-shrink-0 ${event.status === 'Upcoming'
               ? 'text-white shadow-sm'
               : 'bg-slate-100 text-slate-700 border border-slate-200'
-          }`}
-          style={event.status === 'Upcoming' 
-            ? { backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.lilac}))` }
-            : {}
-          }>
+            }`}
+            style={event.status === 'Upcoming'
+              ? { backgroundColor: `rgb(${brand.indigo})` }
+              : {}
+            }>
             {event.status}
           </span>
-          
+
           {/* Registration Status Badge */}
           {isRegistered && (
             <span className="self-start px-2 sm:px-3 py-1 text-xs sm:text-sm font-medium rounded-full flex-shrink-0 bg-green-100 text-green-800 border border-green-200">
@@ -48,11 +47,11 @@ const EventCard = ({ event, isRegistered, onRegister, onUnregister, onSponsor })
         </div>
       </div>
     </div>
-    
+
     {/* Event Details */}
     <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
       <div className="flex items-center gap-2 sm:gap-3 text-slate-600">
-        <div 
+        <div
           className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center flex-shrink-0"
           style={{ backgroundColor: '#9966CC' }}
         >
@@ -60,19 +59,19 @@ const EventCard = ({ event, isRegistered, onRegister, onUnregister, onSponsor })
         </div>
         <div className="min-w-0">
           <p className="text-xs sm:text-sm font-medium text-slate-900 line-clamp-1">
-            {new Date(event.date).toLocaleDateString('en-US', { 
+            {new Date(event.date).toLocaleDateString('en-US', {
               weekday: 'long',
-              year: 'numeric', 
+              year: 'numeric',
               month: 'long',
-              day: 'numeric' 
+              day: 'numeric'
             })}
           </p>
           <p className="text-xs text-slate-500">Event Date</p>
         </div>
       </div>
-      
+
       <div className="flex items-center gap-2 sm:gap-3 text-slate-600">
-        <div 
+        <div
           className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center flex-shrink-0"
           style={{ backgroundColor: `rgba(${brand.coral}, 0.1)` }}
         >
@@ -83,13 +82,13 @@ const EventCard = ({ event, isRegistered, onRegister, onUnregister, onSponsor })
           <p className="text-xs text-slate-500">Venue</p>
         </div>
       </div>
-      
+
       <div className="flex items-center gap-2 sm:gap-3 text-slate-600">
-        <div 
+        <div
           className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-          style={{ backgroundColor: `rgba(${brand.lilac}, 0.1)` }}
+          style={{ backgroundColor: `rgba(${brand.indigo}, 0.1)` }}
         >
-          <Users className="w-3 h-3 sm:w-4 sm:h-4" style={{ color: `rgb(${brand.lilac})` }} />
+          <Users className="w-3 h-3 sm:w-4 sm:h-4" style={{ color: `rgb(${brand.indigo})` }} />
         </div>
         <div className="min-w-0">
           <p className="text-xs sm:text-sm font-medium text-slate-900">{event.attendees} People</p>
@@ -97,7 +96,7 @@ const EventCard = ({ event, isRegistered, onRegister, onUnregister, onSponsor })
         </div>
       </div>
     </div>
-    
+
     {/* Action Buttons */}
     <div className="flex flex-col sm:flex-row gap-2">
       {event.status === 'Upcoming' ? (
@@ -117,22 +116,22 @@ const EventCard = ({ event, isRegistered, onRegister, onUnregister, onSponsor })
             </div>
           ) : (
             <div className="flex flex-col sm:flex-row gap-2 w-full">
-              <button 
+              <button
                 onClick={() => onRegister(event.id)}
                 className="flex-1 py-2.5 sm:py-3 rounded-lg font-semibold text-white transition-all hover:shadow-lg transform hover:scale-105 text-sm sm:text-base"
-                style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                style={{ backgroundColor: `rgb(${brand.indigo})` }}
               >
                 Register Now
               </button>
-              <button 
+              <button
                 onClick={() => onSponsor(event)}
                 className="flex-1 py-2.5 sm:py-3 rounded-lg font-semibold text-white transition-all hover:shadow-lg transform hover:scale-105 text-sm sm:text-base"
-                style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                style={{ backgroundColor: `rgb(${brand.indigo})` }}
               >
                 Sponsor this Event
               </button>
             </div>
-            
+
           )}
           <button className="px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 transition-all">
             <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4" />
@@ -180,12 +179,11 @@ const MobileFiltersModal = ({ isOpen, onClose, statusFilter, setStatusFilter }) 
                 <button
                   key={option.value}
                   onClick={() => setStatusFilter(option.value)}
-                  className={`p-3 rounded-lg text-sm font-medium transition-colors text-left ${
-                    statusFilter === option.value
+                  className={`p-3 rounded-lg text-sm font-medium transition-colors text-left ${statusFilter === option.value
                       ? 'text-white'
                       : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                  }`}
-                  style={statusFilter === option.value 
+                    }`}
+                  style={statusFilter === option.value
                     ? { backgroundColor: `rgb(${brand.indigo})` }
                     : {}
                   }
@@ -200,7 +198,7 @@ const MobileFiltersModal = ({ isOpen, onClose, statusFilter, setStatusFilter }) 
         <button
           onClick={onClose}
           className="w-full mt-6 px-6 py-3 rounded-xl font-semibold text-white transition-all"
-          style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+          style={{ backgroundColor: `rgb(${brand.indigo})` }}
         >
           Apply Filter
         </button>
@@ -217,31 +215,30 @@ const RegistrationModal = ({ isOpen, onClose, eventName, isSuccess }) => {
     <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl p-6 max-w-md w-full mx-4">
         <div className="text-center">
-          <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${
-            isSuccess ? 'bg-green-100' : 'bg-red-100'
-          }`}>
+          <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${isSuccess ? 'bg-green-100' : 'bg-red-100'
+            }`}>
             {isSuccess ? (
               <CheckCircle className="w-8 h-8 text-green-600" />
             ) : (
               <X className="w-8 h-8 text-red-600" />
             )}
           </div>
-          
+
           <h3 className="text-xl font-bold text-slate-900 mb-2">
             {isSuccess ? 'Registration Successful!' : 'Registration Cancelled'}
           </h3>
-          
+
           <p className="text-slate-600 mb-6">
-            {isSuccess 
+            {isSuccess
               ? `You have successfully registered for "${eventName}". You will receive a confirmation email shortly.`
               : `Your registration for "${eventName}" has been cancelled.`
             }
           </p>
-          
+
           <button
             onClick={onClose}
             className="w-full px-6 py-3 rounded-xl font-semibold text-white transition-all"
-            style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+            style={{ backgroundColor: `rgb(${brand.indigo})` }}
           >
             Got it!
           </button>
@@ -311,7 +308,7 @@ const SponsorModal = ({ isOpen, onClose, eventName }) => {
     setReason("");
     setPaymentProofFile(null);
   };
-  
+
   return (
     <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl p-6 sm:p-8 max-w-md w-full mx-4">
@@ -321,11 +318,11 @@ const SponsorModal = ({ isOpen, onClose, eventName }) => {
             <X className="w-5 h-5 text-slate-600" />
           </button>
         </div>
-        
+
         <p className="text-slate-600 mb-6">
           Thank you for your interest in sponsoring **{eventName}**! Please fill out the form below.
         </p>
-        
+
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label htmlFor="companyName" className="block text-sm font-medium text-slate-700 mb-1">Company Name</label>
@@ -338,7 +335,7 @@ const SponsorModal = ({ isOpen, onClose, eventName }) => {
               className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring focus:ring-indigo-200 focus:outline-none transition-all"
             />
           </div>
-          
+
           <div>
             <label htmlFor="sponsorshipAmount" className="block text-sm font-medium text-slate-700 mb-1">Sponsorship Amount (e.g., $1000)</label>
             <input
@@ -350,7 +347,7 @@ const SponsorModal = ({ isOpen, onClose, eventName }) => {
               className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring focus:ring-indigo-200 focus:outline-none transition-all"
             />
           </div>
-          
+
           <div>
             <label htmlFor="reason" className="block text-sm font-medium text-slate-700 mb-1">Reason for Sponsoring</label>
             <textarea
@@ -373,7 +370,7 @@ const SponsorModal = ({ isOpen, onClose, eventName }) => {
               Please scan this QR code with your preferred UPI app.
             </p>
           </div>
-          
+
           <div>
             <label htmlFor="paymentProof" className="block text-sm font-medium text-slate-700 mb-1">Upload Payment Proof</label>
             <div className="relative">
@@ -390,20 +387,20 @@ const SponsorModal = ({ isOpen, onClose, eventName }) => {
               </div>
             </div>
           </div>
-          
+
           <button
             type="button"
             onClick={handleRazorpayPayment}
             className="w-full px-6 py-3 rounded-xl font-semibold text-white transition-all hover:shadow-lg transform hover:-translate-y-0.5"
-            style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+            style={{ backgroundColor: `rgb(${brand.indigo})` }}
           >
             Pay with Razorpay
           </button>
-          
+
           <button
             type="submit"
             className="w-full px-6 py-3 rounded-xl font-semibold text-white transition-all hover:shadow-lg transform hover:-translate-y-0.5"
-            style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+            style={{ backgroundColor: `rgb(${brand.indigo})` }}
           >
             Submit Sponsorship Request
           </button>
@@ -425,7 +422,7 @@ export default function AlumniEvents() {
   const [showSponsorModal, setShowSponsorModal] = useState(false); // New state for sponsor modal
   const [sponsoringEvent, setSponsoringEvent] = useState(null); // New state to hold event data
 
-  
+
   const user = getCurrentUser();
 
   // Load registered events from localStorage on mount
@@ -443,10 +440,10 @@ export default function AlumniEvents() {
 
     const newRegisteredEvents = new Set(registeredEvents);
     newRegisteredEvents.add(eventId);
-    
+
     setRegisteredEvents(newRegisteredEvents);
     localStorage.setItem(`alumni_registrations_${user?.id}`, JSON.stringify([...newRegisteredEvents]));
-    
+
     setModalEventName(event.name);
     setModalIsSuccess(true);
     setShowRegistrationModal(true);
@@ -459,15 +456,15 @@ export default function AlumniEvents() {
 
     const newRegisteredEvents = new Set(registeredEvents);
     newRegisteredEvents.delete(eventId);
-    
+
     setRegisteredEvents(newRegisteredEvents);
     localStorage.setItem(`alumni_registrations_${user?.id}`, JSON.stringify([...newRegisteredEvents]));
-    
+
     setModalEventName(event.name);
     setModalIsSuccess(false);
     setShowRegistrationModal(true);
   };
-  
+
   // Handle sponsor button click
   const handleSponsorClick = (event) => {
     setSponsoringEvent(event);
@@ -476,11 +473,11 @@ export default function AlumniEvents() {
 
   const filteredEvents = recentEvents.filter(event => {
     const matchesSearch = event.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         event.venue.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = statusFilter === "all" || 
-                         event.status === statusFilter ||
-                         (statusFilter === "registered" && registeredEvents.has(event.id));
-    
+      event.venue.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = statusFilter === "all" ||
+      event.status === statusFilter ||
+      (statusFilter === "registered" && registeredEvents.has(event.id));
+
     return matchesSearch && matchesStatus;
   });
 
@@ -496,7 +493,7 @@ export default function AlumniEvents() {
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#F9F8FE' }}>
       <AlumniNavbar />
-      
+
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Header */}
         <div className="mb-6 sm:mb-8">
@@ -512,7 +509,7 @@ export default function AlumniEvents() {
                 <p className="text-xs sm:text-sm font-medium text-slate-600">Total Events</p>
                 <p className="text-lg sm:text-2xl font-bold text-slate-900">{recentEvents.length}</p>
               </div>
-              <div 
+              <div
                 className="w-6 h-6 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center mx-auto sm:mx-0 mt-1 sm:mt-0"
                 style={{ backgroundColor: '#9966CC' }}
               >
@@ -527,7 +524,7 @@ export default function AlumniEvents() {
                 <p className="text-xs sm:text-sm font-medium text-slate-600">Upcoming</p>
                 <p className="text-lg sm:text-2xl font-bold text-slate-900">{upcomingCount}</p>
               </div>
-              <div 
+              <div
                 className="w-6 h-6 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center mx-auto sm:mx-0 mt-1 sm:mt-0"
                 style={{ backgroundColor: `rgba(${brand.coral}, 0.1)` }}
               >
@@ -542,11 +539,11 @@ export default function AlumniEvents() {
                 <p className="text-xs sm:text-sm font-medium text-slate-600">My Events</p>
                 <p className="text-lg sm:text-2xl font-bold text-slate-900">{registeredCount}</p>
               </div>
-              <div 
+              <div
                 className="w-6 h-6 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center mx-auto sm:mx-0 mt-1 sm:mt-0"
-                style={{ backgroundColor: `rgba(${brand.lilac}, 0.1)` }}
+                style={{ backgroundColor: `rgba(${brand.indigo}, 0.1)` }}
               >
-                <CheckCircle className="w-3 h-3 sm:w-6 sm:h-6" style={{ color: `rgb(${brand.lilac})` }} />
+                <CheckCircle className="w-3 h-3 sm:w-6 sm:h-6" style={{ color: `rgb(${brand.indigo})` }} />
               </div>
             </div>
           </div>
@@ -557,7 +554,7 @@ export default function AlumniEvents() {
                 <p className="text-xs sm:text-sm font-medium text-slate-600">Completed</p>
                 <p className="text-lg sm:text-2xl font-bold text-slate-900">{completedCount}</p>
               </div>
-              <div 
+              <div
                 className="w-6 h-6 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center mx-auto sm:mx-0 mt-1 sm:mt-0"
                 style={{ backgroundColor: '#9966CC' }}
               >
@@ -581,7 +578,7 @@ export default function AlumniEvents() {
                 className="w-full bg-white border border-slate-200 rounded-lg py-2.5 sm:py-3 pl-10 sm:pl-12 pr-4 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-300 hover:border-slate-300 transition-colors text-sm sm:text-base"
               />
             </div>
-            
+
             {/* Desktop Filter */}
             <div className="hidden sm:block">
               <div className="relative">
@@ -609,7 +606,7 @@ export default function AlumniEvents() {
                 <span>Filter Events</span>
                 <ChevronDown className="w-4 h-4" />
               </button>
-              
+
               {(statusFilter !== "all") && (
                 <button
                   onClick={clearFilters}
@@ -658,9 +655,9 @@ export default function AlumniEvents() {
         {/* Events Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           {filteredEvents.map(event => (
-            <EventCard 
-              key={event.id} 
-              event={event} 
+            <EventCard
+              key={event.id}
+              event={event}
               isRegistered={registeredEvents.has(event.id)}
               onRegister={handleRegister}
               onUnregister={handleUnregister}
@@ -672,7 +669,7 @@ export default function AlumniEvents() {
         {/* Empty State */}
         {filteredEvents.length === 0 && (
           <div className="text-center py-12 sm:py-16">
-            <div 
+            <div
               className="w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-4"
               style={{ backgroundColor: '#9966CC' }}
             >
@@ -682,15 +679,15 @@ export default function AlumniEvents() {
               {statusFilter === "registered" ? "No registered events" : "No events found"}
             </h3>
             <p className="text-slate-600 mb-4 text-sm sm:text-base">
-              {statusFilter === "registered" 
-                ? "You haven't registered for any events yet. Explore upcoming events to join!" 
+              {statusFilter === "registered"
+                ? "You haven't registered for any events yet. Explore upcoming events to join!"
                 : "Try adjusting your search or filters to find more events"
               }
             </p>
             <button
               onClick={clearFilters}
               className="px-4 py-2 rounded-lg font-medium text-white shadow-sm hover:shadow-md transition-all text-sm"
-              style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+              style={{ backgroundColor: `rgb(${brand.indigo})` }}
             >
               {statusFilter === "registered" ? "Browse All Events" : "Show All Events"}
             </button>
@@ -723,3 +720,5 @@ export default function AlumniEvents() {
     </div>
   );
 }
+
+

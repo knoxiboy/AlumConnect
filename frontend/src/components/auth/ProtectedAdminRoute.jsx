@@ -6,3 +6,5 @@ export default function ProtectedAdminRoute() {
 
   return isAuthed ? <Outlet /> : <Navigate to="/admin/login" replace />;
 }
+
+

@@ -39,3 +39,5 @@ const TeamMemberCard = ({ name, role, email, phone, image, gender }) => (
 );
 
 export default TeamMemberCard;
+
+

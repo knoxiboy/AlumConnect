@@ -10,7 +10,7 @@ import {
 // Brand colors
 const brand = {
   indigo: '153 102 204',   // #9966CC
-  lilac:  '196 160 255',  // #C4A0FF
+  lilac:  '153 102 204',  // #9966CC
   coral:  '255 145 120',  // #FF9178
 };
 
@@ -192,8 +192,8 @@ export default function LoadingPage() {
               
               <div className="bg-white border border-slate-200 rounded-xl p-5 text-center">
                 <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3"
-                     style={{ backgroundColor: `rgba(${brand.lilac}, 0.1)` }}>
-                  <CalendarDays className="w-6 h-6" style={{ color: `rgb(${brand.lilac})` }} />
+                     style={{ backgroundColor: `rgba(${brand.indigo}, 0.1)` }}>
+                  <CalendarDays className="w-6 h-6" style={{ color: `rgb(${brand.indigo})` }} />
                 </div>
                 <h3 className="font-semibold text-slate-900 mb-1">Events</h3>
                 <p className="text-sm text-slate-600">Reunions, webinars, and networking</p>
@@ -237,3 +237,4 @@ export default function LoadingPage() {
     </div>
   );
 }
+

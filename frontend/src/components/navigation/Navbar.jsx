@@ -4,11 +4,11 @@ import { useState } from "react";
 
 const brand = {
   indigo: '153 102 204',   // #9966CC
-  lilac:  '196 160 255',  // #C4A0FF
-  coral:  '255 145 120',  // #FF9178
+  lilac: '153 102 204',  // #9966CC
+  coral: '255 145 120',  // #FF9178
 };
 
-export default function Navbar() {
+export default function Navbar({ hideLinks = false }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -26,20 +26,24 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center space-x-6 lg:space-x-8 font-medium">
-          <a href="#features" className="text-slate-700 hover:text-slate-900 transition-colors text-sm lg:text-base">Features</a>
-          <a href="#how-it-works" className="text-slate-700 hover:text-slate-900 transition-colors text-sm lg:text-base">How It Works</a>
-          <Link to="/explore" className="text-slate-700 hover:text-slate-900 transition-colors text-sm lg:text-base">Explore</Link>
-          <Link to="/contacts" className="text-slate-700 hover:text-slate-900 transition-colors text-sm lg:text-base">Contact</Link>
-        </div>
+        {!hideLinks && (
+          <div className="hidden md:flex items-center space-x-6 lg:space-x-8 font-medium">
+            <a href="#features" className="text-slate-700 hover:text-slate-900 transition-colors text-sm lg:text-base">Features</a>
+            <a href="#how-it-works" className="text-slate-700 hover:text-slate-900 transition-colors text-sm lg:text-base">How It Works</a>
+            <Link to="/explore" className="text-slate-700 hover:text-slate-900 transition-colors text-sm lg:text-base">Explore</Link>
+            <Link to="/contacts" className="text-slate-700 hover:text-slate-900 transition-colors text-sm lg:text-base">Contact</Link>
+          </div>
+        )}
 
         {/* Mobile menu button */}
-        <button 
-          className="md:hidden p-2 text-slate-600 hover:text-slate-900"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
-          {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
+        {!hideLinks && (
+          <button
+            className="md:hidden p-2 text-slate-600 hover:text-slate-900"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        )}
 
         {/* Action Button */}
         <div className="hidden md:flex items-center">
@@ -54,7 +58,7 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Menu */}
-      {isMenuOpen && (
+      {!hideLinks && isMenuOpen && (
         <div className="md:hidden absolute top-full left-0 right-0 bg-white border-b border-slate-200 py-4 px-4 shadow-lg">
           <div className="flex flex-col space-y-3">
             <a href="#features" className="text-slate-700 hover:text-slate-900 transition-colors py-2" onClick={() => setIsMenuOpen(false)}>Features</a>
@@ -75,3 +79,5 @@ export default function Navbar() {
     </nav>
   );
 }
+
+

@@ -30,7 +30,7 @@ export default function CollegeRegistrationPage() {
         />
         <div
           className="absolute bottom-20 right-10 w-24 h-24 rounded-full opacity-20 animate-pulse delay-75"
-          style={{ background: `radial-gradient(circle, rgba(${brand.lilac}, 0.3), transparent)` }}
+          style={{ background: `radial-gradient(circle, rgba(${brand.indigo}, 0.3), transparent)` }}
         />
         <div
           className="absolute top-1/2 left-1/4 w-16 h-16 rounded-full opacity-10 animate-pulse delay-150"
@@ -150,7 +150,7 @@ export default function CollegeRegistrationPage() {
                     className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
                     style={{ backgroundColor: 'rgba(153, 102, 204, 0.1)' }}
                   >
-                    <Server className="w-8 h-8" style={{ color: `rgb(${brand.lilac})` }} />
+                    <Server className="w-8 h-8" style={{ color: `rgb(${brand.indigo})` }} />
                   </div>
                   <h2 className="text-2xl font-bold text-slate-900 mb-2">Technical Details</h2>
                   <p className="text-slate-600">Optional technical preferences for integration</p>
@@ -292,3 +292,5 @@ export default function CollegeRegistrationPage() {
     </div>
   );
 }
+
+

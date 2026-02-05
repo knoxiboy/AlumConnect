@@ -62,3 +62,5 @@ export const SelectInput = ({ icon, children, ...props }) => (
         </select>
     </div>
 );
+
+

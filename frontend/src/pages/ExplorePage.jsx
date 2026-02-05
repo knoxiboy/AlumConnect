@@ -66,7 +66,7 @@ export default function ExplorePage() {
       className="min-h-screen text-slate-900 font-sans"
       style={{ backgroundColor: '#F9F8FE' }}
     >
-      <Navbar />
+      <Navbar hideLinks={true} />
 
       {/* Hero Section */}
       <section className="pt-20 sm:pt-24 pb-8 sm:pb-12 px-4 sm:px-6 relative overflow-hidden">
@@ -78,7 +78,7 @@ export default function ExplorePage() {
           />
           <div
             className="absolute bottom-20 right-10 w-20 h-20 sm:w-24 sm:h-24 rounded-full opacity-20 animate-pulse delay-75"
-            style={{ background: `radial-gradient(circle, rgba(${brand.lilac}, 0.3), transparent)` }}
+            style={{ background: `radial-gradient(circle, rgba(${brand.indigo}, 0.3), transparent)` }}
           />
           <div
             className="absolute top-1/2 left-1/4 w-12 h-12 sm:w-16 sm:h-16 rounded-full opacity-10 animate-pulse delay-150"
@@ -131,7 +131,7 @@ export default function ExplorePage() {
               icon={<Globe className="w-5 h-5 sm:w-6 sm:h-6" />}
               number="25+"
               label="Cities"
-              color={brand.lilac}
+              color={brand.indigo}
             />
           </div>
 
@@ -202,8 +202,8 @@ export default function ExplorePage() {
               <button
                 onClick={() => setViewMode("grid")}
                 className={`p-2 rounded-lg transition-colors ${viewMode === "grid"
-                    ? 'text-white'
-                    : 'text-slate-600 hover:bg-slate-100'
+                  ? 'text-white'
+                  : 'text-slate-600 hover:bg-slate-100'
                   }`}
                 style={viewMode === "grid" ? { backgroundColor: `rgb(${brand.indigo})` } : {}}
               >
@@ -212,8 +212,8 @@ export default function ExplorePage() {
               <button
                 onClick={() => setViewMode("list")}
                 className={`p-2 rounded-lg transition-colors ${viewMode === "list"
-                    ? 'text-white'
-                    : 'text-slate-600 hover:bg-slate-100'
+                  ? 'text-white'
+                  : 'text-slate-600 hover:bg-slate-100'
                   }`}
                 style={viewMode === "list" ? { backgroundColor: `rgb(${brand.indigo})` } : {}}
               >
@@ -286,3 +286,5 @@ export default function ExplorePage() {
     </div>
   );
 }
+
+

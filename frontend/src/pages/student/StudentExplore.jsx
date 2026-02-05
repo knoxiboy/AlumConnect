@@ -15,7 +15,7 @@ import {
 
 const brand = {
   indigo: '153 102 204',   // #9966CC
-  lilac:  '196 160 255',  // #C4A0FF
+  lilac:  '153 102 204',  // #9966CC
   coral:  '255 145 120',  // #FF9178
 };
 
@@ -31,7 +31,7 @@ const StudentCard = ({ student }) => {
       <div className="flex items-center gap-4">
         <div
           className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold"
-          style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+          style={{ backgroundColor: `rgb(${brand.indigo})` }}
         >
           {student.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
         </div>
@@ -67,7 +67,7 @@ const FormModal = ({ isOpen, onClose, title, item, onSubmit }) => {
           <button
             onClick={() => { onSubmit && onSubmit(); onClose(); }}
             className="px-4 py-2 rounded-lg text-white"
-            style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+            style={{ backgroundColor: `rgb(${brand.indigo})` }}
           >
             Confirm
           </button>
@@ -85,7 +85,7 @@ const AlumniCard = ({ alumni, onConnect, onRequestMentorship, connectionStatus }
     <div className="flex flex-col sm:flex-row sm:items-start gap-4">
       <div
         className="w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-lg flex-shrink-0 mx-auto sm:mx-0"
-        style={{ backgroundImage: `linear-gradient(135deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+        style={{ backgroundColor: `rgb(${brand.indigo})` }}
       >
         {alumni.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
       </div>
@@ -139,7 +139,7 @@ const AlumniCard = ({ alumni, onConnect, onRequestMentorship, connectionStatus }
           <button
             onClick={() => onRequestMentorship && onRequestMentorship(alumni.id)}
             className="w-full sm:w-auto flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium text-white transition-all"
-            style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+            style={{ backgroundColor: `rgb(${brand.indigo})` }}
           >
             <MessageCircle className="w-3 h-3 sm:w-4 sm:h-4" />
             {connectionStatus === 'mentorship_requested' ? 'Requested' : 'Request Mentorship'}
@@ -266,7 +266,7 @@ const MobileFiltersModal = ({ isOpen, onClose, filterCompany, setFilterCompany, 
         <button
           onClick={onClose}
           className="w-full mt-6 px-6 py-3 rounded-xl font-semibold text-white transition-all"
-          style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+          style={{ backgroundColor: `rgb(${brand.indigo})` }}
         >
           Apply Filters
         </button>
@@ -643,7 +643,7 @@ export default function StudentExplore() {
               <button
                 onClick={clearFilters}
                 className="px-4 py-2 rounded-lg font-medium text-white shadow-sm hover:shadow-lg transition-all text-sm"
-                style={{ backgroundImage: `linear-gradient(90deg, rgb(${brand.indigo}), rgb(${brand.coral}))` }}
+                style={{ backgroundColor: `rgb(${brand.indigo})` }}
               >
                 Clear All Filters
               </button>
@@ -690,3 +690,5 @@ export default function StudentExplore() {
     </div>
   );
 }
+
+

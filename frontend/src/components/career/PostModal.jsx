@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 // Brand colors
 const brand = {
   indigo: '153 102 204',
-  lilac: '196 160 255', 
+  lilac: '153 102 204', 
   coral: '255 145 120',
 };
 
@@ -531,3 +531,4 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
 };
 
 export default PostModal;
+
