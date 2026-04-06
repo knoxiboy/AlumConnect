@@ -44,7 +44,8 @@ export default function CollegeRegistrationPage() {
           <div className="flex items-center justify-between mb-8">
             <Link
               to="/"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100/80 hover:bg-slate-200/80 rounded-lg text-slate-600 hover:text-slate-900 transition-all"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-white shadow-md hover:shadow-lg transition-all"
+              style={{ backgroundColor: '#c25f3a' }}
             >
               <ArrowLeft size={18} />
               <span className="font-medium">Back to Home</span>
@@ -229,29 +230,33 @@ export default function CollegeRegistrationPage() {
                 type="button"
                 onClick={prevStep}
                 disabled={step === 1}
-                className="px-6 py-3 rounded-xl font-semibold bg-slate-200 hover:bg-slate-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all text-slate-700"
+                className="px-6 py-3 rounded-xl font-semibold text-white disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg flex items-center gap-2"
+                style={{ backgroundColor: '#c25f3a' }}
               >
-                Previous
+                <ArrowLeft size={18} />
+                <span>Previous</span>
               </button>
 
               {step < totalSteps && (
                 <button
                   type="button"
                   onClick={nextStep}
-                  className="px-8 py-3 rounded-xl font-semibold text-white shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
+                  className="px-8 py-3 rounded-xl font-semibold text-white shadow-lg hover:shadow-xl transition-all transform hover:scale-105 flex items-center gap-2"
                   style={{ backgroundColor: '#9966CC' }}
                 >
-                  Continue
+                  <span>Continue</span>
+                  <CheckCircle size={18} />
                 </button>
               )}
 
               {step === totalSteps && (
                 <button
                   type="submit"
-                  className="px-8 py-3 rounded-xl font-bold text-white shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
+                  className="px-8 py-3 rounded-xl font-bold text-white shadow-lg hover:shadow-xl transition-all transform hover:scale-105 flex items-center gap-2"
                   style={{ backgroundColor: '#9966CC' }}
                 >
-                  Submit for Verification
+                  <span>Submit for Verification</span>
+                  <CheckCircle size={18} />
                 </button>
               )}
             </div>

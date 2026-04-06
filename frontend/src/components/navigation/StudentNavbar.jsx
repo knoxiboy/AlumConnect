@@ -9,7 +9,7 @@ import { logout, getCurrentUser } from "../../utils/auth";
 const brand = {
   indigo: '153 102 204',   // #9966CC
   lilac: '153 102 204',  // #9966CC
-  coral: '255 145 120',  // #FF9178
+  coral: '194 95 58',  // #c25f3a
 };
 
 export default function StudentNavbar() {
@@ -84,8 +84,8 @@ export default function StudentNavbar() {
                   key={item.name}
                   to={item.href}
                   className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${isActive
-                      ? 'text-white shadow-lg'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                    ? 'text-white shadow-lg'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                     }`}
                   style={isActive
                     ? { backgroundColor: '#9966CC' }
@@ -216,8 +216,8 @@ export default function StudentNavbar() {
                   to={item.href}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={`flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium transition-all ${isActive
-                      ? 'text-white shadow-lg'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                    ? 'text-white shadow-lg'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                     }`}
                   style={isActive
                     ? { backgroundColor: '#9966CC' }

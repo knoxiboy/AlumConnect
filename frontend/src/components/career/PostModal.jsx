@@ -4,8 +4,8 @@ import { X } from "lucide-react";
 // Brand colors
 const brand = {
   indigo: '153 102 204',
-  lilac: '153 102 204', 
-  coral: '255 145 120',
+  lilac: '153 102 204',
+  coral: '194 95 58',  // #c25f3a
 };
 
 const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
@@ -81,13 +81,13 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
                 <input
                   type="text"
                   value={formData.name}
-                  onChange={(e) => setFormData({...formData, name: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
                   className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
                   placeholder="Your full name"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">
                   Role *
@@ -95,7 +95,7 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
                 <input
                   type="text"
                   value={formData.role}
-                  onChange={(e) => setFormData({...formData, role: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                   required
                   className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
                   placeholder="e.g., Senior Software Engineer"
@@ -110,7 +110,7 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
               <input
                 type="text"
                 value={formData.company}
-                onChange={(e) => setFormData({...formData, company: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                 required
                 className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
                 placeholder="Company name"
@@ -123,7 +123,7 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
               </label>
               <textarea
                 value={formData.bio}
-                onChange={(e) => setFormData({...formData, bio: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
                 required
                 rows={3}
                 className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
@@ -139,12 +139,12 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
                 <input
                   type="text"
                   value={formData.domains}
-                  onChange={(e) => setFormData({...formData, domains: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, domains: e.target.value })}
                   className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
                   placeholder="e.g., Software Engineering, Web Development"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">
                   Experience
@@ -152,7 +152,7 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
                 <input
                   type="text"
                   value={formData.experience}
-                  onChange={(e) => setFormData({...formData, experience: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
                   className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
                   placeholder="e.g., 5+ years"
                 />
@@ -166,7 +166,7 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
               <input
                 type="text"
                 value={formData.skills}
-                onChange={(e) => setFormData({...formData, skills: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, skills: e.target.value })}
                 className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
                 placeholder="e.g., React, Node.js, Python, SQL"
               />
@@ -178,7 +178,7 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
               </label>
               <select
                 value={formData.status}
-                onChange={(e) => setFormData({...formData, status: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                 className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
               >
                 <option value="available">Available for Mentoring</option>
@@ -188,7 +188,7 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
             </div>
           </>
         );
-      
+
       case 'resource':
         return (
           <>
@@ -199,7 +199,7 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
               <input
                 type="text"
                 value={formData.title}
-                onChange={(e) => setFormData({...formData, title: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 required
                 className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
                 placeholder="Resource title"
@@ -214,20 +214,20 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
                 <input
                   type="text"
                   value={formData.author}
-                  onChange={(e) => setFormData({...formData, author: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, author: e.target.value })}
                   required
                   className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
                   placeholder="Author name"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">
                   Resource Type *
                 </label>
                 <select
                   value={formData.type}
-                  onChange={(e) => setFormData({...formData, type: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, type: e.target.value })}
                   className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
                 >
                   <option value="article">Article</option>
@@ -247,7 +247,7 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
               </label>
               <textarea
                 value={formData.description}
-                onChange={(e) => setFormData({...formData, description: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 required
                 rows={3}
                 className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
@@ -263,12 +263,12 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
                 <input
                   type="text"
                   value={formData.categories}
-                  onChange={(e) => setFormData({...formData, categories: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, categories: e.target.value })}
                   className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
                   placeholder="e.g., Web Development, Career Guidance"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">
                   Link
@@ -276,7 +276,7 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
                 <input
                   type="url"
                   value={formData.link}
-                  onChange={(e) => setFormData({...formData, link: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, link: e.target.value })}
                   className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
                   placeholder="https://example.com/resource"
                 />
@@ -284,7 +284,7 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
             </div>
           </>
         );
-      
+
       case 'startup':
         return (
           <>
@@ -295,7 +295,7 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
               <input
                 type="text"
                 value={formData.name}
-                onChange={(e) => setFormData({...formData, name: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 required
                 className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
                 placeholder="Startup name"
@@ -308,7 +308,7 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
               </label>
               <textarea
                 value={formData.description}
-                onChange={(e) => setFormData({...formData, description: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 required
                 rows={3}
                 className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
@@ -324,20 +324,20 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
                 <input
                   type="text"
                   value={formData.industry}
-                  onChange={(e) => setFormData({...formData, industry: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, industry: e.target.value })}
                   required
                   className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
                   placeholder="e.g., FinTech, HealthTech"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">
                   Stage *
                 </label>
                 <select
                   value={formData.stage}
-                  onChange={(e) => setFormData({...formData, stage: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, stage: e.target.value })}
                   className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
                 >
                   <option value="idea">Idea Stage</option>
@@ -357,14 +357,14 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
               <input
                 type="url"
                 value={formData.website}
-                onChange={(e) => setFormData({...formData, website: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, website: e.target.value })}
                 className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
                 placeholder="https://yourstartup.com"
               />
             </div>
           </>
         );
-      
+
       case 'project':
         return (
           <>
@@ -375,7 +375,7 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
               <input
                 type="text"
                 value={formData.title}
-                onChange={(e) => setFormData({...formData, title: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 required
                 className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
                 placeholder="Project title"
@@ -388,7 +388,7 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
               </label>
               <textarea
                 value={formData.description}
-                onChange={(e) => setFormData({...formData, description: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 required
                 rows={3}
                 className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
@@ -404,19 +404,19 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
                 <input
                   type="text"
                   value={formData.technologies}
-                  onChange={(e) => setFormData({...formData, technologies: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, technologies: e.target.value })}
                   className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
                   placeholder="e.g., React, Node.js, Python"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">
                   Difficulty Level
                 </label>
                 <select
                   value={formData.difficulty}
-                  onChange={(e) => setFormData({...formData, difficulty: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, difficulty: e.target.value })}
                   className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
                 >
                   <option value="beginner">Beginner</option>
@@ -434,12 +434,12 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
                 <input
                   type="text"
                   value={formData.category}
-                  onChange={(e) => setFormData({...formData, category: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                   className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
                   placeholder="e.g., Web Development, AI/ML"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">
                   Team Size
@@ -447,7 +447,7 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
                 <input
                   type="number"
                   value={formData.teamSize}
-                  onChange={(e) => setFormData({...formData, teamSize: parseInt(e.target.value) || 1})}
+                  onChange={(e) => setFormData({ ...formData, teamSize: parseInt(e.target.value) || 1 })}
                   min="1"
                   className="w-full border border-slate-300 rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-400"
                 />
@@ -455,7 +455,7 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
             </div>
           </>
         );
-      
+
       default:
         return null;
     }
@@ -463,7 +463,7 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     // Process form data
     const postData = {
       ...formData,
@@ -471,7 +471,7 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
       postedDate: initialData?.postedDate || new Date().toISOString().split('T')[0],
       postedBy: "You" // In a real app, this would come from the user context
     };
-    
+
     // Special processing for comma-separated fields
     if (postType === 'mentorship') {
       postData.domains = formData.domains.split(',').map(d => d.trim()).filter(d => d);
@@ -481,7 +481,7 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
     } else if (postType === 'project') {
       postData.technologies = formData.technologies.split(',').map(t => t.trim()).filter(t => t);
     }
-    
+
     onSubmit(postData);
     onClose();
   };
@@ -506,7 +506,7 @@ const PostModal = ({ isOpen, onClose, onSubmit, postType, initialData }) => {
         <div className="p-6 overflow-y-auto max-h-[calc(90vh-140px)]">
           <form onSubmit={handleSubmit} className="space-y-4">
             {getFormFields()}
-            
+
             <div className="flex gap-3 pt-4">
               <button
                 type="button"

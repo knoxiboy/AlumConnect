@@ -44,11 +44,16 @@ It acts as a **one-stop hub** for jobs, internships, mentorship, projects, and e
 - Recommendation Engine (ML) – Job & internship recommendations  
 - Razorpay – Event fundraising & donations  
 
-**Deployment & Methodology**  
+**Deployment & SDLC Methodology**  
 - JWT Authentication & Role-based dashboards  
 - Cloud hosting (Vercel / Render) with analytics  
 - Modular architecture for scalability  
 - QA testing and CI/CD pipelines  
+
+### Advanced Security & SDLC (Newly Integrated)
+- **Input Validation:** Strict parsing on backend to prevent injection and format errors.
+- **Rate Limiting:** `express-rate-limit` caching system to protect against DDoS and brute force scenarios across auth and standard routes.
+- **Environment Parity:** Separated variables via `.env` configured for staging and production parity.
 
 ---
 

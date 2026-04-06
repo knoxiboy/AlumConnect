@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import AlumniNavbar from "../../components/navigation/AlumniNavbar";
 import { getCurrentUser } from "../../utils/auth";
-import { 
+import {
   Users, GraduationCap
 } from "lucide-react";
 
 const brand = {
   indigo: '153 102 204',   // #9966CC
-  lilac:  '153 102 204',  // #9966CC
-  coral:  '255 145 120',  // #FF9178
+  lilac: '153 102 204',  // #9966CC
+  coral: '194 95 58',  // #c25f3a
 };
 
 export default function AlumniNetwork() {
@@ -21,9 +21,9 @@ export default function AlumniNetwork() {
     script.src = 'https://cdn.jsdelivr.net/npm/@widgetbot/html-embed';
     script.async = true;
     script.defer = true;
-    
+
     document.body.appendChild(script);
-    
+
     // Cleanup function to remove script when component unmounts
     return () => {
       document.body.removeChild(script);
@@ -35,7 +35,7 @@ export default function AlumniNetwork() {
   return (
     <div className="min-h-screen mobile-scroll-container" style={{ backgroundColor: '#F9F8FE' }}>
       <AlumniNavbar />
-      
+
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Header */}
         <div className="mb-6 sm:mb-8">
@@ -49,7 +49,7 @@ export default function AlumniNetwork() {
         <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6">
           <h2 className="text-lg sm:text-xl font-semibold text-slate-900 mb-4">Community Chat</h2>
           <p className="text-slate-600 mb-4">Connect with students, offer mentorship, and participate in alumni discussions through our Discord community.</p>
-          
+
           {/* Discord Widget */}
           <div className="rounded-lg overflow-hidden">
             <widgetbot

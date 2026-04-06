@@ -15,8 +15,8 @@ import {
 
 const brand = {
   indigo: '153 102 204',   // #9966CC
-  lilac:  '153 102 204',  // #9966CC
-  coral:  '255 145 120',  // #FF9178
+  lilac: '153 102 204',  // #9966CC
+  coral: '194 95 58',  // #c25f3a
 };
 
 /* ---------------------------
@@ -40,7 +40,7 @@ const StudentCard = ({ student }) => {
           <p className="text-xs text-slate-600">{student.course || student.year}</p>
           <p className="text-xs text-slate-500 line-clamp-2">{student.bio}</p>
         </div>
-        <button className="px-3 py-1 bg-slate-100 rounded-lg text-xs">View</button>
+        <button className="px-3 py-1 text-white rounded-lg text-xs" style={{ backgroundColor: '#c25f3a' }}>View</button>
       </div>
     </div>
   );
@@ -146,7 +146,8 @@ const AlumniCard = ({ alumni, onConnect, onRequestMentorship, connectionStatus }
           </button>
           <button
             onClick={() => onConnect && onConnect(alumni.id)}
-            className="w-full sm:w-auto flex items-center justify-center gap-2 px-3 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-xs sm:text-sm font-medium transition-colors"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors text-white"
+            style={{ backgroundColor: '#c25f3a' }}
           >
             <UserPlus className="w-3 h-3 sm:w-4 sm:h-4" />
             {connectionStatus === 'pending' ? 'Pending' : 'Connect'}
@@ -195,11 +196,10 @@ const MobileFiltersModal = ({ isOpen, onClose, filterCompany, setFilterCompany, 
             <div className="grid grid-cols-1 gap-2 max-h-40 overflow-y-auto">
               <button
                 onClick={() => setFilterCompany("all")}
-                className={`p-3 rounded-lg text-sm font-medium transition-colors text-left ${
-                  filterCompany === "all"
-                    ? 'text-white'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                }`}
+                className={`p-3 rounded-lg text-sm font-medium transition-colors text-left ${filterCompany === "all"
+                  ? 'text-white'
+                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                  }`}
                 style={filterCompany === "all"
                   ? { backgroundColor: `rgb(${brand.indigo})` }
                   : {}
@@ -211,11 +211,10 @@ const MobileFiltersModal = ({ isOpen, onClose, filterCompany, setFilterCompany, 
                 <button
                   key={company}
                   onClick={() => setFilterCompany(company)}
-                  className={`p-3 rounded-lg text-sm font-medium transition-colors text-left ${
-                    filterCompany === company
-                      ? 'text-white'
-                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                  }`}
+                  className={`p-3 rounded-lg text-sm font-medium transition-colors text-left ${filterCompany === company
+                    ? 'text-white'
+                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    }`}
                   style={filterCompany === company
                     ? { backgroundColor: `rgb(${brand.indigo})` }
                     : {}
@@ -233,11 +232,10 @@ const MobileFiltersModal = ({ isOpen, onClose, filterCompany, setFilterCompany, 
             <div className="grid grid-cols-1 gap-2">
               <button
                 onClick={() => setShowMentorsOnly(false)}
-                className={`p-3 rounded-lg text-sm font-medium transition-colors text-left ${
-                  !showMentorsOnly
-                    ? 'text-white'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                }`}
+                className={`p-3 rounded-lg text-sm font-medium transition-colors text-left ${!showMentorsOnly
+                  ? 'text-white'
+                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                  }`}
                 style={!showMentorsOnly
                   ? { backgroundColor: `rgb(${brand.coral})` }
                   : {}
@@ -247,11 +245,10 @@ const MobileFiltersModal = ({ isOpen, onClose, filterCompany, setFilterCompany, 
               </button>
               <button
                 onClick={() => setShowMentorsOnly(true)}
-                className={`p-3 rounded-lg text-sm font-medium transition-colors text-left ${
-                  showMentorsOnly
-                    ? 'text-white'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                }`}
+                className={`p-3 rounded-lg text-sm font-medium transition-colors text-left ${showMentorsOnly
+                  ? 'text-white'
+                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                  }`}
                 style={showMentorsOnly
                   ? { backgroundColor: `rgb(${brand.coral})` }
                   : {}
@@ -484,28 +481,26 @@ export default function StudentExplore() {
           <div className="inline-flex rounded-lg border border-slate-200 p-1 bg-white">
             <button
               onClick={() => setDirectoryView("alumni")}
-              className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
-                directoryView === "alumni"
-                  ? "bg-indigo-500 text-white shadow-sm"
-                  : "text-slate-600 hover:text-slate-900"
-              }`}
+              className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${directoryView === "alumni"
+                ? "bg-indigo-500 text-white shadow-sm"
+                : "text-slate-600 hover:text-slate-900"
+                }`}
             >
               Alumni Directory
             </button>
             <button
               onClick={() => setDirectoryView("student")}
-              className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${
-                directoryView === "student"
-                  ? "bg-indigo-500 text-white shadow-sm"
-                  : "text-slate-600 hover:text-slate-900"
-              }`}
+              className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${directoryView === "student"
+                ? "bg-indigo-500 text-white shadow-sm"
+                : "text-slate-600 hover:text-slate-900"
+                }`}
             >
               Student Directory
             </button>
           </div>
         </div>
 
-        
+
 
         {/* Search and Filters */}
         <div className="bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-xl p-4 sm:p-6 mb-6 sm:mb-8">
@@ -609,23 +604,23 @@ export default function StudentExplore() {
               </div>
               {directoryView === "alumni"
                 ? filteredAlumni.map(alumni => (
-                    <AlumniCard
-                      key={alumni.id}
-                      alumni={alumni}
-                      onConnect={(id) => {
-                        // optional: open confirmation form modal
-                        setFormModalContent({ title: "Connect with Alumni", alumni: alumni, type: 'connect' });
-                        setShowFormModal(true);
-                        // or call handleConnect directly
-                        // handleConnect(id);
-                      }}
-                      onRequestMentorship={(id) => {
-                        setFormModalContent({ title: "Request Mentorship", alumni: alumni, type: 'mentorship' });
-                        setShowFormModal(true);
-                      }}
-                      connectionStatus={connectionStatuses[alumni.id] || null}
-                    />
-                  ))
+                  <AlumniCard
+                    key={alumni.id}
+                    alumni={alumni}
+                    onConnect={(id) => {
+                      // optional: open confirmation form modal
+                      setFormModalContent({ title: "Connect with Alumni", alumni: alumni, type: 'connect' });
+                      setShowFormModal(true);
+                      // or call handleConnect directly
+                      // handleConnect(id);
+                    }}
+                    onRequestMentorship={(id) => {
+                      setFormModalContent({ title: "Request Mentorship", alumni: alumni, type: 'mentorship' });
+                      setShowFormModal(true);
+                    }}
+                    connectionStatus={connectionStatuses[alumni.id] || null}
+                  />
+                ))
                 : studentProfiles.map(student => <StudentCard key={student.id} student={student} />)
               }
             </>

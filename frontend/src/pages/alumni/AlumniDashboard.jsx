@@ -5,20 +5,20 @@ import { alumniProfiles } from "../../data/alumni";
 import { recentEvents } from "../../data/adminMockData";
 import { jobPostings } from "../../data/jobs";
 import {
-  Users, Calendar, Briefcase, TrendingUp, 
+  Users, Calendar, Briefcase, TrendingUp,
   Bell, MessageCircle, Heart, Eye, X
 } from "lucide-react";
 
 // Brand colors
 const brand = {
   indigo: '153 102 204',
-  lilac: '153 102 204', 
-  coral: '255 145 120',
+  lilac: '153 102 204',
+  coral: '194 95 58', // c25f3a
 };
 
 // Updated StatCard component to accept an onClick handler
 const StatCard = ({ icon, title, value, trend, color, onClick }) => (
-  <div 
+  <div
     className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-lg transition-all cursor-pointer"
     onClick={onClick}
   >
@@ -33,7 +33,7 @@ const StatCard = ({ icon, title, value, trend, color, onClick }) => (
           </p>
         )}
       </div>
-      <div 
+      <div
         className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center"
         style={{ backgroundColor: `rgba(${color}, 0.1)` }}
       >
@@ -52,12 +52,12 @@ const StatDetailModal = ({ isOpen, onClose, title, items, type }) => {
   if (!isOpen) return null;
 
   const renderItem = (item, index) => {
-    switch(type) {
+    switch (type) {
       case 'connections':
       case 'messages':
         return (
           <div key={index} className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
-            <div 
+            <div
               className="w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0"
               style={{ backgroundColor: `rgb(${brand.indigo})` }}
             >
@@ -130,11 +130,11 @@ export default function AlumniDashboard() {
   const [recentActivity, setRecentActivity] = useState([]);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const notificationsRef = useRef(null);
-  
+
   // NEW State for the stat modal
   const [showStatModal, setShowStatModal] = useState(false);
   const [statModalData, setStatModalData] = useState({ title: '', items: [], type: '' });
-  
+
   // Get user once and store in variable to prevent re-renders
   const user = getCurrentUser();
 
@@ -180,7 +180,7 @@ export default function AlumniDashboard() {
   const handleStatClick = (type) => {
     let data = [];
     let title = "";
-    
+
     switch (type) {
       case 'connections':
         data = alumniProfiles.slice(0, 5); // Using a subset of profiles as connections
@@ -201,7 +201,7 @@ export default function AlumniDashboard() {
       default:
         return;
     }
-    
+
     setStatModalData({ title, items: data, type });
     setShowStatModal(true);
   };
@@ -224,7 +224,7 @@ export default function AlumniDashboard() {
   return (
     <div className="min-h-screen mobile-scroll-container" style={{ backgroundColor: '#F9F8FE' }}>
       <AlumniNavbar />
-      
+
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Welcome Section */}
         <div className="mb-6 sm:mb-8 flex items-center justify-between relative">
@@ -253,7 +253,7 @@ export default function AlumniDashboard() {
                   <div className="space-y-3 max-h-60 overflow-y-auto">
                     {recentActivity.map(activity => (
                       <div key={activity.id} className={`flex items-start gap-3 p-3 rounded-lg transition-colors ${activity.unread ? 'bg-indigo-50' : 'hover:bg-slate-50'}`}>
-                        <div 
+                        <div
                           className={`w-2 h-2 rounded-full mt-2 flex-shrink-0 ${activity.unread ? 'bg-coral' : 'bg-slate-300'}`}
                           style={{ backgroundColor: `rgb(${activity.unread ? brand.coral : '203 213 225'})` }}
                         />
@@ -320,7 +320,7 @@ export default function AlumniDashboard() {
               <div className="space-y-3 sm:space-y-4">
                 {recentActivity.map(activity => (
                   <div key={activity.id} className="flex items-start gap-3 p-2 sm:p-3 hover:bg-slate-50 rounded-lg transition-colors">
-                    <div 
+                    <div
                       className="w-2 h-2 rounded-full mt-2 flex-shrink-0"
                       style={{ backgroundColor: `rgb(${brand.coral})` }}
                     />
@@ -345,9 +345,9 @@ export default function AlumniDashboard() {
                     <div className="min-w-0 flex-1">
                       <p className="font-medium text-slate-900 text-sm sm:text-base line-clamp-1">{event.name}</p>
                       <p className="text-xs sm:text-sm text-slate-600">
-                        {new Date(event.date).toLocaleDateString('en-US', { 
-                          month: 'short', 
-                          day: 'numeric' 
+                        {new Date(event.date).toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric'
                         })} • {event.venue}
                       </p>
                     </div>
@@ -366,7 +366,7 @@ export default function AlumniDashboard() {
             <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6">
               <h3 className="font-bold text-slate-900 mb-3 sm:mb-4 text-sm sm:text-base">Your Profile</h3>
               <div className="text-center">
-                <div 
+                <div
                   className="w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-lg mx-auto mb-2 sm:mb-3"
                   style={{ backgroundColor: '#9966CC' }}
                 >
@@ -413,9 +413,9 @@ export default function AlumniDashboard() {
           </div>
         </div>
       </main>
-      
+
       {/* NEW: Render the stat modal */}
-      <StatDetailModal 
+      <StatDetailModal
         isOpen={showStatModal}
         onClose={() => setShowStatModal(false)}
         title={statModalData.title}

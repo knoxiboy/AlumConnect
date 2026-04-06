@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { dashboardStats as seedStats, pendingApprovals as seedPending, recentEvents } from "../../data/adminMockData";
-import { 
-  Users, CheckCircle, XCircle, UserCircle2, CalendarDays, TrendingUp, 
+import {
+  Users, CheckCircle, XCircle, UserCircle2, CalendarDays, TrendingUp,
   Database, Network, DollarSign, Award, Target, MessageSquare
 } from "lucide-react";
 
 const brand = {
   indigo: '153 102 204',   // #9966CC
-  lilac:  '153 102 204',  // #9966CC
-  coral:  '255 145 120',  // #FF9178
+  lilac: '153 102 204',  // #9966CC
+  coral: '194 95 58',  // #c25f3a
 };
 
 export default function AdminDashboard() {
@@ -37,7 +37,7 @@ export default function AdminDashboard() {
       setStats((s) => {
         const role = (item?.role || "").toLowerCase();
         const bump = role === "alumni" ? { totalAlumni: s.totalAlumni + 1 } :
-                     role === "student" ? { totalStudents: s.totalStudents + 1 } : {};
+          role === "student" ? { totalStudents: s.totalStudents + 1 } : {};
         return {
           ...s,
           ...bump,
@@ -86,35 +86,35 @@ export default function AdminDashboard() {
 
       {/* Enhanced Stats Grid - Core Metrics from Problem Statement */}
       <div className="grid gap-4 sm:gap-6 mb-6 sm:mb-8 grid-cols-2 lg:grid-cols-4">
-        <StatCard 
-          title="Total Alumni" 
-          value={formatNum(dashboardStats.totalAlumni)} 
-          delta="+2.1%" 
-          icon={<Users className="h-5 h-5 sm:h-6 sm:w-6" />} 
+        <StatCard
+          title="Total Alumni"
+          value={formatNum(dashboardStats.totalAlumni)}
+          delta="+2.1%"
+          icon={<Users className="h-5 w-5 sm:h-6 sm:w-6" />}
           color={brand.indigo}
           subtitle="Registered alumni in system"
         />
-        <StatCard 
-          title="Current Students" 
-          value={formatNum(dashboardStats.totalStudents)} 
-          delta="+1.4%" 
-          icon={<UserCircle2 className="h-5 h-5 sm:h-6 sm:w-6" />} 
+        <StatCard
+          title="Current Students"
+          value={formatNum(dashboardStats.totalStudents)}
+          delta="+1.4%"
+          icon={<UserCircle2 className="h-5 w-5 sm:h-6 sm:w-6" />}
           color={brand.coral}
           subtitle="Active student profiles"
         />
-        <StatCard 
-          title="Pending Approvals" 
-          value={dashboardStats.pendingApprovals} 
-          delta="today" 
-          icon={<CheckCircle className="h-5 h-5 sm:h-6 sm:w-6" />} 
+        <StatCard
+          title="Pending Approvals"
+          value={dashboardStats.pendingApprovals}
+          delta="today"
+          icon={<CheckCircle className="h-5 w-5 sm:h-6 sm:w-6" />}
           color={brand.indigo}
           subtitle="Awaiting verification"
         />
-        <StatCard 
-          title="Active Events" 
-          value={dashboardStats.activeEvents} 
-          delta="+1 new" 
-          icon={<CalendarDays className="h-5 h-5 sm:h-6 sm:w-6" />} 
+        <StatCard
+          title="Active Events"
+          value={dashboardStats.activeEvents}
+          delta="+1 new"
+          icon={<CalendarDays className="h-5 w-5 sm:h-6 sm:w-6" />}
           color={brand.indigo}
           subtitle="Upcoming events"
         />
@@ -122,35 +122,35 @@ export default function AdminDashboard() {
 
       {/* Problem Statement Impact Metrics */}
       <div className="grid gap-4 sm:gap-6 mb-6 sm:mb-8 grid-cols-2 lg:grid-cols-4">
-        <StatCard 
-          title="Alumni Engagement" 
-          value={`${dashboardStats.engagementRate}%`} 
-          delta="+12% this quarter" 
-          icon={<Network className="h-5 h-5 sm:h-6 sm:w-6" />} 
+        <StatCard
+          title="Alumni Engagement"
+          value={`${dashboardStats.engagementRate}%`}
+          delta="+12% this quarter"
+          icon={<Network className="h-5 w-5 sm:h-6 sm:w-6" />}
           color={brand.coral}
           subtitle="Active participation rate"
         />
-        <StatCard 
-          title="Mentorship Pairs" 
-          value={dashboardStats.mentorshipConnections} 
-          delta="+23 this month" 
-          icon={<Target className="h-5 h-5 sm:h-6 sm:w-6" />} 
+        <StatCard
+          title="Mentorship Pairs"
+          value={dashboardStats.mentorshipConnections}
+          delta="+23 this month"
+          icon={<Target className="h-5 w-5 sm:h-6 sm:w-6" />}
           color={brand.indigo}
           subtitle="Alumni-student connections"
         />
-        <StatCard 
-          title="Fundraising (₹L)" 
-          value={`${dashboardStats.fundraisingAmount}L`} 
-          delta="+0.8L this year" 
-          icon={<DollarSign className="h-5 h-5 sm:h-6 sm:w-6" />} 
+        <StatCard
+          title="Fundraising (₹L)"
+          value={`${dashboardStats.fundraisingAmount}L`}
+          delta="+0.8L this year"
+          icon={<DollarSign className="h-5 w-5 sm:h-6 sm:w-6" />}
           color={brand.indigo}
           subtitle="Total donations raised"
         />
-        <StatCard 
-          title="Job Placements" 
-          value={dashboardStats.jobPlacements} 
-          delta="+15 this semester" 
-          icon={<Award className="h-5 h-5 sm:h-6 sm:w-6" />} 
+        <StatCard
+          title="Job Placements"
+          value={dashboardStats.jobPlacements}
+          delta="+15 this semester"
+          icon={<Award className="h-5 w-5 sm:h-6 sm:w-6" />}
           color={brand.coral}
           subtitle="Alumni referrals"
         />
@@ -190,11 +190,10 @@ export default function AdminDashboard() {
                       </div>
                     </td>
                     <td className="p-3 sm:p-4">
-                      <span className={`inline-flex items-center rounded-full px-2 sm:px-3 py-1 text-xs font-medium ${
-                        item.role === 'Alumni'
-                          ? 'bg-blue-100 text-blue-800'
-                          : 'bg-purple-100 text-purple-800'
-                      }`}>
+                      <span className={`inline-flex items-center rounded-full px-2 sm:px-3 py-1 text-xs font-medium ${item.role === 'Alumni'
+                        ? 'bg-blue-100 text-blue-800'
+                        : 'bg-purple-100 text-purple-800'
+                        }`}>
                         {item.role}
                       </span>
                     </td>
@@ -205,14 +204,14 @@ export default function AdminDashboard() {
                           onClick={() => handleApprove(item.id)}
                           className="inline-flex items-center gap-1 rounded-lg bg-green-100 px-2 sm:px-3 py-1 sm:py-2 text-green-800 hover:bg-green-200 transition text-xs sm:text-sm font-medium"
                         >
-                          <CheckCircle className="h-3 h-3 sm:h-4 sm:w-4" />
+                          <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4" />
                           <span className="hidden sm:inline">Approve</span>
                         </button>
                         <button
                           onClick={() => handleReject(item.id)}
                           className="inline-flex items-center gap-1 rounded-lg bg-red-100 px-2 sm:px-3 py-1 sm:py-2 text-red-800 hover:bg-red-200 transition text-xs sm:text-sm font-medium"
                         >
-                          <XCircle className="h-3 h-3 sm:h-4 sm:w-4" />
+                          <XCircle className="h-3 w-3 sm:h-4 sm:w-4" />
                           <span className="hidden sm:inline">Reject</span>
                         </button>
                       </div>
@@ -250,17 +249,20 @@ export default function AdminDashboard() {
 
           <Card title="Quick Actions">
             <div className="space-y-2">
-              <button className="w-full text-left p-2 hover:bg-slate-50 rounded-lg text-sm flex items-center gap-2 transition-colors">
+              <button className="w-full text-left p-3 rounded-lg text-sm flex items-center gap-2 transition-colors border shadow-sm hover:shadow-md"
+                style={{ borderColor: '#c25f3a', color: '#c25f3a', backgroundColor: 'rgba(194, 95, 58, 0.05)' }}>
                 <MessageSquare className="w-4 h-4" style={{ color: `rgb(${brand.indigo})` }} />
-                Send Alumni Newsletter
+                <span className="font-medium">Send Alumni Newsletter</span>
               </button>
-              <button className="w-full text-left p-2 hover:bg-slate-50 rounded-lg text-sm flex items-center gap-2 transition-colors">
+              <button className="w-full text-left p-3 rounded-lg text-sm flex items-center gap-2 transition-colors border shadow-sm hover:shadow-md"
+                style={{ borderColor: '#c25f3a', color: '#c25f3a', backgroundColor: 'rgba(194, 95, 58, 0.05)' }}>
                 <CalendarDays className="w-4 h-4" style={{ color: `rgb(${brand.coral})` }} />
-                Schedule Alumni Event
+                <span className="font-medium">Schedule Alumni Event</span>
               </button>
-              <button className="w-full text-left p-2 hover:bg-slate-50 rounded-lg text-sm flex items-center gap-2 transition-colors">
+              <button className="w-full text-left p-3 rounded-lg text-sm flex items-center gap-2 transition-colors border shadow-sm hover:shadow-md"
+                style={{ borderColor: '#c25f3a', color: '#c25f3a', backgroundColor: 'rgba(194, 95, 58, 0.05)' }}>
                 <Database className="w-4 h-4" style={{ color: `rgb(${brand.indigo})` }} />
-                Export Alumni Data
+                <span className="font-medium">Export Alumni Data</span>
               </button>
             </div>
           </Card>
@@ -287,7 +289,7 @@ function StatCard({ title, value, delta, icon, color, subtitle }) {
             </p>
           )}
         </div>
-        <div 
+        <div
           className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center flex-shrink-0"
           style={{ backgroundColor: `rgba(${color}, 0.1)` }}
         >
@@ -321,7 +323,7 @@ function Row({ label, value }) {
 function Avatar({ name }) {
   const initials = (name || "?").split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase();
   return (
-    <div 
+    <div
       className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full text-white font-semibold text-xs sm:text-sm flex-shrink-0"
       style={{ backgroundColor: '#9966CC' }}
     >

@@ -2,13 +2,13 @@ import { useState } from "react";
 import StudentNavbar from "../../components/navigation/StudentNavbar";
 import { recentEvents } from "../../data/adminMockData";
 import {
-  Calendar, MapPin, Users, Clock, Filter, Search, CheckCircle, ChevronDown, X, Check
+  Calendar, MapPin, Users, Clock, Filter, Search, CheckCircle, ChevronDown, X, Check, Star
 } from "lucide-react";
 
 const brand = {
   indigo: '153 102 204',   // #9966CC
-  lilac:  '153 102 204',  // #9966CC
-  coral:  '255 145 120',  // #FF9178
+  lilac: '153 102 204',  // #9966CC
+  coral: '194 95 58',  // #c25f3a
 };
 
 // New Event Details Modal Component
@@ -30,12 +30,17 @@ const EventDetailsModal = ({ isOpen, onClose, event }) => {
 
         <div className="space-y-4">
           <p className="text-slate-700 text-sm">{event.description}</p>
-          
-          <div className="space-y-3 text-sm text-slate-600">
+
+          <div className="space-y-3 mb-4">
             <div className="flex items-center gap-3">
-              <Calendar className="w-4 h-4 flex-shrink-0" style={{ color: `rgb(${brand.indigo})` }}/>
-              <span>
-                {new Date(event.date).toLocaleDateString('en-US', { 
+              <div
+                className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+                style={{ backgroundColor: `rgba(${brand.indigo}, 0.1)` }}
+              >
+                <Calendar className="w-4 h-4" style={{ color: `rgb(${brand.indigo})` }} />
+              </div>
+              <span className="text-sm text-slate-600">
+                {new Date(event.date).toLocaleDateString('en-US', {
                   weekday: 'long',
                   month: 'long',
                   day: 'numeric',
@@ -44,12 +49,22 @@ const EventDetailsModal = ({ isOpen, onClose, event }) => {
               </span>
             </div>
             <div className="flex items-center gap-3">
-              <MapPin className="w-4 h-4 flex-shrink-0" style={{ color: `rgb(${brand.coral})` }}/>
-              <span>{event.venue}</span>
+              <div
+                className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+                style={{ backgroundColor: `rgba(${brand.coral}, 0.1)` }}
+              >
+                <MapPin className="w-4 h-4" style={{ color: `rgb(${brand.coral})` }} />
+              </div>
+              <span className="text-sm text-slate-600">{event.venue}</span>
             </div>
             <div className="flex items-center gap-3">
-              <Users className="w-4 h-4 flex-shrink-0" style={{ color: `rgb(${brand.indigo})` }}/>
-              <span>{event.attendees} registered</span>
+              <div
+                className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+                style={{ backgroundColor: `rgba(${brand.indigo}, 0.1)` }}
+              >
+                <Users className="w-4 h-4" style={{ color: `rgb(${brand.indigo})` }} />
+              </div>
+              <span className="text-sm text-slate-600">{event.attendees} registered</span>
             </div>
           </div>
         </div>
@@ -75,34 +90,62 @@ const EventCard = ({ event, isRegistered, onRegister, onViewDetails }) => (
       <h3 className="text-base sm:text-lg font-bold text-slate-900 line-clamp-2 flex-1">
         {event.name}
       </h3>
-      <span className={`self-start px-2 sm:px-3 py-1 text-xs sm:text-sm rounded-full flex-shrink-0 ${
-        event.status === 'Upcoming' 
-          ? 'bg-green-100 text-green-800' 
-          : 'bg-gray-100 text-gray-800'
-      }`}>
+      <span className={`self-start px-2 sm:px-3 py-1 text-xs sm:text-sm rounded-full flex-shrink-0 ${event.status === 'Upcoming'
+        ? 'bg-green-100 text-green-800'
+        : 'bg-gray-100 text-gray-800'
+        }`}>
         {event.status}
       </span>
     </div>
-    
-    <div className="space-y-2 sm:space-y-3 text-xs sm:text-sm text-slate-600 mb-3 sm:mb-4">
-      <div className="flex items-center gap-2">
-        <Calendar className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
-        <span>{new Date(event.date).toLocaleDateString('en-US', { 
-          weekday: window.innerWidth < 640 ? 'short' : 'long',
-          month: window.innerWidth < 640 ? 'short' : 'long',
-          day: 'numeric'
-        })}</span>
+
+    <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
+      <div className="flex items-center gap-2 sm:gap-3 text-slate-600">
+        <div
+          className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+          style={{ backgroundColor: `rgba(${brand.indigo}, 0.1)` }}
+        >
+          <Calendar className="w-3 h-3 sm:w-4 sm:h-4" style={{ color: `rgb(${brand.indigo})` }} />
+        </div>
+        <div className="min-w-0">
+          <p className="text-xs sm:text-sm font-medium text-slate-900 line-clamp-1">
+            {new Date(event.date).toLocaleDateString('en-US', {
+              weekday: 'long',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })}
+          </p>
+          <p className="text-xs text-slate-500">Event Date</p>
+        </div>
       </div>
-      <div className="flex items-center gap-2">
-        <MapPin className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
-        <span className="line-clamp-1">{event.venue}</span>
+
+      <div className="flex items-center gap-2 sm:gap-3 text-slate-600">
+        <div
+          className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+          style={{ backgroundColor: `rgba(${brand.coral}, 0.1)` }}
+        >
+          <MapPin className="w-3 h-3 sm:w-4 sm:h-4" style={{ color: `rgb(${brand.coral})` }} />
+        </div>
+        <div className="min-w-0">
+          <p className="text-xs sm:text-sm font-medium text-slate-900 line-clamp-1">{event.venue}</p>
+          <p className="text-xs text-slate-500">Venue</p>
+        </div>
       </div>
-      <div className="flex items-center gap-2">
-        <Users className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
-        <span>{event.attendees} registered</span>
+
+      <div className="flex items-center gap-2 sm:gap-3 text-slate-600">
+        <div
+          className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+          style={{ backgroundColor: `rgba(${brand.indigo}, 0.1)` }}
+        >
+          <Users className="w-3 h-3 sm:w-4 sm:h-4" style={{ color: `rgb(${brand.indigo})` }} />
+        </div>
+        <div className="min-w-0">
+          <p className="text-xs sm:text-sm font-medium text-slate-900">{event.attendees} People</p>
+          <p className="text-xs text-slate-500">Expected Attendance</p>
+        </div>
       </div>
     </div>
-    
+
     {event.status === 'Upcoming' ? (
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
         {isRegistered ? (
@@ -111,7 +154,7 @@ const EventCard = ({ event, isRegistered, onRegister, onViewDetails }) => (
             Registered
           </div>
         ) : (
-          <button 
+          <button
             onClick={() => onRegister(event.id)}
             className="flex-1 sm:flex-initial px-3 sm:px-4 py-2 rounded-lg font-semibold text-white transition-all text-xs sm:text-sm"
             style={{ backgroundColor: `rgb(${brand.indigo})` }}
@@ -119,17 +162,19 @@ const EventCard = ({ event, isRegistered, onRegister, onViewDetails }) => (
             Register Now
           </button>
         )}
-        <button 
+        <button
           onClick={() => onViewDetails(event)}
-          className="flex-1 sm:flex-initial px-3 sm:px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-xs sm:text-sm font-medium transition-colors"
+          className="flex-1 sm:flex-initial px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors text-white"
+          style={{ backgroundColor: '#c25f3a' }}
         >
           View Details
         </button>
       </div>
     ) : (
-      <button 
+      <button
         onClick={() => onViewDetails(event)}
-        className="w-full py-2 rounded-lg font-semibold bg-slate-100 text-slate-700 transition-all text-xs sm:text-sm"
+        className="w-full py-2 rounded-lg font-semibold text-white transition-all text-xs sm:text-sm"
+        style={{ backgroundColor: '#c25f3a' }}
       >
         View Event Summary
       </button>
@@ -170,12 +215,11 @@ const MobileFiltersModal = ({ isOpen, onClose, statusFilter, setStatusFilter }) 
                 <button
                   key={option.value}
                   onClick={() => setStatusFilter(option.value)}
-                  className={`p-3 rounded-lg text-sm font-medium transition-colors text-left ${
-                    statusFilter === option.value
-                      ? 'text-white'
-                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                  }`}
-                  style={statusFilter === option.value 
+                  className={`p-3 rounded-lg text-sm font-medium transition-colors text-left ${statusFilter === option.value
+                    ? 'text-white'
+                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    }`}
+                  style={statusFilter === option.value
                     ? { backgroundColor: `rgb(${brand.indigo})` }
                     : {}
                   }
@@ -204,27 +248,27 @@ export default function StudentEvents() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [registeredEvents, setRegisteredEvents] = useState([1, 3]); // Mock registered event IDs
   const [showMobileFilters, setShowMobileFilters] = useState(false);
-  
+
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedEventForDetails, setSelectedEventForDetails] = useState(null);
-  
+
   const handleRegister = (eventId) => {
     setRegisteredEvents(prev => [...prev, eventId]);
   };
-  
+
   const handleViewDetails = (event) => {
     setSelectedEventForDetails(event);
     setShowDetailsModal(true);
   };
-  
+
   const handleStatCardClick = (filterValue) => {
     setStatusFilter(filterValue);
   };
-  
+
   const filteredEvents = recentEvents.filter(event => {
     const matchesSearch = event.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         event.venue.toLowerCase().includes(searchTerm.toLowerCase());
-    
+      event.venue.toLowerCase().includes(searchTerm.toLowerCase());
+
     let matchesStatus = false;
     if (statusFilter === "all") {
       matchesStatus = true;
@@ -233,7 +277,7 @@ export default function StudentEvents() {
     } else {
       matchesStatus = event.status === statusFilter;
     }
-    
+
     return matchesSearch && matchesStatus;
   });
 
@@ -245,7 +289,7 @@ export default function StudentEvents() {
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#F9F8FE' }}>
       <StudentNavbar />
-      
+
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Header */}
         <div className="mb-6 sm:mb-8">
@@ -254,31 +298,63 @@ export default function StudentEvents() {
         </div>
 
         {/* Registration Stats */}
-        <div className="grid grid-cols-3 gap-3 sm:gap-6 mb-6 sm:mb-8">
-          <button 
-            className="bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-xl p-3 sm:p-4 text-center transition-transform hover:scale-105"
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 mb-6 sm:mb-8">
+          <button
+            className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-lg transition-all text-left group"
             onClick={() => handleStatCardClick("registered")}
           >
-            <div className="text-lg sm:text-2xl font-bold text-slate-900">{registeredEvents.length}</div>
-            <div className="text-xs sm:text-sm text-slate-600">Events Registered</div>
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs sm:text-sm font-medium text-slate-600">Events Registered</p>
+                <p className="text-lg sm:text-2xl font-bold text-slate-900 mt-1">{registeredEvents.length}</p>
+              </div>
+              <div
+                className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform"
+                style={{ backgroundColor: `rgba(${brand.indigo}, 0.1)` }}
+              >
+                <Star className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: `rgb(${brand.indigo})` }} />
+              </div>
+            </div>
           </button>
-          <button 
-            className="bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-xl p-3 sm:p-4 text-center transition-transform hover:scale-105"
+
+          <button
+            className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-lg transition-all text-left group"
             onClick={() => handleStatCardClick("Upcoming")}
           >
-            <div className="text-lg sm:text-2xl font-bold text-slate-900">
-              {recentEvents.filter(e => e.status === 'Upcoming').length}
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs sm:text-sm font-medium text-slate-600">Upcoming Events</p>
+                <p className="text-lg sm:text-2xl font-bold text-slate-900 mt-1">
+                  {recentEvents.filter(e => e.status === 'Upcoming').length}
+                </p>
+              </div>
+              <div
+                className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform"
+                style={{ backgroundColor: `rgba(${brand.coral}, 0.1)` }}
+              >
+                <Clock className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: `rgb(${brand.coral})` }} />
+              </div>
             </div>
-            <div className="text-xs sm:text-sm text-slate-600">Upcoming Events</div>
           </button>
-          <button 
-            className="bg-white/60 backdrop-blur-lg border border-slate-200/50 rounded-xl p-3 sm:p-4 text-center transition-transform hover:scale-105"
+
+          <button
+            className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 hover:shadow-lg transition-all text-left group"
             onClick={() => handleStatCardClick("Completed")}
           >
-            <div className="text-lg sm:text-2xl font-bold text-slate-900">
-              {recentEvents.filter(e => e.status === 'Completed').length}
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs sm:text-sm font-medium text-slate-600">Past Events</p>
+                <p className="text-lg sm:text-2xl font-bold text-slate-900 mt-1">
+                  {recentEvents.filter(e => e.status === 'Completed').length}
+                </p>
+              </div>
+              <div
+                className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform"
+                style={{ backgroundColor: `rgba(${brand.indigo}, 0.1)` }}
+              >
+                <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: `rgb(${brand.indigo})` }} />
+              </div>
             </div>
-            <div className="text-xs sm:text-sm text-slate-600">Past Events</div>
           </button>
         </div>
 
@@ -321,7 +397,7 @@ export default function StudentEvents() {
                 <span>Filter Events</span>
                 <ChevronDown className="w-4 h-4" />
               </button>
-              
+
               {statusFilter !== "all" && (
                 <button
                   onClick={clearFilters}
@@ -369,9 +445,9 @@ export default function StudentEvents() {
         {/* Events Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           {filteredEvents.map(event => (
-            <EventCard 
-              key={event.id} 
-              event={event} 
+            <EventCard
+              key={event.id}
+              event={event}
               isRegistered={registeredEvents.includes(event.id)}
               onRegister={handleRegister}
               onViewDetails={handleViewDetails}

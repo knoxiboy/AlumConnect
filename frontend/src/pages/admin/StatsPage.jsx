@@ -24,11 +24,11 @@ import {
 
 const brand = {
   indigo: '153 102 204',   // #9966CC
-  lilac:  '153 102 204',  // #9966CC
-  coral:  '255 145 120',  // #FF9178
+  lilac: '153 102 204',  // #9966CC
+  coral: '194 95 58',  // #c25f3a
 };
 
-const COLORS = ['#9966CC', '#9966CC', '#FF9178', '#66B2FF', '#FFCC66', '#99FF99', '#FF99CC', '#99CCFF'];
+const COLORS = ['#9966CC', '#9966CC', '#c25f3a', '#66B2FF', '#FFCC66', '#99FF99', '#FF99CC', '#99CCFF'];
 
 export default function StatsPage() {
   const [activeTab, setActiveTab] = useState('overview');
@@ -48,31 +48,31 @@ export default function StatsPage() {
 
       {/* Stats Overview Cards */}
       <div className="grid gap-4 sm:gap-6 mb-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-        <StatCard 
-          title="Total Alumni" 
-          value="12,847" 
-          delta="+8.2%" 
+        <StatCard
+          title="Total Alumni"
+          value="12,847"
+          delta="+8.2%"
           color={brand.indigo}
           subtitle="Registered alumni"
         />
-        <StatCard 
-          title="Placement Rate" 
-          value="87.4%" 
-          delta="+2.1%" 
+        <StatCard
+          title="Placement Rate"
+          value="87.4%"
+          delta="+2.1%"
           color={brand.coral}
           subtitle="Current year average"
         />
-        <StatCard 
-          title="Avg Package" 
-          value="₹24.5L" 
-          delta="+12.3%" 
+        <StatCard
+          title="Avg Package"
+          value="₹24.5L"
+          delta="+12.3%"
           color={brand.indigo}
           subtitle="Annual average"
         />
-        <StatCard 
-          title="Top Companies" 
-          value="245" 
-          delta="+15" 
+        <StatCard
+          title="Top Companies"
+          value="245"
+          delta="+15"
           color={brand.indigo}
           subtitle="Partner companies"
         />
@@ -81,51 +81,46 @@ export default function StatsPage() {
       {/* Tabs */}
       <div className="flex border-b border-slate-200 mb-8">
         <button
-          className={`px-4 py-2 font-medium text-sm ${
-            activeTab === 'overview'
+          className={`px-4 py-2 font-medium text-sm ${activeTab === 'overview'
               ? 'text-indigo-600 border-b-2 border-indigo-600'
               : 'text-slate-500 hover:text-slate-700'
-          }`}
+            }`}
           onClick={() => setActiveTab('overview')}
         >
           Overview
         </button>
         <button
-          className={`px-4 py-2 font-medium text-sm ${
-            activeTab === 'placements'
+          className={`px-4 py-2 font-medium text-sm ${activeTab === 'placements'
               ? 'text-indigo-600 border-b-2 border-indigo-600'
               : 'text-slate-500 hover:text-slate-700'
-          }`}
+            }`}
           onClick={() => setActiveTab('placements')}
         >
           Placement Stats
         </button>
         <button
-          className={`px-4 py-2 font-medium text-sm ${
-            activeTab === 'enrollment'
+          className={`px-4 py-2 font-medium text-sm ${activeTab === 'enrollment'
               ? 'text-indigo-600 border-b-2 border-indigo-600'
               : 'text-slate-500 hover:text-slate-700'
-          }`}
+            }`}
           onClick={() => setActiveTab('enrollment')}
         >
           Enrollment
         </button>
         <button
-          className={`px-4 py-2 font-medium text-sm ${
-            activeTab === 'placements-percentage'
+          className={`px-4 py-2 font-medium text-sm ${activeTab === 'placements-percentage'
               ? 'text-indigo-600 border-b-2 border-indigo-600'
               : 'text-slate-500 hover:text-slate-700'
-          }`}
+            }`}
           onClick={() => setActiveTab('placements-percentage')}
         >
           Placement %
         </button>
         <button
-          className={`px-4 py-2 font-medium text-sm ${
-            activeTab === 'companies'
+          className={`px-4 py-2 font-medium text-sm ${activeTab === 'companies'
               ? 'text-indigo-600 border-b-2 border-indigo-600'
               : 'text-slate-500 hover:text-slate-700'
-          }`}
+            }`}
           onClick={() => setActiveTab('companies')}
         >
           Company Intake
@@ -144,21 +139,21 @@ export default function StatsPage() {
                   <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                   <XAxis dataKey="year" stroke="#64748b" />
                   <YAxis stroke="#64748b" />
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: 'white', 
-                      border: '1px solid #cbd5e1', 
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: 'white',
+                      border: '1px solid #cbd5e1',
                       borderRadius: '0.5rem',
                       boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-                    }} 
+                    }}
                   />
                   <Legend />
-                  <Line 
-                    type="monotone" 
-                    dataKey="highestPackage" 
-                    stroke={`rgb(${brand.indigo})`} 
+                  <Line
+                    type="monotone"
+                    dataKey="highestPackage"
+                    stroke={`rgb(${brand.indigo})`}
                     strokeWidth={2}
-                    activeDot={{ r: 8 }} 
+                    activeDot={{ r: 8 }}
                     name="Highest Package (LPA)"
                   />
                 </LineChart>
@@ -175,18 +170,18 @@ export default function StatsPage() {
                   <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                   <XAxis dataKey="batch" stroke="#64748b" />
                   <YAxis stroke="#64748b" />
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: 'white', 
-                      border: '1px solid #cbd5e1', 
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: 'white',
+                      border: '1px solid #cbd5e1',
                       borderRadius: '0.5rem',
                       boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-                    }} 
+                    }}
                   />
                   <Legend />
-                  <Bar 
-                    dataKey="students" 
-                    fill={`rgb(${brand.coral})`} 
+                  <Bar
+                    dataKey="students"
+                    fill={`rgb(${brand.coral})`}
                     name="Number of Students"
                   />
                 </BarChart>
@@ -203,18 +198,18 @@ export default function StatsPage() {
                   <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                   <XAxis dataKey="batch" stroke="#64748b" />
                   <YAxis stroke="#64748b" unit="%" />
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: 'white', 
-                      border: '1px solid #cbd5e1', 
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: 'white',
+                      border: '1px solid #cbd5e1',
                       borderRadius: '0.5rem',
                       boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-                    }} 
+                    }}
                   />
                   <Legend />
-                  <Bar 
-                    dataKey="percentage" 
-                    fill={`rgb(${brand.indigo})`} 
+                  <Bar
+                    dataKey="percentage"
+                    fill={`rgb(${brand.indigo})`}
                     name="Placement Percentage"
                   />
                 </BarChart>
@@ -243,13 +238,13 @@ export default function StatsPage() {
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: 'white', 
-                      border: '1px solid #cbd5e1', 
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: 'white',
+                      border: '1px solid #cbd5e1',
                       borderRadius: '0.5rem',
                       boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-                    }} 
+                    }}
                   />
                   <Legend />
                 </PieChart>
@@ -268,34 +263,34 @@ export default function StatsPage() {
                 <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                 <XAxis dataKey="year" stroke="#64748b" />
                 <YAxis stroke="#64748b" />
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: 'white', 
-                    border: '1px solid #cbd5e1', 
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: 'white',
+                    border: '1px solid #cbd5e1',
                     borderRadius: '0.5rem',
                     boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-                  }} 
+                  }}
                 />
                 <Legend />
-                <Line 
-                  type="monotone" 
-                  dataKey="highestPackage" 
-                  stroke={`rgb(${brand.indigo})`} 
+                <Line
+                  type="monotone"
+                  dataKey="highestPackage"
+                  stroke={`rgb(${brand.indigo})`}
                   strokeWidth={2}
-                  activeDot={{ r: 8 }} 
+                  activeDot={{ r: 8 }}
                   name="Highest Package"
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="medianPackage" 
-                  stroke={`rgb(${brand.indigo})`} 
+                <Line
+                  type="monotone"
+                  dataKey="medianPackage"
+                  stroke={`rgb(${brand.indigo})`}
                   strokeWidth={2}
                   name="Median Package"
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="avgPackage" 
-                  stroke={`rgb(${brand.coral})`} 
+                <Line
+                  type="monotone"
+                  dataKey="avgPackage"
+                  stroke={`rgb(${brand.coral})`}
                   strokeWidth={2}
                   name="Average Package"
                 />
@@ -314,18 +309,18 @@ export default function StatsPage() {
                 <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                 <XAxis dataKey="batch" stroke="#64748b" />
                 <YAxis stroke="#64748b" />
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: 'white', 
-                    border: '1px solid #cbd5e1', 
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: 'white',
+                    border: '1px solid #cbd5e1',
                     borderRadius: '0.5rem',
                     boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-                  }} 
+                  }}
                 />
                 <Legend />
-                <Bar 
-                  dataKey="students" 
-                  fill={`rgb(${brand.coral})`} 
+                <Bar
+                  dataKey="students"
+                  fill={`rgb(${brand.coral})`}
                   name="Number of Students"
                 />
               </BarChart>
@@ -343,18 +338,18 @@ export default function StatsPage() {
                 <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                 <XAxis dataKey="batch" stroke="#64748b" />
                 <YAxis stroke="#64748b" unit="%" />
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: 'white', 
-                    border: '1px solid #cbd5e1', 
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: 'white',
+                    border: '1px solid #cbd5e1',
                     borderRadius: '0.5rem',
                     boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-                  }} 
+                  }}
                 />
                 <Legend />
-                <Bar 
-                  dataKey="percentage" 
-                  fill={`rgb(${brand.indigo})`} 
+                <Bar
+                  dataKey="percentage"
+                  fill={`rgb(${brand.indigo})`}
                   name="Placement Percentage"
                 />
               </BarChart>
@@ -384,13 +379,13 @@ export default function StatsPage() {
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: 'white', 
-                    border: '1px solid #cbd5e1', 
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: 'white',
+                    border: '1px solid #cbd5e1',
                     borderRadius: '0.5rem',
                     boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-                  }} 
+                  }}
                 />
                 <Legend layout="vertical" verticalAlign="middle" align="right" />
               </PieChart>

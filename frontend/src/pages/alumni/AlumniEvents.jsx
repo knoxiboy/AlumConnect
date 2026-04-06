@@ -11,7 +11,7 @@ import {
 const brand = {
   indigo: '153 102 204',   // #9966CC
   lilac: '153 102 204',  // #9966CC
-  coral: '255 145 120',  // #FF9178
+  coral: '194 95 58',  // #c25f3a
 };
 
 const EventCard = ({ event, isRegistered, onRegister, onUnregister, onSponsor }) => (
@@ -28,8 +28,8 @@ const EventCard = ({ event, isRegistered, onRegister, onUnregister, onSponsor })
         </h3>
         <div className="flex gap-2">
           <span className={`self-start px-2 sm:px-3 py-1 text-xs sm:text-sm font-medium rounded-full flex-shrink-0 ${event.status === 'Upcoming'
-              ? 'text-white shadow-sm'
-              : 'bg-slate-100 text-slate-700 border border-slate-200'
+            ? 'text-white shadow-sm'
+            : 'bg-slate-100 text-slate-700 border border-slate-200'
             }`}
             style={event.status === 'Upcoming'
               ? { backgroundColor: `rgb(${brand.indigo})` }
@@ -53,7 +53,7 @@ const EventCard = ({ event, isRegistered, onRegister, onUnregister, onSponsor })
       <div className="flex items-center gap-2 sm:gap-3 text-slate-600">
         <div
           className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-          style={{ backgroundColor: '#9966CC' }}
+          style={{ backgroundColor: `rgba(${brand.indigo}, 0.1)` }}
         >
           <Calendar className="w-3 h-3 sm:w-4 sm:h-4" style={{ color: `rgb(${brand.indigo})` }} />
         </div>
@@ -126,7 +126,7 @@ const EventCard = ({ event, isRegistered, onRegister, onUnregister, onSponsor })
               <button
                 onClick={() => onSponsor(event)}
                 className="flex-1 py-2.5 sm:py-3 rounded-lg font-semibold text-white transition-all hover:shadow-lg transform hover:scale-105 text-sm sm:text-base"
-                style={{ backgroundColor: `rgb(${brand.indigo})` }}
+                style={{ backgroundColor: '#c25f3a' }}
               >
                 Sponsor this Event
               </button>
@@ -138,7 +138,8 @@ const EventCard = ({ event, isRegistered, onRegister, onUnregister, onSponsor })
           </button>
         </>
       ) : (
-        <button className="w-full py-2.5 sm:py-3 rounded-lg font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all border border-slate-200 text-sm sm:text-base">
+        <button className="w-full py-2.5 sm:py-3 rounded-lg font-semibold text-white transition-all border border-slate-200 text-sm sm:text-base"
+          style={{ backgroundColor: '#c25f3a' }}>
           View Event Summary
         </button>
       )}
@@ -180,8 +181,8 @@ const MobileFiltersModal = ({ isOpen, onClose, statusFilter, setStatusFilter }) 
                   key={option.value}
                   onClick={() => setStatusFilter(option.value)}
                   className={`p-3 rounded-lg text-sm font-medium transition-colors text-left ${statusFilter === option.value
-                      ? 'text-white'
-                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    ? 'text-white'
+                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                     }`}
                   style={statusFilter === option.value
                     ? { backgroundColor: `rgb(${brand.indigo})` }
@@ -511,7 +512,7 @@ export default function AlumniEvents() {
               </div>
               <div
                 className="w-6 h-6 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center mx-auto sm:mx-0 mt-1 sm:mt-0"
-                style={{ backgroundColor: '#9966CC' }}
+                style={{ backgroundColor: `rgba(${brand.indigo}, 0.1)` }}
               >
                 <Calendar className="w-3 h-3 sm:w-6 sm:h-6" style={{ color: `rgb(${brand.indigo})` }} />
               </div>
@@ -528,7 +529,7 @@ export default function AlumniEvents() {
                 className="w-6 h-6 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center mx-auto sm:mx-0 mt-1 sm:mt-0"
                 style={{ backgroundColor: `rgba(${brand.coral}, 0.1)` }}
               >
-                <Star className="w-3 h-3 sm:w-6 sm:h-6" style={{ color: `rgb(${brand.coral})` }} />
+                <Clock className="w-3 h-3 sm:w-6 sm:h-6" style={{ color: `rgb(${brand.coral})` }} />
               </div>
             </div>
           </div>
@@ -543,7 +544,7 @@ export default function AlumniEvents() {
                 className="w-6 h-6 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center mx-auto sm:mx-0 mt-1 sm:mt-0"
                 style={{ backgroundColor: `rgba(${brand.indigo}, 0.1)` }}
               >
-                <CheckCircle className="w-3 h-3 sm:w-6 sm:h-6" style={{ color: `rgb(${brand.indigo})` }} />
+                <Star className="w-3 h-3 sm:w-6 sm:h-6" style={{ color: `rgb(${brand.indigo})` }} />
               </div>
             </div>
           </div>
@@ -556,90 +557,68 @@ export default function AlumniEvents() {
               </div>
               <div
                 className="w-6 h-6 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center mx-auto sm:mx-0 mt-1 sm:mt-0"
-                style={{ backgroundColor: '#9966CC' }}
+                style={{ backgroundColor: `rgba(${brand.indigo}, 0.1)` }}
               >
-                <Clock className="w-3 h-3 sm:w-6 sm:h-6" style={{ color: `rgb(${brand.indigo})` }} />
+                <CheckCircle className="w-3 h-3 sm:w-6 sm:h-6" style={{ color: `rgb(${brand.indigo})` }} />
               </div>
             </div>
           </div>
         </div>
 
         {/* Search and Filters */}
+        {/* Search and Filters - Updated to match Career Center */}
         <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 sm:p-6 mb-6 sm:mb-8">
-          <div className="grid grid-cols-1 gap-4">
-            {/* Search Bar */}
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-slate-400" />
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4">
+            <div className="relative flex-1">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Search className="h-4 w-4 text-slate-400" />
+              </div>
               <input
                 type="text"
-                placeholder="Search events by name or venue..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full bg-white border border-slate-200 rounded-lg py-2.5 sm:py-3 pl-10 sm:pl-12 pr-4 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-300 hover:border-slate-300 transition-colors text-sm sm:text-base"
+                placeholder="Search events by name or venue..."
+                className="block w-full pl-10 pr-3 py-2.5 sm:py-3 border border-slate-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:border-slate-300 text-sm sm:text-base"
               />
             </div>
-
-            {/* Desktop Filter */}
-            <div className="hidden sm:block">
-              <div className="relative">
-                <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                <select
-                  value={statusFilter}
-                  onChange={(e) => setStatusFilter(e.target.value)}
-                  className="w-full appearance-none bg-white border border-slate-200 rounded-lg py-3 pl-12 pr-8 text-slate-900 focus:outline-none focus:ring-2 focus:border-slate-300 hover:border-slate-300 transition-colors"
-                >
-                  <option value="all">All Events</option>
-                  <option value="Upcoming">Upcoming Events</option>
-                  <option value="Completed">Past Events</option>
-                  <option value="registered">My Registered Events</option>
-                </select>
-              </div>
-            </div>
-
-            {/* Mobile Filter Button */}
-            <div className="flex items-center justify-between sm:hidden">
-              <button
-                onClick={() => setShowMobileFilters(true)}
-                className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-slate-700 hover:bg-slate-50 transition-all text-sm"
-              >
-                <Filter className="w-4 h-4" />
-                <span>Filter Events</span>
-                <ChevronDown className="w-4 h-4" />
-              </button>
-
-              {(statusFilter !== "all") && (
-                <button
-                  onClick={clearFilters}
-                  className="text-sm text-slate-500 hover:text-slate-700 underline"
-                >
-                  Clear filters
-                </button>
-              )}
-            </div>
-
-            {/* Active Filters */}
-            {(searchTerm || statusFilter !== "all") && (
-              <div className="flex flex-wrap items-center gap-2 pt-3 sm:pt-4 border-t border-slate-200">
-                <span className="text-sm text-slate-600">Active filters:</span>
-                {searchTerm && (
-                  <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">
-                    Search: "{searchTerm}"
-                  </span>
-                )}
-                {statusFilter !== "all" && (
-                  <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">
-                    Status: {statusFilter === "registered" ? "My Events" : statusFilter}
-                  </span>
-                )}
-                <button
-                  onClick={clearFilters}
-                  className="text-sm text-slate-500 hover:text-slate-700 underline ml-auto"
-                >
-                  Clear all filters
-                </button>
-              </div>
-            )}
           </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-sm font-medium text-slate-700">Filter by:</span>
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className="px-3 py-1.5 text-sm rounded-lg border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:border-slate-300"
+            >
+              <option value="all">All Events</option>
+              <option value="Upcoming">Upcoming Events</option>
+              <option value="Completed">Past Events</option>
+              <option value="registered">My Registered Events</option>
+            </select>
+          </div>
+
+          {/* Active Filters */}
+          {(searchTerm || statusFilter !== "all") && (
+            <div className="flex flex-wrap items-center gap-2 pt-3 sm:pt-4 border-t border-slate-200 mt-4">
+              <span className="text-sm text-slate-600">Active filters:</span>
+              {searchTerm && (
+                <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">
+                  Search: "{searchTerm}"
+                </span>
+              )}
+              {statusFilter !== "all" && (
+                <span className="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm">
+                  Status: {statusFilter === "registered" ? "My Events" : statusFilter}
+                </span>
+              )}
+              <button
+                onClick={clearFilters}
+                className="text-sm text-slate-500 hover:text-slate-700 underline ml-auto"
+              >
+                Clear all filters
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Results Summary */}

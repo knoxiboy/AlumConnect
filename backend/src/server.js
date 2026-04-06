@@ -15,6 +15,10 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Rate limiter middleware
+const rateLimiter = require('./middleware/rateLimiter');
+app.use(rateLimiter({ windowMs: 15 * 60 * 1000, max: 100 })); // 100 requests per 15 minutes
+
 // Enable CORS
 app.use(
   cors({

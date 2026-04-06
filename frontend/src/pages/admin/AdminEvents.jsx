@@ -8,7 +8,7 @@ import {
 const brand = {
   indigo: '153 102 204',   // #9966CC
   lilac: '153 102 204',  // #9966CC
-  coral: '255 145 120',  // #FF9178
+  coral: '194 95 58',  // #c25f3a
 };
 
 // Modal shell - Mobile Responsive
@@ -357,8 +357,8 @@ export default function AdminEvents() {
                   <td className="p-3 sm:p-4 hidden lg:table-cell text-slate-600 text-sm">{event.venue}</td>
                   <td className="p-3 sm:p-4">
                     <span className={`px-2 sm:px-3 py-1 text-xs rounded-full font-medium ${event.status === 'Upcoming'
-                        ? 'text-white'
-                        : 'bg-slate-100 text-slate-700 border border-slate-200'
+                      ? 'text-white'
+                      : 'bg-slate-100 text-slate-700 border border-slate-200'
                       }`}
                       style={event.status === 'Upcoming'
                         ? { backgroundColor: `rgb(${brand.indigo})` }

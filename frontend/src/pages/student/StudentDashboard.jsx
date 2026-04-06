@@ -6,13 +6,13 @@ import { recentEvents } from "../../data/adminMockData";
 import { jobPostings } from "../../data/jobs";
 import {
   Users, Calendar, Briefcase, TrendingUp,
-  Bell, MessageCircle, BookOpen, Eye, Target, Award, Check, X
+  Bell, MessageCircle, BookOpen, Eye, Target, Award, Check, X, MapPin
 } from "lucide-react";
 
 const brand = {
   indigo: '153 102 204',   // #9966CC
   lilac: '153 102 204',  // #9966CC
-  coral: '255 145 120',  // #FF9178
+  coral: '194 95 58',  // #c25f3a
 };
 
 const StatCard = ({ icon, title, value, trend, color, onClick }) => (
@@ -442,12 +442,19 @@ export default function StudentDashboard() {
                       <div key={event.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-2 sm:p-3 hover:bg-slate-50 rounded-lg transition-colors gap-2">
                         <div className="min-w-0 flex-1">
                           <p className="font-medium text-slate-900 text-sm sm:text-base line-clamp-1">{event.name}</p>
-                          <p className="text-xs sm:text-sm text-slate-600">
-                            {new Date(event.date).toLocaleDateString('en-US', {
-                              month: 'short',
-                              day: 'numeric'
-                            })} • {event.venue}
-                          </p>
+                          <div className="flex items-center gap-1.5 text-xs sm:text-sm text-slate-600">
+                            <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                            <span>
+                              {new Date(event.date).toLocaleDateString('en-US', {
+                                month: 'short',
+                                day: 'numeric'
+                              })}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-1.5 text-xs sm:text-sm text-slate-600 mt-1">
+                            <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                            <span>{event.venue}</span>
+                          </div>
                         </div>
                         <button
                           onClick={() => handleEventRegister(event)}
@@ -522,24 +529,27 @@ export default function StudentDashboard() {
               <div className="space-y-2 sm:space-y-3">
                 <button
                   onClick={handleFindMentors}
-                  className="w-full flex items-center gap-2 sm:gap-3 p-2 sm:p-3 text-left hover:bg-slate-50 rounded-lg transition-colors"
+                  className="w-full flex items-center gap-2 sm:gap-3 p-2 sm:p-3 text-left rounded-lg transition-colors border shadow-sm hover:shadow-md"
+                  style={{ borderColor: '#c25f3a', color: '#c25f3a', backgroundColor: 'rgba(194, 95, 58, 0.05)' }}
                 >
                   <Users className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: `rgb(${brand.indigo})` }} />
-                  <span className="text-slate-900 text-sm sm:text-base">Find Alumni Mentors</span>
+                  <span className="text-sm sm:text-base font-medium">Find Alumni Mentors</span>
                 </button>
                 <button
                   onClick={handleBrowseInternships}
-                  className="w-full flex items-center gap-2 sm:gap-3 p-2 sm:p-3 text-left hover:bg-slate-50 rounded-lg transition-colors"
+                  className="w-full flex items-center gap-2 sm:gap-3 p-2 sm:p-3 text-left rounded-lg transition-colors border shadow-sm hover:shadow-md"
+                  style={{ borderColor: '#c25f3a', color: '#c25f3a', backgroundColor: 'rgba(194, 95, 58, 0.05)' }}
                 >
                   <Briefcase className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: `rgb(${brand.coral})` }} />
-                  <span className="text-slate-900 text-sm sm:text-base">Browse Internships</span>
+                  <span className="text-sm sm:text-base font-medium">Browse Internships</span>
                 </button>
                 <button
                   onClick={handleUpdateProjects}
-                  className="w-full flex items-center gap-2 sm:gap-3 p-2 sm:p-3 text-left hover:bg-slate-50 rounded-lg transition-colors"
+                  className="w-full flex items-center gap-2 sm:gap-3 p-2 sm:p-3 text-left rounded-lg transition-colors border shadow-sm hover:shadow-md"
+                  style={{ borderColor: '#c25f3a', color: '#c25f3a', backgroundColor: 'rgba(194, 95, 58, 0.05)' }}
                 >
                   <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: `rgb(${brand.indigo})` }} />
-                  <span className="text-slate-900 text-sm sm:text-base">Update Projects</span>
+                  <span className="text-sm sm:text-base font-medium">Update Projects</span>
                 </button>
               </div>
             </div>
@@ -554,15 +564,18 @@ export default function StudentDashboard() {
                 {internshipJobs.map(job => (
                   <div key={job.id} className="p-2 sm:p-3 hover:bg-slate-50 rounded-lg transition-colors">
                     <p className="font-medium text-slate-900 text-xs sm:text-sm line-clamp-2">{job.title}</p>
-                    <p className="text-xs text-slate-600 line-clamp-1">{job.company}</p>
+                    <div className="flex items-center gap-1.5 mt-1 text-xs text-slate-600 line-clamp-1">
+                      <Briefcase className="w-3.5 h-3.5 text-slate-400" />
+                      {job.company}
+                    </div>
                     <p className="text-xs text-slate-500 mt-1">{job.salary}</p>
                     <button
                       onClick={() => handleJobApply(job)}
                       disabled={appliedJobs[job.id]}
-                      className={`text-xs px-2 py-1 mt-2 rounded-full text-white transition-colors ${appliedJobs[job.id] ? 'bg-green-500 cursor-not-allowed' : 'bg-coral-600 hover:bg-coral-700'
+                      className={`text-xs px-3 py-1 mt-2 rounded-full text-white transition-colors ${appliedJobs[job.id] ? 'bg-green-500 cursor-not-allowed' : 'hover:opacity-90'
                         }`}
                       style={{
-                        backgroundColor: appliedJobs[job.id] ? '#22C55E' : `rgb(${brand.coral})`,
+                        backgroundColor: appliedJobs[job.id] ? '#22C55E' : `rgb(${brand.indigo})`,
                         backgroundImage: 'none'
                       }}
                     >
@@ -579,27 +592,31 @@ export default function StudentDashboard() {
             </div>
           </div>
         </div>
-      </main>
+      </main >
 
       {/* The new modals are rendered here */}
-      {isModalOpen && modalContent && (
-        <FormModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          title={modalContent.title}
-          item={modalContent.item}
-          onSubmit={handleSubmitForm}
-        />
-      )}
-      {isActionModalOpen && (
-        <MessageModal
-          isOpen={isActionModalOpen}
-          onClose={() => setIsActionModalOpen(false)}
-          title={actionModalContent.title}
-          message={actionModalContent.message}
-        />
-      )}
-    </div>
+      {
+        isModalOpen && modalContent && (
+          <FormModal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            title={modalContent.title}
+            item={modalContent.item}
+            onSubmit={handleSubmitForm}
+          />
+        )
+      }
+      {
+        isActionModalOpen && (
+          <MessageModal
+            isOpen={isActionModalOpen}
+            onClose={() => setIsActionModalOpen(false)}
+            title={actionModalContent.title}
+            message={actionModalContent.message}
+          />
+        )
+      }
+    </div >
   );
 }
 

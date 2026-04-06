@@ -11,7 +11,7 @@ import {
   GraduationCap, Users, ArrowRight, Briefcase,
   Sparkles, CalendarDays, Building2, ShieldCheck,
   Twitter, Linkedin, Instagram, Database,
-  TrendingUp, Globe, Award
+  TrendingUp, Globe, Award, Mail, PlayCircle, LogIn, UserPlus
 } from "lucide-react";
 
 // --- Main Landing Page Component ---
@@ -108,22 +108,26 @@ export default function Landing() {
               <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
                 <Link
                   to="/college-registration"
-                  className="px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl font-semibold text-white shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-center"
+                  className="px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl font-semibold text-white shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-center flex items-center justify-center gap-2"
                   style={{ backgroundColor: '#9966CC' }}
                 >
-                  Get Started
+                  <span>Get Started</span>
+                  <ArrowRight className="w-5 h-5" />
                 </Link>
                 <Link
                   to="/contacts"
-                  className="px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl font-semibold border border-slate-300 bg-white/80 backdrop-blur-sm text-slate-900 hover:border-slate-400 transition text-center"
+                  className="px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl font-semibold text-white shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-center flex items-center justify-center gap-2"
+                  style={{ backgroundColor: '#c25f3a' }}
                 >
-                  Contact Us
+                  <span>Contact Us</span>
+                  <Mail className="w-5 h-5" />
                 </Link>
                 <Link
                   to="/explore"
-                  className="px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl font-semibold border border-slate-300 bg-white/80 backdrop-blur-sm text-slate-900 hover:border-slate-400 transition text-center"
+                  className="px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl font-semibold border border-slate-300 bg-white/80 backdrop-blur-sm text-slate-900 hover:border-slate-400 transition text-center flex items-center justify-center gap-2"
                 >
-                  View Demo
+                  <span>View Demo</span>
+                  <PlayCircle className="w-5 h-5 text-slate-600" />
                 </Link>
               </div>
             </div>

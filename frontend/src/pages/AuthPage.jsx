@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   User, Mail, Key, GraduationCap, Briefcase, Linkedin, Hash, ArrowLeft,
   Users, Zap, BookOpen, Quote, Sparkles, Target, CalendarDays, Database, ShieldCheck,
-  Building2
+  Building2, LogIn, UserPlus
 } from "lucide-react";
 import { login } from "../utils/auth";
 import { brand } from "../config/brand";
@@ -313,7 +313,8 @@ const AuthPage = () => {
             <div className="flex items-center justify-between mb-4 sm:mb-6">
               <button
                 onClick={handleBack}
-                className="flex items-center gap-2 px-2 sm:px-3 py-1.5 sm:py-2 bg-slate-100/80 hover:bg-slate-200/80 rounded-lg text-slate-600 hover:text-slate-900 transition-all text-sm"
+                className="flex items-center gap-2 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg text-white transition-all text-sm shadow-md hover:shadow-lg hover:-translate-y-0.5"
+                style={{ backgroundColor: '#c25f3a' }}
               >
                 <ArrowLeft size={14} />
                 <span className="text-xs sm:text-sm">Home</span>
@@ -478,7 +479,10 @@ const AuthPage = () => {
                   className={`w-full text-white font-bold py-3 sm:py-3.5 rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105 mt-3 sm:mt-4 text-sm sm:text-base ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
                   style={{ backgroundColor: '#9966CC' }}
                 >
-                  {loading ? "Please wait..." : (isLogin ? "Sign In" : "Create Account")}
+                  <div className="flex items-center justify-center gap-2">
+                    {isLogin ? <LogIn size={20} /> : <UserPlus size={20} />}
+                    <span>{loading ? "Please wait..." : (isLogin ? "Sign In" : "Create Account")}</span>
+                  </div>
                 </button>
               )}
             </form>

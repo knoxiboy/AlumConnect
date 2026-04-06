@@ -191,7 +191,8 @@ export default function ExplorePage() {
             {/* Mobile Filters Button */}
             <button
               onClick={() => setShowMobileFilters(true)}
-              className="flex sm:hidden items-center gap-2 px-3 py-2 bg-white/80 border border-slate-200 rounded-lg text-slate-700 hover:bg-slate-50 transition-all text-sm"
+              className="flex sm:hidden items-center gap-2 px-3 py-2 rounded-lg text-white shadow-sm hover:shadow-md transition-all text-sm"
+              style={{ backgroundColor: '#c25f3a' }}
             >
               <Filter className="w-4 h-4" />
               <span>Filters</span>

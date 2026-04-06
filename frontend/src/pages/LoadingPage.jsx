@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { testDB } from "../utils/api";
-import { 
-  Database, Users, Briefcase, CalendarDays, 
+import {
+  Database, Users, Briefcase, CalendarDays,
   ShieldCheck, TrendingUp, Globe, Award,
   CheckCircle, ArrowDown
 } from "lucide-react";
@@ -10,8 +10,8 @@ import {
 // Brand colors
 const brand = {
   indigo: '153 102 204',   // #9966CC
-  lilac:  '153 102 204',  // #9966CC
-  coral:  '255 145 120',  // #FF9178
+  lilac: '153 102 204',  // #9966CC
+  coral: '194 95 58',  // #c25f3a
 };
 
 const LoadingStep = ({ icon, title, description, isActive, isCompleted }) => (
@@ -22,9 +22,8 @@ const LoadingStep = ({ icon, title, description, isActive, isCompleted }) => (
           <CheckCircle className="w-4 h-4 text-white" />
         </div>
       ) : (
-        <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
-          isActive ? 'bg-indigo-500 text-white' : 'bg-slate-200'
-        }`}>
+        <div className={`w-6 h-6 rounded-full flex items-center justify-center ${isActive ? 'bg-indigo-500 text-white' : 'bg-slate-200'
+          }`}>
           {icon}
         </div>
       )}
@@ -125,7 +124,7 @@ export default function LoadingPage() {
       <header className="py-6 px-4 sm:px-6 border-b border-slate-200">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="text-2xl font-extrabold"
-               style={{ color: '#c25f3a' }}>
+            style={{ color: '#c25f3a' }}>
             AlumConnect
           </div>
           <div className="text-sm text-slate-600">
@@ -174,25 +173,25 @@ export default function LoadingPage() {
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
               <div className="bg-white border border-slate-200 rounded-xl p-5 text-center">
                 <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3"
-                     style={{ backgroundColor: '#9966CC' }}>
+                  style={{ backgroundColor: '#9966CC' }}>
                   <Users className="w-6 h-6" style={{ color: `rgb(${brand.indigo})` }} />
                 </div>
                 <h3 className="font-semibold text-slate-900 mb-1">Alumni Network</h3>
                 <p className="text-sm text-slate-600">Connect with fellow graduates</p>
               </div>
-              
+
               <div className="bg-white border border-slate-200 rounded-xl p-5 text-center">
                 <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3"
-                     style={{ backgroundColor: `rgba(${brand.coral}, 0.1)` }}>
+                  style={{ backgroundColor: `rgba(${brand.coral}, 0.1)` }}>
                   <Briefcase className="w-6 h-6" style={{ color: `rgb(${brand.coral})` }} />
                 </div>
                 <h3 className="font-semibold text-slate-900 mb-1">Career Hub</h3>
                 <p className="text-sm text-slate-600">Jobs, mentorship, and opportunities</p>
               </div>
-              
+
               <div className="bg-white border border-slate-200 rounded-xl p-5 text-center">
                 <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3"
-                     style={{ backgroundColor: `rgba(${brand.indigo}, 0.1)` }}>
+                  style={{ backgroundColor: `rgba(${brand.indigo}, 0.1)` }}>
                   <CalendarDays className="w-6 h-6" style={{ color: `rgb(${brand.indigo})` }} />
                 </div>
                 <h3 className="font-semibold text-slate-900 mb-1">Events</h3>
@@ -204,21 +203,24 @@ export default function LoadingPage() {
             <div className="text-center">
               <p className="text-slate-600 mb-4">Explore key features after initialization:</p>
               <div className="flex flex-wrap justify-center gap-3">
-                <button 
+                <button
                   onClick={() => scrollToSection('features')}
-                  className="px-4 py-2 text-sm rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50 transition-colors"
+                  className="px-4 py-2 text-sm rounded-lg text-white shadow-sm hover:shadow-md transition-colors"
+                  style={{ backgroundColor: '#c25f3a' }}
                 >
                   Features
                 </button>
-                <button 
+                <button
                   onClick={() => scrollToSection('how-it-works')}
-                  className="px-4 py-2 text-sm rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50 transition-colors"
+                  className="px-4 py-2 text-sm rounded-lg text-white shadow-sm hover:shadow-md transition-colors"
+                  style={{ backgroundColor: '#c25f3a' }}
                 >
                   How It Works
                 </button>
-                <button 
+                <button
                   onClick={() => scrollToSection('benefits')}
-                  className="px-4 py-2 text-sm rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50 transition-colors"
+                  className="px-4 py-2 text-sm rounded-lg text-white shadow-sm hover:shadow-md transition-colors"
+                  style={{ backgroundColor: '#c25f3a' }}
                 >
                   Benefits
                 </button>
