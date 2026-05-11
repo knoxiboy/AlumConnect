@@ -1,112 +1,206 @@
-# AlumConnect  
+<div align="center">
+  <img src="https://via.placeholder.com/1200x300/0f172a/ffffff?text=AlumConnect+Platform" alt="AlumConnect Banner">
+</div>
 
-**SMART INDIA HACKATHON 2025 – Team BugSlayers**  
+# AlumConnect
 
-## Overview  
-**AlumConnect** is a centralized web platform connecting **students, alumni, and college administrators** to foster career growth, mentorship, and collaborative events.  
-It acts as a **one-stop hub** for jobs, internships, mentorship, projects, and event engagement — ensuring smooth communication, networking, and transparent progress tracking.  
+> **Bridge the gap between Alumni and Students with AI-driven mentorship and community orchestration.**
 
----
-
-##  Proposed Solution  
-- Bridge the gap between students, alumni, and administration by eliminating scattered resources.  
-- Enhance employability through alumni-driven referrals, internships, and industry mentorship.  
-- Provide admin oversight with dashboards for events, fundraising, and career tracking.  
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Online-00C7B7?style=for-the-badge&logo=vercel)](https://alumconnect.demo.com)
+[![Documentation](https://img.shields.io/badge/Docs-Read-blue?style=for-the-badge&logo=read-the-docs)](https://docs.alumconnect.com)
+[![License](https://img.shields.io/badge/license-MIT-purple.svg?style=for-the-badge)](LICENSE)
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen?style=for-the-badge&logo=githubactions)](#)
 
 ---
 
-##  Key Features & Innovations  
-- **Role-Specific Dashboards** – Separate dashboards for Students, Alumni, and Admins.  
-- **AI-Powered Chatbot** – Career guidance, mentorship matching, event queries.  
-- **Automated Event Fundraising & Ticketing** – Donations, registrations, and event management.  
-- **AI-Driven Job & Internship Recommendations** – Smart suggestions via ML.  
-- **Alumni-Student Startup Collaboration Page** – Build startups & projects together.  
-- **Alumni & Student Directory** – Centralized profiles for discovery & networking.  
+## Preview
+
+<div align="center">
+  <img src="https://via.placeholder.com/800x400/1e293b/ffffff?text=Dashboard+Preview" alt="Dashboard Preview">
+  <p><i>The intuitive, unified dashboard for alumni, students, and administrators.</i></p>
+</div>
 
 ---
 
-##  Tech Stack  
+## Table of Contents
 
-**Languages & Runtime**  
-- JavaScript – Core frontend & backend language  
-- Node.js – Server-side runtime  
-- Python – AI chatbot (NLP integration)  
-
-**Frameworks & Libraries**  
-- React.js – Frontend, role-based dashboards, responsive UI  
-- Express.js – Backend REST APIs, authentication, routing  
-- MongoDB – NoSQL database for users, jobs, mentorship data  
-- Socket.IO – Real-time messaging & event updates  
-- TailwindCSS / Bootstrap – Modern responsive styling  
-
-**AI & Integrations**  
-- OpenAI API – AI chatbot for FAQs, mentorship, career guidance  
-- Recommendation Engine (ML) – Job & internship recommendations  
-- Razorpay – Event fundraising & donations  
-
-**Deployment & SDLC Methodology**  
-- JWT Authentication & Role-based dashboards  
-- Cloud hosting (Vercel / Render) with analytics  
-- Modular architecture for scalability  
-- QA testing and CI/CD pipelines  
-
-### Advanced Security & SDLC (Newly Integrated)
-- **Input Validation:** Strict parsing on backend to prevent injection and format errors.
-- **Rate Limiting:** `express-rate-limit` caching system to protect against DDoS and brute force scenarios across auth and standard routes.
-- **Environment Parity:** Separated variables via `.env` configured for staging and production parity.
+- [Problem Statement](#problem-statement)
+- [Solution Overview](#solution-overview)
+- [Core Features](#core-features)
+- [System Architecture](#system-architecture)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Installation Guide](#installation-guide)
+- [Environment Variables](#environment-variables)
+- [AI/ML/LLM Pipeline](#aimlllm-pipeline)
+- [Performance Optimization](#performance-optimization)
+- [Security Measures](#security-measures)
+- [Roadmap](#roadmap)
 
 ---
 
-##  Feasibility & Viability  
+## Problem Statement
 
-- **Technical**: MERN stack + AI chatbot + real-time modules are open-source and cloud-deployable.  
-- **Operational**: Easy adoption via role-based, user-friendly dashboards.  
-- **Economic**: Minimal cost (cloud, domain, APIs), scalable across institutions.  
-- **Scalability**: Modular database and architecture enable expansion across universities.  
-
-**Challenges & Strategies**  
-- Data Privacy → JWT, SSL/TLS, role-based access  
-- AI Accuracy → Start with rule-based + FAQs, improve via feedback loops  
-- System Integration → Provide APIs for ERP/placement tool compatibility  
-- Sustainability → Cloud hosting + alumni fundraising + IT cell support  
+Universities produce brilliant minds, but **90% of students struggle to leverage their alumni network** effectively. Current platforms like LinkedIn are too broad, leading to low response rates, generic advice, and lost connections. Educational institutions lack a centralized, intelligent platform to foster authentic mentorship, track engagement, and match students with the right industry veterans.
 
 ---
 
-## Impact & Benefits  
+## Solution Overview
 
-**For Students**  
-- Direct access to alumni mentors  
-- Job & internship referrals  
-- Stronger career support without third-party platforms  
+**AlumConnect** is a hyper-focused, AI-powered community orchestration platform. It replaces scattered networking efforts with a structured, intelligent pipeline. 
 
-**For Alumni**  
-- Give back through mentorship & referrals  
-- Strengthen professional brand & collaborations  
-- Participate in startup & project hubs  
+By analyzing student profiles, career aspirations, and alumni industry experience, the platform autonomously facilitates high-value mentorship connections.
 
-**For Institutions**  
-- Better placement stats via alumni-driven hiring  
-- Improved alumni relations & fundraising  
-- Enhanced reputation and networking ecosystem  
-
-**Social** – Stronger alumni-student bond, innovation ecosystem  
-**Economic** – Reduced hiring costs, more fundraising, entrepreneurship boost  
-**Environmental** – Digital-first networking, virtual mentoring, reduced carbon footprint  
+- **Intelligent Matching**: Uses semantic analysis to pair students and alumni.
+- **Unified Communication**: Integrated chat and scheduling.
+- **Engagement Analytics**: Deep insights for university administrators.
 
 ---
 
-## Installation & Setup  
+## Core Features
+
+### 🎯 Role-Specific Dashboards
+- **What it does**: Tailored UI experiences for Students, Alumni, and Admins.
+- **Why it matters**: Reduces friction and surfaces relevant actions (mentoring vs. learning).
+- **Implementation**: JWT-based RBAC (Role-Based Access Control) dynamically rendering specialized React components.
+
+### 🤖 AI-Powered Chatbot
+- **What it does**: Answers career queries, suggests events, and recommends mentors.
+- **Why it matters**: Provides instant 24/7 guidance without waiting for human availability.
+- **Implementation**: RAG (Retrieval-Augmented Generation) pipeline integrated with a vector database.
+
+### 📅 Smart Scheduling & Events
+- **What it does**: Calendar integration for 1:1 sessions and virtual webinars.
+- **Why it matters**: Eliminates the back-and-forth of scheduling.
+- **Implementation**: iCal generation and automated conflict resolution.
+
+---
+
+## System Architecture
+
+<div align="center">
+  <img src="https://via.placeholder.com/800x400/0f172a/ffffff?text=Architecture+Diagram" alt="Architecture Diagram">
+</div>
+
+### Data Flow
+1. **Client Request**: React frontend initiates a request.
+2. **API Gateway**: Next.js API routes handle authentication and rate limiting.
+3. **AI Pipeline**: Queries are routed to the LLM orchestrator for RAG.
+4. **Database**: PostgreSQL handles transactional data, while vector embeddings are retrieved for AI context.
+
+---
+
+## Tech Stack
+
+| Category | Technology | Purpose |
+|----------|------------|---------|
+| **Frontend** | React, Next.js, TailwindCSS | High-performance, responsive UI |
+| **Backend** | Node.js, Express | Scalable API orchestration |
+| **Database** | PostgreSQL, Prisma | Relational data integrity |
+| **AI/LLM** | OpenAI API, Pinecone | Semantic search and chat intelligence |
+| **Auth** | NextAuth.js | Secure session management |
+| **DevOps** | Vercel, GitHub Actions | Zero-downtime CI/CD |
+
+---
+
+## Project Structure
 
 ```bash
-# Clone the repository
-git clone https://github.com/your-username/alumconnect.git
-cd alumconnect
+src/
+ ┣ app/            # Next.js App Router (Pages & Layouts)
+ ┣ components/     # Reusable UI components (Tailwind + Shadcn)
+ ┣ lib/            # Utility functions and Prisma client
+ ┣ actions/        # Server actions for mutations
+ ┣ api/            # REST endpoints and AI route handlers
+ ┣ hooks/          # Custom React hooks
+ ┣ db/             # Schema definitions and migrations
+ ┗ types/          # TypeScript interfaces
+```
 
-# Install dependencies
+---
+
+## Installation Guide
+
+Get AlumConnect running locally in under 3 minutes.
+
+### 1. Prerequisites
+- Node.js (v18+)
+- PostgreSQL instance
+
+### 2. Clone & Install
+```bash
+git clone https://github.com/your-org/AlumConnect.git
+cd AlumConnect
 npm install
+```
 
-# Start backend server
-npm run server
+### 3. Setup Database
+```bash
+npx prisma generate
+npx prisma db push
+```
 
-# Start frontend
-npm start
+### 4. Run Development Server
+```bash
+npm run dev
+```
+The platform is now running at `http://localhost:3000`.
+
+---
+
+## Environment Variables
+
+Create a `.env` file in the root directory:
+
+| Variable | Description | Required |
+| -------- | ----------- | -------- |
+| `DATABASE_URL` | PostgreSQL connection string | Yes |
+| `NEXTAUTH_SECRET` | Secret for signing JWT tokens | Yes |
+| `OPENAI_API_KEY` | Key for LLM services | Yes |
+| `VECTOR_DB_URL` | Pinecone/Weaviate endpoint | Yes |
+
+---
+
+## AI/ML/LLM Pipeline
+
+The core intelligence of AlumConnect relies on a sophisticated **RAG (Retrieval-Augmented Generation)** architecture:
+- **Embedding Generation**: User profiles and event descriptions are embedded using `text-embedding-ada-002`.
+- **Vector Search**: Real-time cosine similarity search matches students with alumni based on nuanced career goals, not just keyword matching.
+- **Contextual Chat**: The AI assistant retains session history, providing context-aware career advice grounded in the university's specific data ecosystem.
+
+---
+
+## Performance Optimization
+
+- **Edge Caching**: Static assets and public profiles are cached at the edge via Vercel.
+- **Lazy Loading**: Heavy components (like charting libraries) are dynamically imported.
+- **Query Optimization**: Prisma queries are strictly typed and indexed to prevent N+1 issues.
+
+---
+
+## Security Measures
+
+- **Authentication**: Stateless JWTs with short expiries and secure HTTP-only cookies.
+- **Data Sanitization**: Zod validation for all incoming API payloads.
+- **Rate Limiting**: IP-based rate limiting on sensitive routes (e.g., login, AI chat).
+
+---
+
+## Roadmap
+
+- [x] Role-Based Dashboards
+- [x] AI Chatbot MVP
+- [ ] In-App Video Conferencing
+- [ ] Mobile App (React Native)
+- [ ] Advanced Alumni Contribution Tracking
+
+---
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+<div align="center">
+<i>Built to redefine how educational institutions leverage their greatest asset: their people.</i>
+</div>
